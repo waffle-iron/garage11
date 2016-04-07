@@ -12,7 +12,6 @@ let minimist = require('minimist')
 let nodemon = require('gulp-nodemon')
 let notify = require('gulp-notify')
 
-let ractive = require('gulp-ractive')
 let sass = require('gulp-sass')
 let size = require('gulp-size')
 let source = require('vinyl-source-stream')
@@ -42,17 +41,17 @@ gulp.task('browserify:app', () => {
     // b.ignore('buffer')
 
     return b.bundle()
-        .pipe(source('garage11.js'))
-        .pipe(buffer())
-        .pipe(ifElse(isProduction, uglify))
-        .pipe(ifElse(!isProduction, () => {
-            return sourcemaps.init({loadMaps: true})
-        }))
-        .pipe(ifElse(!isProduction, () => {
-            return sourcemaps.write('./', {sourceRoot: './', includeContent: false})
-        }))
-        .pipe(gulp.dest('./public/js/'))
-        .pipe(size())
+    .pipe(source('garage11.js'))
+    .pipe(buffer())
+    .pipe(ifElse(isProduction, uglify))
+    .pipe(ifElse(!isProduction, () => {
+        return sourcemaps.init({loadMaps: true})
+    }))
+    .pipe(ifElse(!isProduction, () => {
+        return sourcemaps.write('./', {sourceRoot: './', includeContent: false})
+    }))
+    .pipe(gulp.dest('./public/js/'))
+    .pipe(size())
 })
 
 
@@ -60,35 +59,22 @@ gulp.task('browserify:libs', () => {
     let b = browserify({entries: './libs.js', debug: !isProduction})
 
     return b.bundle()
-        .pipe(source('libs.js'))
-        .pipe(buffer())
-        .pipe(ifElse(isProduction, uglify))
-        .pipe(gulp.dest('./public/js/'))
-        .pipe(size())
+    .pipe(source('libs.js'))
+    .pipe(buffer())
+    .pipe(ifElse(isProduction, uglify))
+    .pipe(gulp.dest('./public/js/'))
+    .pipe(size())
 })
 
 
 gulp.task('scss', () => {
     gulp.src('./apps/**/styles.scss')
-        .pipe(sass().on('error', notify.onError('Error: <%= error.message %>')))
-        .pipe(concat('styles.css'))
-        .pipe(ifElse(isProduction, minifyCSS))
-        .pipe(gulp.dest('./public/css'))
-        .pipe(size())
-        .pipe(ifElse(isWatcher, livereload))
-})
-
-
-gulp.task('templates', () => {
-    gulp.src('./apps/**/templates/*.html')
-        .pipe(ractive('templates.js', {
-            namespace: 'GLOBAL.templates',
-        }))
-        .on('error', notify.onError('Error: <%= error.message %>'))
-        .pipe(gulp.dest('./public/js/'))
-        .pipe(ifElse(isProduction, uglify))
-        .pipe(size())
-        .pipe(ifElse(isWatcher, livereload))
+    .pipe(sass().on('error', notify.onError('Error: <%= error.message %>')))
+    .pipe(concat('styles.css'))
+    .pipe(ifElse(isProduction, minifyCSS))
+    .pipe(gulp.dest('./public/css'))
+    .pipe(size())
+    .pipe(ifElse(isWatcher, livereload))
 })
 
 
@@ -129,10 +115,6 @@ gulp.task('default', ['server:start'], () => {
     gulp.watch(['./apps/**/scss/*.scss'], () => {
         gulp.start('scss')
     })
-
-    gulp.watch('./apps/**/templates/*.html', () => {
-        gulp.start('templates')
-    })
 })
 
 
@@ -152,5 +134,4 @@ gulp.task('build', [
     'browserify:app',
     'browserify:libs',
     'scss',
-    'templates',
 ])
