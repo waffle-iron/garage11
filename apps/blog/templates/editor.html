@@ -1,0 +1,16 @@
+{{#if button}}
+<span class="editor-button btn icon icon-write icon-button" on-click="openEditor"></span>
+{{/if}}
+
+<dialog class="edit-post-dialog" id="edit-post-dialog{{#if id}}-{{id}}{{/if}}">
+    <div class="header-options">
+        <span class="btn icon icon-close icon-large" on-click="closeEditor"></span>
+    </div>
+    <div class="edit-post">
+        <form>
+            <input type="text" name="title" value="{{unbind(title)}}" placeholder="The article title..." required>
+            <textarea name="body" value="{{unbind(body)}}" placeholder="Blog article body..." required></textarea>
+            <input on-click="saveArticle" type="submit" value="Submit article">
+        </form>
+    </div>
+</dialog>

@@ -1,0 +1,34 @@
+@import 'apps/vdom/scss/variables';
+
+.container.post {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.post {
+    header {
+        h5 {
+            display: inline;
+        }
+
+        .options {
+            margin-top: 5px;
+            font-size: 20px;
+        }
+    }
+
+    .author {
+        font-style: italic;
+    }
+}
+
+.edit-post {
+    padding: 10px;
+
+    textarea {
+        width: 100%;
+        height: 150px;
+        margin: 10px 0;
+        padding: 10px;
+    }
+}

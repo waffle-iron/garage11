@@ -1,0 +1,25 @@
+.list {
+    overflow: hidden;
+
+    .entry {
+            position: relative;
+        width:100%;
+        background: $grey-light;
+
+        .title {
+            background: $grey-dark;
+            padding: 10px 5px;
+            font-weight: bold;
+
+            .options {
+                float: right;
+            }
+        }
+
+        .content {
+            color: $grey-darkest;
+            font-size: 1em;
+            padding: 15px;
+        }
+    }
+}

@@ -1,0 +1,85 @@
+@import 'variables';
+
+.menu {
+    margin-left: 7px;
+
+
+    nav {
+        position: relative;
+        display: inline-block;
+        margin: 0;
+        margin-top: 33px;
+        margin-left: 20px;
+        padding: 0;
+        list-style: none;
+        cursor: default;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    a {
+        position: relative;
+        display: block;
+        float: left;
+        margin: 0 19px;
+        width: 19px;
+        height: 19px;
+        cursor: pointer;
+        background: rgba(0,0,0, 0.05);
+        border: 2px solid rgba(66,66,66,0.4);
+        border-radius: 50%;
+        z-index: 1;
+        -webkit-transition: border-color 0.3s ease;
+        transition: border-color 0.3s ease;
+
+        &.current {
+            background: #fff;
+            border-color: $color-primary;
+
+            &:hover span {
+                opacity: 1;
+            }
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+
+        span {
+            font-weight: bold;
+            font-size: 16px;
+            position: absolute;
+            bottom: -200%;
+            left: 50%;
+            visibility: hidden;
+            padding: 1px 10px;
+            color: $color-primary;
+            border-bottom: 2px solid $color-primary;
+            opacity: 0;
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+            transition: transform 0.3s ease, opacity 0.1s ease, visibility 0s 0.3s ease;
+        }
+    }
+}
+
+
+.menu nav a:hover span,
+.menu nav a.current span {
+    z-index: 100;
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: translateX(-50%) translateY(0%);
+    transform: translateX(-50%) translateY(0%);
+    -webkit-transition: -webkit-transform 0.3s ease, opacity 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu nav a:hover {
+    z-index: 100;
+}

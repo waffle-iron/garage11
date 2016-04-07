@@ -1,0 +1,14 @@
+input {
+    padding: 10px;
+    width: 100%;
+
+    &:invalid {
+        border: 1px solid #9f5b5b;
+    }
+}
+
+textarea {
+    &:invalid {
+        border: 1px solid #9f5b5b;
+    }
+}

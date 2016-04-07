@@ -1,0 +1,8 @@
+public/css/styles.css
+public/fonts/
+public/js/high5.js
+public/js/libs.js
+public/js/templates.js
+public/css/libs.css
+h5storage
+node_modules/*

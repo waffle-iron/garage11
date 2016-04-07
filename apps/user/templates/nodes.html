@@ -1,0 +1,9 @@
+<label for="nodeToUser">Nodes you trust</label>
+
+<select value="{{selectedNodeId}}" {{#if !nodes.length}}disabled{{/if}}>
+    <option selected disabled>{{#if nodes.length}}Select a trusted node...{{else}}No nodes currently...{{/if}}</option>
+    {{#nodes}}
+    <option value='{{id}}'>{{id}}</option>
+    {{/nodes}}
+</select>
+<button class='button' on-click='saveUser'>Add node to ACL</button>

@@ -1,0 +1,23 @@
+<section class="container post" id='{{id}}'>
+    <header>
+    <h5 class="title">{{title}}</h5>
+    <span class='options float-right'>
+        <span class='close btn icon icon-write icon-medium' on-click='openEditPostModal'></span>
+        <span class='close btn icon icon-closebold icon-medium' on-click='openDeletePostModal'></span>
+    </span>
+    </header>
+    <div class='author'>By: {{user.username}}</div>
+    <span class='created'>{{formatTime(created)}}</span>
+
+    <p>{{{ parseMarkdown(body) }}}</p>
+    <dialog id="delete-dialog-{{id}}">
+        <div>
+            Warning! You are about to delete this post.
+            Are you sure?
+        </div>
+        <div class='footer-options'>
+            <button class='button' on-click='deleteBlogPost'>Delete</button>
+            <button class='button button-outline' on-click='closeDeletePostModal'>Cancel</button>
+        </div>
+    </dialog>
+</section>

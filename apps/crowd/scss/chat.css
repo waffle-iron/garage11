@@ -1,0 +1,52 @@
+@import 'apps/vdom/scss/variables';
+
+.nodechat {
+    width: 100%;
+    background: $grey-lighter !important;
+    border-top: 1px solid $grey-darker;
+
+    .messages {
+        &:after {
+            display:table;
+            clear: both;
+        }
+        padding: 5px;
+        height: 150px;
+        width: 100%;
+        overflow-y: scroll;
+        border: 1px solid $grey-lighter;
+
+        .message {
+            position: relative;
+            padding: 0 0 0 10em;
+            margin: 0 0 0.5em 0;
+
+            .from {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 10em;
+                background-color: $grey-darkest;
+                padding: 0.5em;
+                font-weight: bold;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .body {
+                position: relative;
+                width: 100%;
+                border-top: 1px solid #eee;
+                padding: 0.5em 0.5em 0.5em 1em;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                color: $grey-darkest;
+            }
+        }
+    }
+
+    input {
+        width: 100%;
+    }
+}

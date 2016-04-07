@@ -1,0 +1,12 @@
+<svg id="explorer" width="100%" height="430" on-mousemove="move" on-mouseup="unconstrain">
+    <g transform="translate(20,20)">
+    {{# graph }}
+        {{# curves }}
+        <path class={{ edgeType(this.item.start, this.item.end) }} d={{ link.path.print() }} />
+        {{/ curves }}
+        {{# nodes:num }}
+            <circle class="{{#if currentNode.id === this.item}}selected {{/if}}{{ nodeType(this.item) }}" id={{ this.item }} r="9" cx="{{ point[0] }}" cy="{{ point[1] }}" on-mousedown="constrain" />
+        {{/ nodes }}
+    {{/ graph  }}
+    </g>
+</svg>

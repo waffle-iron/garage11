@@ -1,0 +1,16 @@
+@import 'mixins';
+
+$white: rgb(255, 255, 255);
+/** 6 shades of grey */
+$grey-lightest: rgb(250, 250, 250);
+$grey-lighter: rgb(240, 240, 240);
+$grey-light: rgb(230, 230, 230);
+$grey-dark: rgb(200, 200, 200);
+$grey-darker: rgb(150, 150, 150);
+$grey-darkest: rgb(50, 50, 50);
+
+$color-initial: #fff;
+$color-primary: #522838;
+$color-secondary: #606c76;
+$color-tertiary: #f4f5f6;
+$color-quaternary: #d1d1d1;

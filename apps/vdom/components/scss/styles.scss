@@ -1,0 +1,47 @@
+@import 'boilerplate';
+@import './node_modules/milligram-scss/src/milligram.scss';
+@import 'buttons';
+@import 'dialog';
+@import 'forms';
+@import 'header';
+@import 'icons';
+@import 'list';
+@import 'menu';
+@import 'table';
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: $grey-darker;
+    text-decoration: none;
+
+    &:hover {
+        color: rgb(66, 66, 66);
+    }
+
+    &.active {
+        color: $color-primary;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+
+.wrapper {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
+
+.container {
+	padding-top: 6.5rem;
+	padding-bottom: 5.5rem;
+	margin-bottom: 0;
+	max-width: 80.0rem;
+}

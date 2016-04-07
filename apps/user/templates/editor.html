@@ -1,0 +1,18 @@
+{{#if button}}
+<span class="editor-button btn icon icon-write icon-button" on-click="openEditor"></span>
+{{/if}}
+<dialog class="edit-user-dialog" id="edit-user-dialog{{#if id}}-{{id}}{{/if}}">
+    <div class="header-options">
+        <span class="btn icon icon-close icon-large" on-click="closeEditor"></span>
+    </div>
+    <div class="edit-user">
+        <form>
+            <fieldset>
+                <input type="hidden" name="id" value="{{unbind(id)}}">
+                <label for="username">Name</label>
+                <input type="text" name="username" value="{{unbind(username)}}" placeholder="Username" required/>
+                <input on-click="saveUser" type="submit" value="Update user">
+            </fieldset>
+        </form>
+    </div>
+</dialog>
