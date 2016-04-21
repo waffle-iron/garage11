@@ -7,6 +7,7 @@ GLOBAL.MemoryStream = require('memorystream')
 GLOBAL.Ractive = require('ractive')
 GLOBAL.JSData = require('js-data')
 GLOBAL.DSMongoDBAdapter = require('js-data-mongodb')
+GLOBAL.DSRtcAdapter = require('js-data-rtc')
 
 require('./libs')
 var Garage11 = require('./garage11')

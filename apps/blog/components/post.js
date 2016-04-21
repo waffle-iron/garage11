@@ -15,7 +15,7 @@ module.exports = (templates) => {
                     document.querySelector(`#edit-post-dialog-${e.context.id}`).showModal()
                 },
                 deleteBlogPost: function(e) {
-                    h5.collections.blogs.destroy(e.context.id)
+                    h5.node.store.definitions.blogs.destroy(e.context.id)
                 },
             })
         },

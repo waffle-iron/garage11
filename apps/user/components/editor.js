@@ -10,9 +10,9 @@ module.exports = (templates) => {
                   let cleanedData = h5.vdom.validation.isValid(e.node.form)
                   if(cleanedData) {
                       if (e.context.id) {
-                          return h5.collections.users.update(e.context.id, cleanedData)
+                          return h5.node.store.definitions.users.update(e.context.id, cleanedData)
                       } else {
-                          h5.collections.users.create(cleanedData)
+                          h5.node.store.definitions.users.create(cleanedData)
                       }
                   }
               },

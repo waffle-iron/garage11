@@ -67,6 +67,19 @@ gulp.task('browserify:libs', () => {
 })
 
 
+gulp.task('browserify:js-data-rtc', () => {
+    let b = browserify({entries: './node_modules/js-data-rtc/index.js', debug: !isProduction})
+
+    return b.bundle()
+    .pipe(source('js-data-rtc.min.js'))
+    .pipe(buffer())
+    .pipe(ifElse(isProduction, uglify))
+    .pipe(gulp.dest('./public/js/'))
+    .pipe(size())
+})
+
+
+
 gulp.task('scss', () => {
     gulp.src('./apps/**/styles.scss')
     .pipe(sass().on('error', notify.onError('Error: <%= error.message %>')))
@@ -112,6 +125,11 @@ gulp.task('default', ['server:start'], () => {
         gulp.start('browserify:libs')
     })
 
+    // Third-party js-data adapter forged for Garage11 project.
+    gulp.watch(['./node_modules/js-data-rtc/**.js'], () => {
+        gulp.start('browserify:js-data-rtc')
+    })
+
     gulp.watch(['./apps/**/scss/*.scss'], () => {
         gulp.start('scss')
     })
@@ -133,5 +151,6 @@ gulp.task( 'server:start', () => {
 gulp.task('build', [
     'browserify:app',
     'browserify:libs',
+    'browserify:js-data-rtc',
     'scss',
 ])

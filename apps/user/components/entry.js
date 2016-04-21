@@ -16,12 +16,12 @@ module.exports = (templates) => {
                 },
                 deleteUser: function(e) {
                     if(e.context.id !== h5.id) {
-                        h5.collections.users.destroy(e.context.id)
+                        h5.node.store.definitions.users.destroy(e.context.id)
                     } else {
                         // User decided to nuke it's own identity. Remove
                         // All other stored identities with it and reboot
                         // the application.
-                        h5.collections.users.destroyAll()
+                        h5.node.store.definitions.users.destroyAll()
                         .then(() => {
                             location.reload()
                         })

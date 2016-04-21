@@ -10,8 +10,8 @@ module.exports = (h5) => {
 
 
     this.pageActive = function() {
-        h5.collections.users.off('DS.change')
-        h5.collections.users.on('DS.change', () => {
+        h5.node.store.definitions.users.off('DS.change')
+        h5.node.store.definitions.users.on('DS.change', () => {
             h5.vdom.set('user-list', this.getContext())
         })
     }
@@ -22,7 +22,7 @@ module.exports = (h5) => {
      * represented by users yet.
      */
     this.getContext = function() {
-        let users = h5.collections.users.getAll()
+        let users = h5.node.store.definitions.users.getAll()
         let nodes = []
         let _nodes = h5.network.nodes()
         _nodes.forEach((node) => {
@@ -57,7 +57,7 @@ module.exports = (h5) => {
             h5.crypto.exportPrivateKey(h5.crypto.keypair.privateKey),
             h5.crypto.exportPublicKey(h5.crypto.keypair.publicKey),
         ]))
-        .then((keys) => h5.collections.users.create({
+        .then((keys) => collection.create({
             id: h5.id,
             username: 'Anonymous(you)',
             privateKey: keys[0],
@@ -70,7 +70,7 @@ module.exports = (h5) => {
     h5.router.page('/users/', {pushState: true}, (req, res) => {
         this.pageActive()
 
-        h5.collections.users.findAll({}, {bypassCache: true})
+        h5.node.store.definitions.users.findAll({}, {bypassCache: true})
         .then((users) => {
             h5.vdom.set('user-list', this.getContext(users)).then((html) => {
                 res(html)

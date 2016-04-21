@@ -20,18 +20,22 @@ class Garage11 extends Peer {
         .then((apps) => {
             this.apps = apps
             // Create a local store for the peer.
-            let store = new Store()
-            Object.keys(this.apps).forEach((appName) => {
-                this.apps[appName].setStore(store)
-            })
+            let store = new Store({isLocal: true, apps: apps})
             this.apps.user.getOrCreateIdentity(store.definitions.users)
             .then(() => {
                 h5.network = new Network(h5.id, store, options.network)
+                h5.network.on('network.nodeAdded', function(node) {
+                    // Don't set a remote adapter on memory nodes.
+                    if(node.transport.constructor.name.toLowerCase() !== 'memorytransport') {
+                        node.store = new Store({isLocal: false, apps: apps})
+                    } else {
+                        node.store = new Store({isLocal: true, apps: apps})
+                    }
+                })
                 this.vdom.listeners()
                 return this
             })
         })
-
     }
 
 
@@ -83,7 +87,6 @@ class Garage11 extends Peer {
             }
         })
     }
-
 }
 
 

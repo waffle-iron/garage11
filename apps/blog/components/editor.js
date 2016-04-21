@@ -11,13 +11,13 @@ module.exports = (templates) => {
                     cleanedData.created = new Date().getTime()
                     if(cleanedData) {
                         if (e.context.id) {
-                            return h5.collections.blogs.update(e.context.id, cleanedData)
+                            return h5.node.store.definitions.blogs.update(e.context.id, cleanedData)
                             .then((article) => {
 
                             })
                         } else {
-                            cleanedData.user = h5.collections.users.getAll()[0]
-                            h5.collections.blogs.create(cleanedData)
+                            cleanedData.user = h5.node.store.definitions.users.getAll()[0]
+                            h5.node.store.definitions.blogs.create(cleanedData)
                         }
                     }
                 },
