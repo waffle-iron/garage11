@@ -67,7 +67,7 @@ module.exports = (h5) => {
     }
 
 
-    h5.router.page('/users/', {pushState: true}, (req, res) => {
+    h5.router.route('/users/', {pushState: true}, (req, res) => {
         this.pageActive()
 
         h5.node.store.definitions.users.findAll({}, {bypassCache: true})

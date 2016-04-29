@@ -1,14 +1,12 @@
 'use strict'
 
-let Request = require('high5/lib/request')
-
 
 module.exports = (templates) => {
     let hooks
     let messages = []
 
     let Hooks = function() {
-        h5.router.page('/messages/', {pushState: false}, (req) => {
+        h5.router.route('/messages/', {pushState: false}, (req) => {
             messages.push(req.params.message)
             if(h5.isHeadless) {
                 let messageBody = '<b>' + req.params.message.nodeId.substring(0, 6) + '...</b>' + req.params.message.body
@@ -41,8 +39,7 @@ module.exports = (templates) => {
                     messagesSelector.scrollTop = messagesSelector.scrollHeight
                     e.node.value = null
                     // let the node find out how to route the request.
-                    h5.network.currentNode.request(
-                        new Request({url: '/messages/', params: {message: message}}), () => {
+                    h5.network.currentNode.request('/messages/', {message: message}, () => {
                         // Remove the node again by disconnecting the transport and
                         // // return the http response data.
                         // transport.disconnect()

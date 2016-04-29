@@ -15,13 +15,13 @@ class Garage11 extends Peer {
     init(options) {
         this.options = options
         this.vdom = new VDom(options)
-        this.vdom.init()
+        return this.vdom.init()
         .then(this.getApplications.bind(this))
         .then((apps) => {
             this.apps = apps
             // Create a local store for the peer.
             let store = new Store({isLocal: true, apps: apps})
-            this.apps.user.getOrCreateIdentity(store.definitions.users)
+            return this.apps.user.getOrCreateIdentity(store.definitions.users)
             .then(() => {
                 h5.network = new Network(h5.id, store, options.network)
                 h5.network.on('network.nodeAdded', function(node) {

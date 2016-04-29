@@ -35,7 +35,6 @@ gulp.task('browserify:app', () => {
     b.ignore('ractive')
     b.ignore('lodash')
     b.ignore('underscore')
-    b.ignore('node-uuid')
     b.ignore('winston')
     b.ignore('crypto')
     // b.ignore('buffer')
@@ -113,6 +112,7 @@ gulp.task('default', ['server:start'], () => {
         './garage11.js',
         './lib/*.js',
         './node_modules/high5/lib/**/*.js',
+        './node_modules/route11/**/*.js',
         '!./node_modules/high5/lib/thirdparty.js',
     ], () => {
         gulp.start('browserify:app')

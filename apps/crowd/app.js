@@ -4,13 +4,13 @@
 module.exports = (h5) => {
 
     this.setStore = function(store) {
-        
+
     }
 
     /**
      * Renders the nodes page.
      */
-    h5.router.page('/crowd/', {pushState: true}, (req, res) => {
+    h5.router.route('/crowd/', {pushState: true}, (req, res) => {
         let context = {
             me: h5.id,
             isEqual: (val1, val2) => {

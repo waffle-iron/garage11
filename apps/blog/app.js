@@ -22,7 +22,7 @@ module.exports = (h5) => {
         })
     }
 
-    h5.router.page('/', {pushState: true}, (req, res) => {
+    h5.router.route('/', {pushState: true}, (req, res) => {
         this.pageActive()
         h5.node.store.definitions.blogs.findAll({}, {bypassCache: true})
         .then(function(blogs) {
