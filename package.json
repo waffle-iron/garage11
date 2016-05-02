@@ -7,7 +7,8 @@
   "author": "Garage11 contributors",
   "main": "./server.js",
   "keywords": [
-    "high5", "p2p"
+    "high5",
+    "p2p"
   ],
   "licenses": [
     {
@@ -43,12 +44,11 @@
     "gulp-nodemon": "^2.0.4",
     "gulp-notify": "^2.0.1",
     "gulp-rename": "^1.2.0",
-    "gulp-sass": "^2.0.2",
+    "gulp-sass": "^2.3.1",
     "gulp-size": "^1.2.0",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.0.1",
     "minimist": "^1.1.0",
-    "node-sass": "^3.2.0",
     "notify-send": "^0.1.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
