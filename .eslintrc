@@ -21,15 +21,16 @@
         "winston": true,
         "spread": true,
         "wsServer": true,
-        "notifier": true,
-        "__runtime_config__": true,
+        "path": true,
+        "required": true,
         "JSData": true,
         "DSLocalStorageAdapter": true,
         "DSMongoDBAdapter": true,
         "glob": true,
-        "path": true,
         "browserify": true,
-        "MemoryStream": true
+        "MemoryStream": true,
+        "notifier": true,
+        "__runtime_config__": true
     },
     "plugins": [
 

@@ -29,26 +29,19 @@ let isWatcher = false
 
 gulp.task('browserify:app', () => {
     let b = browserify({entries: './garage11.js', debug: !isProduction})
-
-    // Don't include these, they are either included seperately in
-    // libs.js or are using another alternative (like native browser crypto).
     b.ignore('ractive')
     b.ignore('lodash')
     b.ignore('underscore')
     b.ignore('winston')
     b.ignore('crypto')
-    // b.ignore('buffer')
+    b.ignore('buffer')
 
     return b.bundle()
     .pipe(source('garage11.js'))
     .pipe(buffer())
+    .pipe(ifElse(!isProduction, sourcemaps.init))
+    .pipe(ifElse(!isProduction, sourcemaps.write))
     .pipe(ifElse(isProduction, uglify))
-    .pipe(ifElse(!isProduction, () => {
-        return sourcemaps.init({loadMaps: true})
-    }))
-    .pipe(ifElse(!isProduction, () => {
-        return sourcemaps.write('./', {sourceRoot: './', includeContent: false})
-    }))
     .pipe(gulp.dest('./public/js/'))
     .pipe(size())
 })
