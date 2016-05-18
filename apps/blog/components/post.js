@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = (templates) => {
+module.exports = (peer, templates) => {
     return Ractive.extend({
         template: templates['blog-post'],
         oninit: function() {
@@ -15,7 +15,7 @@ module.exports = (templates) => {
                     document.querySelector(`#edit-post-dialog-${e.context.id}`).showModal()
                 },
                 deleteBlogPost: function(e) {
-                    h5.node.store.definitions.blogs.destroy(e.context.id)
+                    peer.node.store.definitions.blogs.destroy(e.context.id)
                 },
             })
         },

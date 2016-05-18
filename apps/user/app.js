@@ -1,7 +1,9 @@
 'use strict'
 
 
-module.exports = (h5) => {
+module.exports = (peer) => {
+
+    this.name = () => `${peer.name} [app-user]`
 
 
     this.setStore = function(store) {
@@ -10,9 +12,9 @@ module.exports = (h5) => {
 
 
     this.pageActive = function() {
-        h5.node.store.definitions.users.off('DS.change')
-        h5.node.store.definitions.users.on('DS.change', () => {
-            h5.vdom.set('user-list', this.getContext())
+        peer.node.store.definitions.users.off('DS.change')
+        peer.node.store.definitions.users.on('DS.change', () => {
+            peer.vdom.set('user-list', this.getContext())
         })
     }
 
@@ -22,9 +24,9 @@ module.exports = (h5) => {
      * represented by users yet.
      */
     this.getContext = function() {
-        let users = h5.node.store.definitions.users.getAll()
+        let users = peer.node.store.definitions.users.getAll()
         let nodes = []
-        let _nodes = h5.network.nodes()
+        let _nodes = peer.network.nodes()
         _nodes.forEach((node) => {
             let match = false
             users.forEach((user) => {
@@ -49,16 +51,16 @@ module.exports = (h5) => {
      */
     this.getOrCreateIdentity = function(collection) {
         // The first inserted user is the peer's user object.
-        h5.logger.info('[app-user] querying for identity')
+        peer.logger.info(`${this.name()} querying for identity`)
         return collection.findAll({where: {me: {'===': true}}})
         .then(users => users ? users[0] : undefined)
-        .then(h5.crypto.getOrCreateIdentity.bind(h5.crypto))
+        .then(peer.crypto.getOrCreateIdentity.bind(peer.crypto))
         .then(() => Promise.all([
-            h5.crypto.exportPrivateKey(h5.crypto.keypair.privateKey),
-            h5.crypto.exportPublicKey(h5.crypto.keypair.publicKey),
+            peer.crypto.exportPrivateKey(peer.crypto.keypair.privateKey),
+            peer.crypto.exportPublicKey(peer.crypto.keypair.publicKey),
         ]))
         .then((keys) => collection.create({
-            id: h5.id,
+            id: peer.id,
             username: 'Anonymous(you)',
             privateKey: keys[0],
             publicKey: keys[1],
@@ -67,12 +69,12 @@ module.exports = (h5) => {
     }
 
 
-    h5.router.route('/users/', {pushState: true}, (req, res) => {
+    peer.router.route('/users/', {pushState: true}, (req, res) => {
         this.pageActive()
 
-        h5.node.store.definitions.users.findAll({}, {bypassCache: true})
+        peer.node.store.definitions.users.findAll({}, {bypassCache: true})
         .then((users) => {
-            h5.vdom.set('user-list', this.getContext(users)).then((html) => {
+            peer.vdom.set('user-list', this.getContext(users)).then((html) => {
                 res(html)
             })
         })

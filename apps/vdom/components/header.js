@@ -1,11 +1,11 @@
 'use strict'
 
-module.exports = (templates) => {
+module.exports = (peer, templates) => {
     return Ractive.extend({
         isolated: false,
         template: templates['vdom-header'],
         oninit: function() {
-            h5.router.on('h5.router.route_changed', (request) => {
+            peer.router.on('router.route_changed', (request) => {
                 this.get('pages').forEach((page, i) => {
                     if (page.path === request.url) {
                         this.set('pages.' + i + '.active', true)

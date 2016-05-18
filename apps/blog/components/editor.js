@@ -1,23 +1,23 @@
 'use strict'
 
-module.exports = (templates) => {
+module.exports = (peer, templates) => {
     return Ractive.extend({
         isolated: false,
         template: templates['blog-editor'],
         oninit: function() {
             this.on({
                 saveArticle: (e) => {
-                    let cleanedData = h5.vdom.validation.isValid(e.node.form)
+                    let cleanedData = peer.vdom.validation.isValid(e.node.form)
                     cleanedData.created = new Date().getTime()
                     if(cleanedData) {
                         if (e.context.id) {
-                            return h5.node.store.definitions.blogs.update(e.context.id, cleanedData)
+                            return peer.node.store.definitions.blogs.update(e.context.id, cleanedData)
                             .then((article) => {
 
                             })
                         } else {
-                            cleanedData.user = h5.node.store.definitions.users.getAll()[0]
-                            h5.node.store.definitions.blogs.create(cleanedData)
+                            cleanedData.user = peer.node.store.definitions.users.getAll()[0]
+                            peer.node.store.definitions.blogs.create(cleanedData)
                         }
                     }
                 },
@@ -46,7 +46,7 @@ module.exports = (templates) => {
             },
             getBody: function(body) {
                 return body
-            }
-        }
+            },
+        },
     })
 }

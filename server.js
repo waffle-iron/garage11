@@ -1,13 +1,13 @@
 'use strict'
 
-GLOBAL.browserify = require('browserify')
-GLOBAL.glob = require('glob')
-GLOBAL.notifier = require('node-notifier')
-GLOBAL.MemoryStream = require('memorystream')
-GLOBAL.Ractive = require('ractive')
-GLOBAL.JSData = require('js-data')
-GLOBAL.DSMongoDBAdapter = require('js-data-mongodb')
-GLOBAL.DSRtcAdapter = require('js-data-rtc')
+global.browserify = require('browserify')
+global.glob = require('glob')
+global.notifier = require('node-notifier')
+global.MemoryStream = require('memorystream')
+global.Ractive = require('ractive')
+global.JSData = require('js-data')
+global.DSMongoDBAdapter = require('js-data-mongodb')
+global.DSRtcAdapter = require('js-data-rtc')
 
 require('./libs')
 var Garage11 = require('./garage11')

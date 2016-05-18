@@ -8,28 +8,27 @@ const VDom = require('./lib/vdom')
 
 class Garage11 extends Peer {
 
-    constructor(options) {
-        super(options)
+    constructor(...kwargs) {
+        super(...kwargs)
     }
 
-    init(options) {
-        this.options = options
-        this.vdom = new VDom(options)
+    init() {
+        this.vdom = new VDom(this)
         return this.vdom.init()
         .then(this.getApplications.bind(this))
         .then((apps) => {
             this.apps = apps
             // Create a local store for the peer.
-            let store = new Store({isLocal: true, apps: apps})
+            let store = new Store(this, {isLocal: true, apps: apps, store: this.settings.store})
             return this.apps.user.getOrCreateIdentity(store.definitions.users)
             .then(() => {
-                h5.network = new Network(h5.id, store, options.network)
-                h5.network.on('network.nodeAdded', function(node) {
+                this.network = new Network(this, this.id, store, this.settings.network)
+                this.network.on('network.nodeAdded', (node) => {
                     // Don't set a remote adapter on memory nodes.
                     if(node.transport.constructor.name.toLowerCase() !== 'memorytransport') {
-                        node.store = new Store({isLocal: false, apps: apps})
+                        node.store = new Store(this, {isLocal: false, apps: apps})
                     } else {
-                        node.store = new Store({isLocal: true, apps: apps})
+                        node.store = new Store(this, {isLocal: true, apps: apps})
                     }
                 })
                 this.vdom.listeners()
@@ -45,9 +44,9 @@ class Garage11 extends Peer {
      */
     getApplications() {
         return new Promise((resolve) => {
-            if(h5.isHeadless) {
+            if(this.isHeadless) {
                 let requireNames = []
-                let projectDir = this.options.headless.projectDir
+                let projectDir = this.settings.headless.projectDir
                 let b = browserify({basedir: path.join(projectDir)})
                 fs.readdir(path.join(projectDir, 'apps'), (err, appNames) => {
                     appNames.forEach((appName) => {
@@ -80,7 +79,7 @@ class Garage11 extends Peer {
                     resolve(this.apps)
                 })
             } else {
-                GLOBAL.__requires.forEach((__require) => {
+                global.__requires.forEach((__require) => {
                     this.apps[__require[0]] = require(__require[1])(this)
                 })
                 resolve(this.apps)

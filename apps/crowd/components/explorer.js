@@ -8,7 +8,8 @@ let tensionGraph
  * and to animate it.
  */
 class TensionGraph {
-    constructor(component) {
+    constructor(peer, component) {
+        this.peer = peer
         this.moving = true
         this.stopTime = 3
         this.svgX = null
@@ -16,17 +17,17 @@ class TensionGraph {
         this.following = null
         // TODO: Find a way to use percentage width.
         this.graph = graph({data: this.data(), width: 300, height: 300, attraction: 15, repulsion: 20})
-        h5.network.removeAllListeners('network.nodeAdded')
-        h5.network.removeAllListeners('network.nodeDeleted')
-        h5.network.on('network.nodeAdded', this.redraw.bind(this))
-        h5.network.on('network.nodeDeleted', this.redraw.bind(this))
+        peer.network.removeAllListeners('network.nodeAdded')
+        peer.network.removeAllListeners('network.nodeDeleted')
+        peer.network.on('network.nodeAdded', this.redraw.bind(this))
+        peer.network.on('network.nodeDeleted', this.redraw.bind(this))
 
         /**
          * Dragging while mouse button pushed.
          */
         component.on('constrain', (e) => {
             // Select this node as currentNode.
-            h5.network.setCurrentNode(h5.network.node(e.node.id))
+            peer.network.setCurrentNode(peer.network.node(e.node.id))
             this.moving = true
             this.target = e.original.target
             this.svgX = e.original.clientX - this.target.cx.baseVal.value
@@ -68,18 +69,18 @@ class TensionGraph {
      */
     data() {
         let links = []
-        h5.network.graph.edges().forEach((edge) => {
+        this.peer.network.graph.edges().forEach((edge) => {
             links.push({start: edge.v, end: edge.w, weight: 3 + 5 * Math.random()})
         })
         return {
-            nodes: h5.network.graph.nodes(),
+            nodes: this.peer.network.graph.nodes(),
             links: links,
         }
     }
 
 
     start() {
-        if(h5.isBrowser) {
+        if (this.peer.isBrowser) {
             this.frame = requestAnimationFrame(this.step.bind(this))
         }
     }
@@ -95,7 +96,7 @@ class TensionGraph {
         component.off('move')
         component.off('unconstrain')
         // Keep moving state true for stopTime seconds.
-        h5.vdom.renderer.set('graph', null)
+        this.peer.vdom.renderer.set('graph', null)
         cancelAnimationFrame(this.frame)
     }
 
@@ -104,7 +105,7 @@ class TensionGraph {
      * Called on each animation frame.
      */
     step() {
-        h5.vdom.renderer.set('graph', this.graph.tick())
+        this.peer.vdom.renderer.set('graph', this.graph.tick())
         if(this.moving) {
             this.frame = requestAnimationFrame(this.step.bind(this))
         } else {
@@ -115,7 +116,7 @@ class TensionGraph {
 
     redraw() {
         this.graph = graph({data: this.data(), width: 800, height: 300, attraction: 15, repulsion: 20})
-        if(h5.isBrowser) {
+        if(this.peer.isBrowser) {
             cancelAnimationFrame(this.frame)
         }
         this.start()
@@ -123,14 +124,14 @@ class TensionGraph {
 }
 
 
-module.exports = (templates) => {
+module.exports = (peer, templates) => {
 
     return Ractive.extend({
         isolated: false,
         twoway: false,
         template: templates['crowd-explorer'],
         onrender: function() {
-            tensionGraph = new TensionGraph(this)
+            tensionGraph = new TensionGraph(peer, this)
             tensionGraph.start()
         },
         onteardown: function() {
@@ -141,7 +142,7 @@ module.exports = (templates) => {
         data: function() {
             return {
                 edgeType: (v, w) => {
-                    let transport = h5.network.graph.edge(v, w)
+                    let transport = peer.network.graph.edge(v, w)
                     if(typeof transport === 'string') {
                         return transport + ' indirect'
                     } else if(typeof transport === 'object') {
@@ -150,12 +151,12 @@ module.exports = (templates) => {
                 },
                 nodeType: (nodeId) => {
                     let cssClass
-                    if(nodeId === h5.id) {
+                    if(nodeId === peer.id) {
                         cssClass = 'peer'
                     } else {
                         cssClass = 'remote'
                     }
-                    if(h5.network.node(nodeId).env.isBrowser) {
+                    if(peer.network.node(nodeId).env.isBrowser) {
                         cssClass += ' browser'
                     } else {
                         cssClass += ' headless'
