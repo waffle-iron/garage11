@@ -41,7 +41,9 @@ gulp.task('browserify:app', () => {
     .pipe(buffer())
     .pipe(ifElse(!isProduction, sourcemaps.init))
     .pipe(ifElse(!isProduction, sourcemaps.write))
-    .pipe(ifElse(isProduction, uglify))
+    // Es6 issues.
+    // .pipe(ifElse(isProduction, uglify))
+    .on('error', notify.onError('Error: <%= error.message %>'))
     .pipe(gulp.dest('./public/js/'))
     .pipe(size())
 })

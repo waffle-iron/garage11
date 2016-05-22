@@ -95,8 +95,8 @@ class Garage11 extends Peer {
  */
 if (typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
-        window.garage11 = new Garage11(__runtime_config__)
-        garage11.init(__runtime_config__)
+        window.garage11 = new Garage11('default', __runtime_config__)
+        garage11.init()
     })
 }
 
