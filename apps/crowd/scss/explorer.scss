@@ -40,6 +40,10 @@
             stroke: complement($color-primary);
         }
 
+        &.MemoryTransport {
+            stroke: $grey-darker !important;
+        }
+
         &.indirect {
             stroke-dasharray: 2,2;
         }

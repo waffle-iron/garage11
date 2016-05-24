@@ -3,6 +3,7 @@
         "omitStatic": false
     },
     "headless": {
+        "connectors": ["memory", "websocket"],
         "listen": "0.0.0.0",
         "port": 3000,
         "proxy_port": 3000,
@@ -17,6 +18,7 @@
         ]
     },
     "browser": {
+        "connectors": ["memory", "webrtc"],
         "nodes": []
     }
 }
