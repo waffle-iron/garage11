@@ -1,5 +1,6 @@
 'use strict'
 
+let babel = require('gulp-babel')
 let browserify = require('browserify')
 let buffer = require('vinyl-buffer')
 let concat = require('gulp-concat')
@@ -12,6 +13,7 @@ let minimist = require('minimist')
 let nodemon = require('gulp-nodemon')
 let notify = require('gulp-notify')
 
+let rename = require('gulp-rename')
 let sass = require('gulp-sass')
 let size = require('gulp-size')
 let source = require('vinyl-source-stream')
@@ -55,7 +57,12 @@ gulp.task('vendor-js', () => {
     return b.bundle()
     .pipe(source('./lib/vendor.js'))
     .pipe(buffer())
-    .pipe(ifElse(isProduction, uglify))
+    .pipe(babel({presets: ['es2015']}))
+    .pipe(uglify())
+    .pipe(rename(function(filepath) {
+        console.log(filepath)
+        filepath.dirname = filepath.dirname.replace('lib', '');
+    }))
     .pipe(gulp.dest('./public/js/'))
     .pipe(size())
 })
