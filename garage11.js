@@ -20,16 +20,19 @@ class Garage11 extends Peer {
             this.apps = apps
             // Create a local store for the peer.
             let store = new Store(this, {isLocal: true, apps: apps, store: this.settings.store})
-            return this.apps.user.getOrCreateIdentity(store.definitions.users)
+
+            return this.apps.user.getOrCreateIdentity(store.getMapper('user'))
             .then(() => {
                 this.network = new Network(this, this.id, store, this.settings.network)
-                this.network.on('network.nodeAdded', (node) => {
-                    // Don't set a remote adapter on memory nodes.
-                    if(node.transport.constructor.name.toLowerCase() !== 'memorytransport') {
-                        node.store = new Store(this, {isLocal: false, apps: apps})
-                    } else {
-                        node.store = new Store(this, {isLocal: true, apps: apps})
-                    }
+                this.network.on('nodeAdded', (node) => {
+                    node.store = new Store(this, {isLocal: false, apps: apps, node: node})
+                })
+
+                // Change the app store when the currentNode changes.
+                this.network.on('setCurrentNode', (node) => {
+                    Object.keys(apps).forEach((appName) => {
+                        apps[appName].setStore(node.store)
+                    })
                 })
                 this.vdom.listeners()
                 return this
@@ -95,8 +98,8 @@ class Garage11 extends Peer {
  */
 if (typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
-        window.garage11 = new Garage11('default', __runtime_config__)
-        garage11.init()
+        h5.peers.default = new Garage11('default', __runtime_config__)
+        h5.peers.default.init()
     })
 }
 

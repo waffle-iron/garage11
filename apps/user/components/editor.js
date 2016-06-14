@@ -7,12 +7,12 @@ module.exports = (peer, templates) => {
         oninit: function() {
             this.on({
               saveUser: (e) => {
-                  let cleanedData = h5.vdom.validation.isValid(e.node.form)
+                  let cleanedData = peer.vdom.validation.isValid(e.node.form)
                   if(cleanedData) {
                       if (e.context.id) {
-                          return h5.node.store.definitions.users.update(e.context.id, cleanedData)
+                          return peer.node.store.getMapper('user').update(e.context.id, cleanedData)
                       } else {
-                          h5.node.store.definitions.users.create(cleanedData)
+                          peer.node.store.getMapper('user').create(cleanedData)
                       }
                   }
               },

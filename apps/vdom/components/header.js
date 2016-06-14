@@ -22,6 +22,7 @@ module.exports = (peer, templates) => {
                     {name: 'Crowd', path: '/crowd/', active: false},
                     {name: 'Users', path: '/users/', active: false},
                 ],
+                peer: peer,
             }
         },
     })

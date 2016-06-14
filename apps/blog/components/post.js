@@ -6,16 +6,16 @@ module.exports = (peer, templates) => {
         oninit: function() {
             this.on({
                 closeDeletePostModal: (e) => {
-                    document.querySelector(`#delete-dialog-${e.context.id}`).close()
+                    document.querySelector(`#delete-dialog-${e.context._id}`).close()
                 },
                 openDeletePostModal: (e) => {
-                    document.querySelector(`#delete-dialog-${e.context.id}`).showModal()
+                    document.querySelector(`#delete-dialog-${e.context._id}`).showModal()
                 },
                 openEditPostModal: (e) => {
-                    document.querySelector(`#edit-post-dialog-${e.context.id}`).showModal()
+                    document.querySelector(`#edit-post-dialog-${e.context._id}`).showModal()
                 },
                 deleteBlogPost: function(e) {
-                    peer.node.store.definitions.blogs.destroy(e.context.id)
+                    peer.network.currentNode.store.getMapper('blog').destroy(e.context._id)
                 },
             })
         },

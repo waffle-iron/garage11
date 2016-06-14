@@ -1,32 +1,41 @@
 'use strict'
 
-module.exports = (h5) => {
-
+module.exports = (peer) => {
     this.setStore = function(store) {
-        store.defineResource('blogs', {
-            relations: {
-                belongsTo: {
-                    user: {
-                        localField: 'user',
-                        foreignKey: 'id',
+        this.store = store
+        if (!this.store.getMapperByName('blog')) {
+            this.store.defineMapper('blog', {
+                schema: {
+                    properties: {
+                      _id: { type: 'number' },
+                      name: { type: 'string' },
+                  },
+                },
+                relations: {
+                    belongsTo: {
+                        user: {
+                            localField: 'user',
+                            localKey: 'userId',
+                        },
                     },
                 },
-            },
+            })
+        }
+    }
+
+    this.pageActive = () => {
+        // this.store.getMapper('blog').off('DS.change')
+        this.store.getMapper('blog').on('DS.change', () => {
+            peer.vdom.set('blog-list', {blogs: this.store.getMapper('blog').getAll()})
         })
     }
 
-    this.pageActive = function() {
-        h5.node.store.definitions.blogs.off('DS.change')
-        h5.node.store.definitions.blogs.on('DS.change', () => {
-            h5.vdom.set('blog-list', {blogs: h5.node.store.definitions.blogs.getAll()})
-        })
-    }
-
-    h5.router.route('/', {pushState: true}, (req, res) => {
+    peer.router.route('/', {pushState: true}, (req, res) => {
         this.pageActive()
-        h5.node.store.definitions.blogs.findAll({}, {bypassCache: true})
-        .then(function(blogs) {
-            h5.vdom.set('blog-list', {blogs: blogs}).then((html) => {
+        this.store.getMapper('blog').findAll({}, {bypassCache: true})
+        .then((blogs) => {
+            //this.store.getMapper('blog').loadRelations(blog, 'user')
+            peer.vdom.set('blog-list', {blogs: blogs}).then((html) => {
                 res(html)
             })
         })

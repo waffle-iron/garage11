@@ -8,7 +8,7 @@ module.exports = (peer, templates) => {
             this.on({
                 saveUser: (e) => {
                     let node = peer.network.node(e.context.selectedNodeId)
-                    peer.node.store.definitions.users.create({
+                    peer.node.store.getMapper('user').create({
                         id: node.id,
                         username: 'The other',
                         publicKey: node.id,

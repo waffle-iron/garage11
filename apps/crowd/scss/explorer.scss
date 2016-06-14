@@ -8,13 +8,17 @@
 
     circle {
         stroke-width: 1;
+        r: 10;
 
         &:hover {
             cursor: pointer;
+            r: 12;
         }
         &.peer {
-            fill: $grey-light !important;
-            stroke: $grey-darker !important;
+            r: 12;
+            fill: $grey-light;
+            stroke: $color-primary !important;
+            stroke-width: 2;
         }
 
         &.selected {
@@ -24,11 +28,12 @@
 
         &.browser {
             stroke: $grey-darkest;
-            fill: white;
+            fill: #fff;
+
         }
         &.headless {
             stroke: black;
-            fill: $grey-darker;
+            fill: #666;
         }
     }
 

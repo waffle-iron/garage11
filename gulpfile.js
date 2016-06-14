@@ -27,7 +27,7 @@ let isProduction = (options.env === 'production')
 let isWatcher = false
 
 
-gulp.task('browserify:app', () => {
+gulp.task('app-js', () => {
     let b = browserify({entries: './garage11.js', debug: !isProduction})
     b.ignore('ractive')
     b.ignore('lodash')
@@ -49,29 +49,16 @@ gulp.task('browserify:app', () => {
 })
 
 
-gulp.task('browserify:libs', () => {
-    let b = browserify({entries: './libs.js', debug: !isProduction})
+gulp.task('vendor-js', () => {
+    let b = browserify({entries: './lib/vendor.js', debug: !isProduction})
 
     return b.bundle()
-    .pipe(source('libs.js'))
+    .pipe(source('./lib/vendor.js'))
     .pipe(buffer())
     .pipe(ifElse(isProduction, uglify))
     .pipe(gulp.dest('./public/js/'))
     .pipe(size())
 })
-
-
-gulp.task('browserify:js-data-rtc', () => {
-    let b = browserify({entries: './node_modules/js-data-rtc/index.js', debug: !isProduction})
-
-    return b.bundle()
-    .pipe(source('js-data-rtc.min.js'))
-    .pipe(buffer())
-    .pipe(ifElse(isProduction, uglify))
-    .pipe(gulp.dest('./public/js/'))
-    .pipe(size())
-})
-
 
 
 gulp.task('scss', () => {
@@ -106,23 +93,19 @@ gulp.task('default', ['server:start'], () => {
         './apps/components/**/*.js',
         './garage11.js',
         './lib/*.js',
+        '!./lib/vendor.js',
         './node_modules/high5/lib/**/*.js',
-        './node_modules/route11/**/*.js',
         '!./node_modules/high5/lib/thirdparty.js',
     ], () => {
-        gulp.start('browserify:app')
+        gulp.start('app-js')
     })
 
     gulp.watch([
-        './libs.js',
+        './lib/vendor.js',
         './node_modules/high5/lib/thirdparty.js',
+        './node_modules/js-data-high5/index.js',
     ], () => {
-        gulp.start('browserify:libs')
-    })
-
-    // Third-party js-data adapter forged for Garage11 project.
-    gulp.watch(['./node_modules/js-data-rtc/**.js'], () => {
-        gulp.start('browserify:js-data-rtc')
+        gulp.start('vendor-js')
     })
 
     gulp.watch(['./apps/**/scss/*.scss'], () => {
@@ -144,8 +127,8 @@ gulp.task( 'server:start', () => {
 
 
 gulp.task('build', [
-    'browserify:app',
-    'browserify:libs',
+    'app-js',
+    'vendor-js',
     'browserify:js-data-rtc',
     'scss',
 ])

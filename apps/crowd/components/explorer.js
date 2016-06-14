@@ -8,7 +8,8 @@ let tensionGraph
  * and to animate it.
  */
 class TensionGraph {
-    constructor(peer, component) {
+
+    constructor(peer) {
         this.peer = peer
         this.moving = true
         this.stopTime = 3
@@ -17,17 +18,16 @@ class TensionGraph {
         this.following = null
         // TODO: Find a way to use percentage width.
         this.graph = graph({data: this.data(), width: 300, height: 300, attraction: 15, repulsion: 20})
-        peer.network.removeAllListeners('network.nodeAdded')
-        peer.network.removeAllListeners('network.nodeDeleted')
-        peer.network.on('network.nodeAdded', this.redraw.bind(this))
-        peer.network.on('network.nodeDeleted', this.redraw.bind(this))
+    }
 
+
+    events(component) {
         /**
          * Dragging while mouse button pushed.
          */
         component.on('constrain', (e) => {
             // Select this node as currentNode.
-            peer.network.setCurrentNode(peer.network.node(e.node.id))
+            this.peer.network.setCurrentNode(this.peer.network.node(e.node.id))
             this.moving = true
             this.target = e.original.target
             this.svgX = e.original.clientX - this.target.cx.baseVal.value
@@ -131,7 +131,12 @@ module.exports = (peer, templates) => {
         twoway: false,
         template: templates['crowd-explorer'],
         onrender: function() {
-            tensionGraph = new TensionGraph(peer, this)
+            if (!tensionGraph) {
+                tensionGraph = new TensionGraph(peer)
+                peer.network.on('nodeAdded', tensionGraph.redraw.bind(tensionGraph))
+                peer.network.on('network.nodeDeleted', tensionGraph.redraw.bind(tensionGraph))
+            }
+            tensionGraph.events(this)
             tensionGraph.start()
         },
         onteardown: function() {

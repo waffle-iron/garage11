@@ -1,4 +1,4 @@
-<section class="container post" id='{{id}}'>
+<section class="container post" id='{{_id}}'>
     <header>
     <h5 class="title">{{title}}</h5>
     <span class='options float-right'>
@@ -9,8 +9,8 @@
     <div class='author'>By: {{user.username}}</div>
     <span class='created'>{{formatTime(created)}}</span>
 
-    <p>{{{ parseMarkdown(body) }}}</p>
-    <dialog id="delete-dialog-{{id}}">
+    <p>{{{ parseMarkdown(content) }}}</p>
+    <dialog id="delete-dialog-{{_id}}">
         <div>
             Warning! You are about to delete this post.
             Are you sure?

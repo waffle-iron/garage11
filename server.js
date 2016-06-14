@@ -6,10 +6,9 @@ global.notifier = require('node-notifier')
 global.MemoryStream = require('memorystream')
 global.Ractive = require('ractive')
 global.JSData = require('js-data')
-global.DSMongoDBAdapter = require('js-data-mongodb')
-global.DSRtcAdapter = require('js-data-rtc')
+global.DSMongoDBAdapter = require('js-data-mongodb').MongoDBAdapter
 
-require('./libs')
+require('./lib/vendor')
 var Garage11 = require('./garage11')
 let High5 = require('high5')
 let settings = require('./settings')

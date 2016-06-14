@@ -16,12 +16,12 @@ module.exports = (peer, templates) => {
                 },
                 deleteUser: function(e) {
                     if(e.context.id !== peer.id) {
-                        peer.node.store.definitions.users.destroy(e.context.id)
+                        peer.node.store.getMapper('user').destroy(e.context.id)
                     } else {
                         // User decided to nuke it's own identity. Remove
                         // All other stored identities with it and reboot
                         // the application.
-                        peer.node.store.definitions.users.destroyAll()
+                        peer.node.store.getMapper('user').destroyAll()
                         .then(() => {
                             location.reload()
                         })

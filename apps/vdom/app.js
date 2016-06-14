@@ -1,9 +1,9 @@
 'use strict'
 
-module.exports = (h5) => {
+module.exports = (peer) => {
 
     this.setStore = function(store) {
-        
+
     }
 
     return this

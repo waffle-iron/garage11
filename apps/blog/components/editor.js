@@ -8,32 +8,32 @@ module.exports = (peer, templates) => {
             this.on({
                 saveArticle: (e) => {
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
-                    cleanedData.created = new Date().getTime()
                     if(cleanedData) {
-                        if (e.context.id) {
-                            return peer.node.store.definitions.blogs.update(e.context.id, cleanedData)
+                        cleanedData.created = new Date().getTime()
+                        if (e.context._id) {
+                            return peer.network.currentNode.store.getMapper('blog').update(e.context._id, cleanedData)
                             .then((article) => {
 
                             })
                         } else {
-                            cleanedData.user = peer.node.store.definitions.users.getAll()[0]
-                            peer.node.store.definitions.blogs.create(cleanedData)
+                            cleanedData.userId = peer.node.store.getMapper('user').getAll()[0]._id
+                            peer.network.currentNode.store.getMapper('blog').create(cleanedData)
                         }
                     }
                 },
                 openEditor: (e) => {
-                    if (e.context.id) {
+                    if (e.context._id) {
                         // Instances with an existing article.
-                        document.querySelector(`#edit-post-dialog-${e.context.id}`).showModal()
+                        document.querySelector(`#edit-post-dialog-${e.context._id}`).showModal()
                     } else {
                         document.querySelector('#edit-post-dialog').showModal()
                     }
 
                 },
                 closeEditor: (e) => {
-                    if (e.context.id) {
+                    if (e.context._id) {
                         // Instances with an existing article.
-                        document.querySelector(`#edit-post-dialog-${e.context.id}`).close()
+                        document.querySelector(`#edit-post-dialog-${e.context._id}`).close()
                     } else {
                         document.querySelector('#edit-post-dialog').close()
                     }
@@ -44,8 +44,8 @@ module.exports = (peer, templates) => {
             getTitle: function(title) {
                 return title
             },
-            getBody: function(body) {
-                return body
+            getContent: function(content) {
+                return content
             },
         },
     })

@@ -1,57 +1,75 @@
 {
-  "name": "garage11",
-  "description": "Garage11 p2p webapp",
-  "version": "0.1.0",
-  "homepage": "http://github.com/garage11/garage11",
-  "repository": "git://github.com/garage11/garage11.git",
-  "author": "Garage11 contributors",
-  "main": "./server.js",
-  "keywords": [
-    "high5",
-    "p2p"
-  ],
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com/garage11/garage11/raw/master/LICENSE"
+    "name": "garage11",
+    "description": "P2p blogging and social platform.",
+    "version": "0.1.0",
+    "license": "MIT",
+    "homepage": "https://garage11.io",
+    "author": {
+        "name": "Jeroen van Veen",
+        "url": "https://github.com/jvanveen/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/garage11/garage11"
+    },
+    "contributors": [
+        {
+            "name": "Jeroen van Veen",
+            "email": "j.veenvan@gmail.com"
+        }
+    ],
+    "bugs": {
+        "url": "https://github.com/garage11/garage11/issues"
+    },
+    "keywords": [
+        "high5",
+        "p2p",
+        "websocket",
+        "webrtc",
+        "isomorphic"
+    ],
+    "engines": {
+        "node": ">=4.1.2"
+    },
+    "main": "./server.js",
+    "dependencies": {
+        "bson": "^0.4.23",
+        "glob": "^7.0.3",
+        "js-data": "^3.0.0-beta.7",
+        "js-data-localstorage": "^3.0.0-beta.2",
+        "js-data-mongodb": "^1.0.0-beta.1",
+        "markdown": "^0.5.0",
+        "memorystream": "^0.3.1",
+        "milligram-scss": "git+https://github.com/garage11/milligram-scss.git#feature/src-available-in-npm",
+        "mongodb": "^2.1.18",
+        "node-notifier": "^4.2.1",
+        "object-assign": "^3.0.0",
+        "paths-js": "git+https://github.com/andreaferretti/paths-js.git#master",
+        "ractive": "git+https://github.com/ractivejs/ractive.git#edge"
+    },
+    "devDependencies": {
+        "browserify": "^6.3.3",
+        "browserify-shim": "^3.8.9",
+        "eslint": "^1.6.0",
+        "gulp": "^3.8.10",
+        "gulp-browserify": "^0.5.0",
+        "gulp-concat": "^2.4.2",
+        "gulp-extract-sourcemap": "^0.1.5",
+        "gulp-filesize": "0.0.6",
+        "gulp-if-else": "^1.0.2",
+        "gulp-livereload": "git+https://github.com/vohof/gulp-livereload#master",
+        "gulp-minify-css": "^0.3.11",
+        "gulp-nodemon": "^2.0.4",
+        "gulp-notify": "^2.0.1",
+        "gulp-rename": "^1.2.0",
+        "gulp-sass": "^2.3.1",
+        "gulp-size": "^1.2.0",
+        "gulp-sourcemaps": "^1.5.2",
+        "gulp-uglify": "^1.5.3",
+        "minimist": "^1.1.0",
+        "node-sass": "git+https://github.com/sass/node-sass.git",
+        "notify-send": "^0.1.2",
+        "vinyl-buffer": "^1.0.0",
+        "vinyl-source-stream": "^1.1.0"
     }
-  ],
-  "dependencies": {
-    "glob": "^7.0.3",
-    "js-data": "^2.9.0",
-    "js-data-localstorage": "^2.3.2",
-    "js-data-mongodb": "^0.7.0",
-    "markdown": "^0.5.0",
-    "memorystream": "^0.3.1",
-    "milligram-scss": "git+https://github.com/garage11/milligram-scss.git#feature/src-available-in-npm",
-    "node-notifier": "^4.2.1",
-    "object-assign": "^3.0.0",
-    "paths-js": "git+https://github.com/andreaferretti/paths-js.git#master",
-    "ractive": "git+https://github.com/ractivejs/ractive.git#edge"
-  },
-  "devDependencies": {
-    "browserify": "^6.3.3",
-    "browserify-shim": "^3.8.9",
-    "eslint": "^1.6.0",
-    "gulp": "^3.8.10",
-    "gulp-browserify": "^0.5.0",
-    "gulp-concat": "^2.4.2",
-    "gulp-extract-sourcemap": "^0.1.5",
-    "gulp-filesize": "0.0.6",
-    "gulp-if-else": "^1.0.2",
-    "gulp-livereload": "git+https://github.com/vohof/gulp-livereload#master",
-    "gulp-minify-css": "^0.3.11",
-    "gulp-nodemon": "^2.0.4",
-    "gulp-notify": "^2.0.1",
-    "gulp-rename": "^1.2.0",
-    "gulp-sass": "^2.3.1",
-    "gulp-size": "^1.2.0",
-    "gulp-sourcemaps": "^1.5.2",
-    "gulp-uglify": "^1.5.3",
-    "minimist": "^1.1.0",
-    "node-sass": "git+https://github.com/sass/node-sass.git",
-    "notify-send": "^0.1.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
-  }
 }
