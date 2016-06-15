@@ -57,7 +57,7 @@ gulp.task('vendor-js', () => {
     return b.bundle()
     .pipe(source('./lib/vendor.js'))
     .pipe(buffer())
-    .pipe(babel({presets: ['es2015']}))
+    .pipe(babel({compact: true, presets: ['es2015']}))
     .pipe(uglify())
     .pipe(rename(function(filepath) {
         console.log(filepath)
@@ -101,8 +101,10 @@ gulp.task('default', ['server:start'], () => {
         './garage11.js',
         './lib/*.js',
         '!./lib/vendor.js',
+        './node_modules/high5/index.js',
         './node_modules/high5/lib/**/*.js',
         '!./node_modules/high5/lib/thirdparty.js',
+        './node_modules/js-data-high5/index.js',
     ], () => {
         gulp.start('app-js')
     })
@@ -110,7 +112,6 @@ gulp.task('default', ['server:start'], () => {
     gulp.watch([
         './lib/vendor.js',
         './node_modules/high5/lib/thirdparty.js',
-        './node_modules/js-data-high5/index.js',
     ], () => {
         gulp.start('vendor-js')
     })

@@ -12,12 +12,12 @@ module.exports = (peer, templates) => {
                         cleanedData.created = new Date().getTime()
                         if (e.context._id) {
                             return peer.network.currentNode.store.getMapper('blog').update(e.context._id, cleanedData)
-                            .then((article) => {
-
-                            })
                         } else {
-                            cleanedData.userId = peer.node.store.getMapper('user').getAll()[0]._id
-                            peer.network.currentNode.store.getMapper('blog').create(cleanedData)
+                            peer.node.store.getMapper('user').findAll()
+                            .then((users) => {
+                                cleanedData.userId = users[0]._id
+                                peer.network.currentNode.store.getMapper('blog').create(cleanedData)
+                            })
                         }
                     }
                 },

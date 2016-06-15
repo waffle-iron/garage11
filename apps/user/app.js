@@ -9,7 +9,6 @@ module.exports = (peer) => {
         this.store = store
         if (!this.store.getMapperByName('user')) {
             this.store.defineMapper('user', {
-                idAttribute: '_id',
                 schema: {
                     properties: {
                       username: { type: 'string' },
@@ -33,7 +32,7 @@ module.exports = (peer) => {
 
     this.pageActive = function() {
         peer.node.store.getMapper('user').off('DS.change')
-        peer.node.store.getMapper('user').on('DS.change', () => {
+        peer.node.store.getMapper('user').on('change', () => {
             peer.vdom.set('user-list', this.getContext())
         })
     }
