@@ -7,14 +7,15 @@ module.exports = (peer) => {
 
     this.setStore = function(store) {
         this.store = store
-        if (!this.store.getMapperByName('user')) {
-            this.store.defineMapper('user', {
+
+        if (!store.getMapperByName('user')) {
+            store.defineMapper('user', {
                 schema: {
                     properties: {
                       username: { type: 'string' },
                       privateKey: { type: 'string' },
                       publicKey: { type: 'string' },
-                      me: {type: 'boolean'}
+                      me: {type: 'boolean'},
                   },
                 },
                 relations: {
@@ -31,10 +32,9 @@ module.exports = (peer) => {
 
 
     this.pageActive = function() {
-        peer.node.store.getMapper('user').off('DS.change')
-        peer.node.store.getMapper('user').on('change', () => {
-            peer.vdom.set('user-list', this.getContext())
-        })
+        this.store.getMapper('user').on('afterCreate', this.setContext)
+        this.store.getMapper('user').on('afterDestroy', this.setContext)
+        this.store.getMapper('user').on('afterUpdate', this.setContext)
     }
 
 
@@ -42,25 +42,29 @@ module.exports = (peer) => {
      * Returns users and nodes, where nodes aren't
      * represented by users yet.
      */
-    this.getContext = function() {
-        let users = peer.node.store.getMapper('user').getAll()
-        let nodes = []
-        let _nodes = peer.network.nodes()
-        _nodes.forEach((node) => {
-            let match = false
-            users.forEach((user) => {
-                if(node.id === user._id) {
-                    match = true
+    this.setContext = function() {
+        return peer.node.store.getMapper('user').findAll()
+        .then((users) => {
+            let nodes = []
+            let _nodes = peer.network.nodes()
+            _nodes.forEach((node) => {
+                let match = false
+                users.forEach((user) => {
+                    if(node.id === user._id) {
+                        match = true
+                    }
+                })
+                if(!match) {
+                    nodes.push(node)
                 }
             })
-            if(!match) {
-                nodes.push(node)
+            let context = {
+                users: users,
+                nodes: nodes,
             }
+            context.html = peer.vdom.set('user-list', context)
+            return context
         })
-        return {
-            users: users,
-            nodes: nodes,
-        }
     }
 
 
@@ -88,7 +92,7 @@ module.exports = (peer) => {
             if (!userExists) {
                 collection.create({
                     _id: peer.id,
-                    username: 'Anonymous(you)',
+                    username: 'Anonymous',
                     privateKey: keys[0],
                     publicKey: keys[1],
                     me: true,
@@ -103,8 +107,9 @@ module.exports = (peer) => {
 
         peer.node.store.getMapper('user').findAll({}, {bypassCache: true})
         .then((users) => {
-            peer.vdom.set('user-list', this.getContext(users)).then((html) => {
-                res(html)
+            this.setContext(users)
+            .then((context) => {
+                res(context.html)
             })
         })
     })

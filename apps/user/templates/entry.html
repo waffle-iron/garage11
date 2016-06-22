@@ -1,13 +1,13 @@
-<tr id='{{id}}'>
-    <td>{{id.sid()}}</td>
+<tr id='{{_id}}'>
+    <td>{{_id.sid()}}</td>
     <td>{{username}}</td>
     <td>
         <span class='close btn icon icon-closebold icon-small' on-click='openDeleteUserModal'></span>
         <span class='close btn icon icon-write icon-small' on-click='openEditUserModal'></span>
     </td>
-    <dialog id="delete-dialog-{{id}}">
+    <dialog id="delete-dialog-{{_id}}">
         <p>
-            {{#if isOwnId(id)}}
+            {{#if isOwnId(_id)}}
             You are about to delete your Garage11 identity and all other
             identities that are currently stored. Is this what you intended to do?<br/><br/>
             Garage11 will refresh after you proceed.
@@ -15,7 +15,6 @@
             Warning! You are about to delete user <i>{{username}}</i>.<br/>
             Are you sure?
             {{/if}}
-
         </p>
         <div class='footer-options'>
             <button class='button' on-click='deleteUser'>Delete</button>

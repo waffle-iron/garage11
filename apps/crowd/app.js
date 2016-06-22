@@ -20,21 +20,21 @@ module.exports = (peer) => {
                 return false
             },
         }
-        peer.vdom.set('crowd-list', context)
-        .then((html) => {
-            if (peer.isBrowser) {
-                peer.vdom.renderer.on('submit', (e) => {
-                    e.original.preventDefault()
-                    let nodeId = e.node[0].id
-                    let data = {
-                        message: this.get('val'),
-                    }
-                    let requestObj = Request.create({url: '/nodes/broadcast/message/', params: data})
-                    peer.nodes[nodeId].request(requestObj)
-                })
-            }
-            res(html)
-        })
+        let html = peer.vdom.set('crowd-list', context)
+
+        if (peer.isBrowser) {
+            peer.vdom.renderer.on('submit', (e) => {
+                e.original.preventDefault()
+                let nodeId = e.node[0].id
+                let data = {
+                    message: this.get('val'),
+                }
+                let requestObj = Request.create({url: '/nodes/broadcast/message/', params: data})
+                peer.nodes[nodeId].request(requestObj)
+            })
+        }
+        res(html)
+
     })
 
     return this

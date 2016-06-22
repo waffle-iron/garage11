@@ -43,9 +43,7 @@ module.exports = (peer) => {
         this.pageActive()
         this.store.getMapper('blog').findAll({}, {bypassCache: true})
         .then((blogs) => {
-            peer.vdom.set('blog-list', {blogs: blogs}).then((html) => {
-                res(html)
-            })
+            res(peer.vdom.set('blog-list', {blogs: blogs}))
         })
     })
 
