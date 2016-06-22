@@ -3,8 +3,9 @@
 module.exports = (peer) => {
     this.setStore = function(store) {
         this.store = store
-        if (!this.store.getMapperByName('blog')) {
+        if (!this.store.getMapperByName('blog'))
             this.store.defineMapper('blog', {
+                name: 'blog',
                 schema: {
                     properties: {
                       title: { type: 'string' },
@@ -16,12 +17,11 @@ module.exports = (peer) => {
                     belongsTo: {
                         user: {
                             localField: 'user',
-                            localKey: 'userId',
+                            foreignKey: 'userId',
                         },
                     },
                 },
             })
-        }
     }
 
     this.updateList = () => {
@@ -32,6 +32,9 @@ module.exports = (peer) => {
     }
 
     this.pageActive = () => {
+        this.store.getMapper('blog').off('afterCreate')
+        this.store.getMapper('blog').off('afterDestroy')
+        this.store.getMapper('blog').off('afterUpdate')
         this.store.getMapper('blog').on('afterCreate', this.updateList)
         this.store.getMapper('blog').on('afterDestroy', this.updateList)
         this.store.getMapper('blog').on('afterUpdate', this.updateList)

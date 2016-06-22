@@ -41,7 +41,9 @@ gulp.task('app-js', () => {
     return b.bundle()
     .pipe(source('garage11.js'))
     .pipe(buffer())
-    .pipe(ifElse(!isProduction, sourcemaps.init))
+    .pipe(ifElse(!isProduction, function() {
+        return sourcemaps.init({loadMaps: true})
+    }))
     .pipe(ifElse(!isProduction, sourcemaps.write))
     // Es6 issues.
     // .pipe(ifElse(isProduction, uglify))
@@ -57,10 +59,13 @@ gulp.task('vendor-js', () => {
     return b.bundle()
     .pipe(source('./lib/vendor.js'))
     .pipe(buffer())
+    .pipe(ifElse(!isProduction, function() {
+        return sourcemaps.init({loadMaps: true})
+    }))
+    .pipe(ifElse(!isProduction, sourcemaps.write))
     .pipe(babel({compact: true, presets: ['es2015']}))
     .pipe(uglify())
     .pipe(rename(function(filepath) {
-        console.log(filepath)
         filepath.dirname = filepath.dirname.replace('lib', '');
     }))
     .pipe(gulp.dest('./public/js/'))
@@ -84,21 +89,16 @@ gulp.task('default', ['server:start'], () => {
 
     // Start livereload server on https using existing key pairs.
     fs.readFile('./public.pem', 'ascii', (err, publicKey) => {
-        if(err) {
-            console.log(err)
-        }
+        if(err) console.log(err)
         fs.readFile('./private.pem', 'ascii', (_err, privateKey) => {
-            if(_err) {
-                console.log(_err)
-            }
+            if(_err) console.log(_err)
             livereload.listen({cert: publicKey, key: privateKey, silent: false})
         })
     })
 
     gulp.watch([
-        './apps/views/**/*.js',
-        './apps/components/**/*.js',
         './garage11.js',
+        './apps/**/*.js',
         './lib/*.js',
         '!./lib/vendor.js',
         './node_modules/high5/index.js',
@@ -129,7 +129,7 @@ gulp.task( 'server:start', () => {
         env: {'NODE_ENV': 'development'},
     })
     .on('restart', () => {
-      livereload.changed('garage11.js')
+        livereload.changed('garage11.js')
     })
 })
 
@@ -137,6 +137,5 @@ gulp.task( 'server:start', () => {
 gulp.task('build', [
     'app-js',
     'vendor-js',
-    'browserify:js-data-rtc',
     'scss',
 ])

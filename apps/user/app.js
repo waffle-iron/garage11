@@ -10,20 +10,13 @@ module.exports = (peer) => {
 
         if (!store.getMapperByName('user')) {
             store.defineMapper('user', {
+                name: 'user',
                 schema: {
                     properties: {
                       username: { type: 'string' },
                       privateKey: { type: 'string' },
                       publicKey: { type: 'string' },
                       me: {type: 'boolean'},
-                  },
-                },
-                relations: {
-                    hasMany: {
-                        blog: {
-                            foreignKey: 'userId',
-                            localField: 'blogs',
-                        },
                     },
                 },
             })
@@ -32,6 +25,9 @@ module.exports = (peer) => {
 
 
     this.pageActive = function() {
+        this.store.getMapper('user').off('afterCreate')
+        this.store.getMapper('user').off('afterDestroy')
+        this.store.getMapper('user').off('afterUpdate')
         this.store.getMapper('user').on('afterCreate', this.setContext)
         this.store.getMapper('user').on('afterDestroy', this.setContext)
         this.store.getMapper('user').on('afterUpdate', this.setContext)
