@@ -8,19 +8,27 @@ module.exports = (peer) => {
     this.setStore = function(store) {
         this.store = store
 
-        if (!store.getMapperByName('user')) {
+        if (!store.getMapperByName('user'))
             store.defineMapper('user', {
                 name: 'user',
                 schema: {
                     properties: {
-                      username: { type: 'string' },
-                      privateKey: { type: 'string' },
-                      publicKey: { type: 'string' },
-                      me: {type: 'boolean'},
+                        node_id: { type: 'string' },
+                        username: {type: 'string'},
+                        privateKey: {type: 'string'},
+                        publicKey: {type: 'string'},
+                        me: {type: 'boolean'},
+                    },
+                },
+                relations: {
+                    hasMany: {
+                        blog: {
+                            foreignKey: 'user_id',
+                            localField: 'blogs',
+                        },
                     },
                 },
             })
-        }
     }
 
 
@@ -46,13 +54,11 @@ module.exports = (peer) => {
             _nodes.forEach((node) => {
                 let match = false
                 users.forEach((user) => {
-                    if(node.id === user._id) {
+                    if(node.id === user._id)
                         match = true
-                    }
                 })
-                if(!match) {
+                if (!match)
                     nodes.push(node)
-                }
             })
             let context = {
                 users: users,
@@ -87,7 +93,7 @@ module.exports = (peer) => {
         .then((keys) => {
             if (!userExists) {
                 collection.create({
-                    _id: peer.id,
+                    node_id: peer.id,
                     username: 'Anonymous',
                     privateKey: keys[0],
                     publicKey: keys[1],

@@ -8,16 +8,18 @@ module.exports = (peer) => {
                 name: 'blog',
                 schema: {
                     properties: {
-                      title: { type: 'string' },
-                      content: { type: 'string' },
-                      created: { type: 'number' },
+                        id: { type: 'string' },
+                        user_id: {type: 'string', indexed: true},
+                        title: {type: 'string'},
+                        content: {type: 'string'},
+                        created: {type: 'number'},
                   },
                 },
                 relations: {
                     belongsTo: {
                         user: {
-                            localField: 'user',
-                            foreignKey: 'userId',
+                            localField: 'author',
+                            foreignKey: 'user_id',
                         },
                     },
                 },
@@ -44,7 +46,8 @@ module.exports = (peer) => {
 
     peer.router.route('/', {pushState: true}, (req, res) => {
         this.pageActive()
-        this.store.getMapper('blog').findAll({}, {bypassCache: true})
+
+        this.store.getMapper('blog').findAll({}, {})
         .then((blogs) => {
             res(peer.vdom.set('blog-list', {blogs: blogs}))
         })

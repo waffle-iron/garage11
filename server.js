@@ -8,7 +8,7 @@ global.Ractive = require('ractive')
 
 require('./lib/vendor')
 
-global.DSMongoDBAdapter = require('js-data-mongodb').MongoDBAdapter
+global.DSRethinkDBAdapter = require('js-data-rethinkdb').RethinkDBAdapter
 
 var Garage11 = require('./garage11')
 let High5 = require('high5')

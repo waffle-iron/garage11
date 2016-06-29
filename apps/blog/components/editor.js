@@ -10,28 +10,28 @@ module.exports = (peer, templates) => {
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
                     if(cleanedData) {
                         cleanedData.created = new Date().getTime()
-                        if (e.context._id) return peer.network.currentNode.store.getMapper('blog').update(e.context._id, cleanedData)
+                        if (e.context.id) return peer.network.currentNode.store.getMapper('blog').update(e.context.id, cleanedData)
                         else
                             peer.node.store.getMapper('user').findAll()
                             .then((users) => {
-                                cleanedData.userId = users[0]._id
+                                cleanedData.user_id = users[0].id
                                 peer.network.currentNode.store.getMapper('blog').create(cleanedData)
                             })
                     }
                 },
                 openEditor: (e) => {
-                    if (e.context._id)
+                    if (e.context.id)
                         // Instances with an existing article.
-                        document.querySelector(`#edit-post-dialog-${e.context._id}`).showModal()
+                        document.querySelector(`#edit-post-dialog-${e.context.id}`).showModal()
                     else
                         document.querySelector('#edit-post-dialog').showModal()
 
 
                 },
                 closeEditor: (e) => {
-                    if (e.context._id)
+                    if (e.context.id)
                         // Instances with an existing article.
-                        document.querySelector(`#edit-post-dialog-${e.context._id}`).close()
+                        document.querySelector(`#edit-post-dialog-${e.context.id}`).close()
                     else
                         document.querySelector('#edit-post-dialog').close()
 

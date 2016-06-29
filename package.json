@@ -35,17 +35,17 @@
   "dependencies": {
     "bson": "^0.4.23",
     "glob": "^7.0.3",
-    "js-data": "git+https://github.com/js-data/js-data.git#master",
+    "js-data": "^3.0.0-beta.8",
     "js-data-localstorage": "^3.0.0-beta.2",
-    "js-data-mongodb": "^1.0.0-beta.1",
+    "js-data-rethinkdb": "^3.0.0-beta.6",
     "markdown": "^0.5.0",
     "memorystream": "^0.3.1",
     "milligram-scss": "git+https://github.com/garage11/milligram-scss.git#feature/src-available-in-npm",
-    "mongodb": "^2.1.18",
     "node-notifier": "^4.2.1",
     "object-assign": "^3.0.0",
     "paths-js": "git+https://github.com/andreaferretti/paths-js.git#master",
-    "ractive": "git+https://github.com/ractivejs/ractive.git#edge"
+    "ractive": "git+https://github.com/ractivejs/ractive.git#edge",
+    "rethinkdbdash": "^2.3.12"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.9.0",

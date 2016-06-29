@@ -6,7 +6,7 @@
         <span class='close btn icon icon-closebold icon-medium' on-click='openDeletePostModal'></span>
     </span>
     </header>
-    <div class='author'>By: {{user.username}}</div>
+    <div class='author'>By: {{author.username}}</div>
     <span class='created'>{{formatTime(created)}}</span>
 
     <p>{{{ parseMarkdown(content) }}}</p>
