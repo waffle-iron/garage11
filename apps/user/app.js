@@ -8,9 +8,8 @@ module.exports = (peer) => {
     this.setStore = function(store) {
         this.store = store
 
-        if (!store.getMapperByName('user'))
+        if (!store.getMapperByName('user')) {
             store.defineMapper('user', {
-                name: 'user',
                 schema: {
                     properties: {
                         node_id: { type: 'string' },
@@ -23,12 +22,13 @@ module.exports = (peer) => {
                 relations: {
                     hasMany: {
                         blog: {
-                            foreignKey: 'user_id',
                             localField: 'blogs',
+                            foreignKey: 'user_id',
                         },
                     },
                 },
             })
+        }
     }
 
 
@@ -54,11 +54,13 @@ module.exports = (peer) => {
             _nodes.forEach((node) => {
                 let match = false
                 users.forEach((user) => {
-                    if(node.id === user._id)
+                    if(node.id === user._id) {
                         match = true
+                    }
                 })
-                if (!match)
+                if (!match) {
                     nodes.push(node)
+                }
             })
             let context = {
                 users: users,

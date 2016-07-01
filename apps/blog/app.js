@@ -3,9 +3,8 @@
 module.exports = (peer) => {
     this.setStore = function(store) {
         this.store = store
-        if (!this.store.getMapperByName('blog'))
+        if (!this.store.getMapperByName('blog')) {
             this.store.defineMapper('blog', {
-                name: 'blog',
                 schema: {
                     properties: {
                         id: { type: 'string' },
@@ -18,18 +17,20 @@ module.exports = (peer) => {
                 relations: {
                     belongsTo: {
                         user: {
-                            localField: 'author',
+                            localField: 'user',
                             foreignKey: 'user_id',
                         },
                     },
                 },
             })
+        }
     }
 
     this.updateList = () => {
-        this.store.getMapper('blog').findAll()
+        return this.store.getMapper('blog').findAll({}, {with: ['user']})
         .then((blogs) => {
             peer.vdom.set('blog-list', {blogs: blogs})
+            return blogs
         })
     }
 
@@ -46,8 +47,7 @@ module.exports = (peer) => {
 
     peer.router.route('/', {pushState: true}, (req, res) => {
         this.pageActive()
-
-        this.store.getMapper('blog').findAll({}, {})
+        this.updateList()
         .then((blogs) => {
             res(peer.vdom.set('blog-list', {blogs: blogs}))
         })

@@ -1,4 +1,4 @@
-<section class="container post" id='{{_id}}'>
+<section class="container post" id='{{id}}'>
     <header>
     <h5 class="title">{{title}}</h5>
     <span class='options float-right'>
@@ -6,11 +6,11 @@
         <span class='close btn icon icon-closebold icon-medium' on-click='openDeletePostModal'></span>
     </span>
     </header>
-    <div class='author'>By: {{author.username}}</div>
+    <div class='author'>By: {{user.username}}</div>
     <span class='created'>{{formatTime(created)}}</span>
 
     <p>{{{ parseMarkdown(content) }}}</p>
-    <dialog id="delete-dialog-{{_id}}">
+    <dialog id="delete-dialog-{{id}}">
         <div>
             Warning! You are about to delete this post.
             Are you sure?

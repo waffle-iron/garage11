@@ -11,12 +11,13 @@ module.exports = (peer, templates) => {
                     if(cleanedData) {
                         cleanedData.created = new Date().getTime()
                         if (e.context.id) return peer.network.currentNode.store.getMapper('blog').update(e.context.id, cleanedData)
-                        else
-                            peer.node.store.getMapper('user').findAll()
+                        else {
+                            peer.network.currentNode.store.getMapper('user').findAll()
                             .then((users) => {
                                 cleanedData.user_id = users[0].id
                                 peer.network.currentNode.store.getMapper('blog').create(cleanedData)
                             })
+                        }
                     }
                 },
                 openEditor: (e) => {
