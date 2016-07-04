@@ -1,33 +1,12 @@
 'use strict'
 
-module.exports = (peer) => {
-    this.setStore = function(store) {
-        this.store = store
-        if (!this.store.getMapperByName('blog')) {
-            this.store.defineMapper('blog', {
-                schema: {
-                    properties: {
-                        id: { type: 'string' },
-                        user_id: {type: 'string', indexed: true},
-                        title: {type: 'string'},
-                        content: {type: 'string'},
-                        created: {type: 'number'},
-                  },
-                },
-                relations: {
-                    belongsTo: {
-                        user: {
-                            localField: 'user',
-                            foreignKey: 'user_id',
-                        },
-                    },
-                },
-            })
-        }
-    }
 
-    this.updateList = () => {
-        return this.store.getMapper('blog').findAll({}, {with: ['user']})
+module.exports = (peer) => {
+    this.name = () => `${peer.name} [app-blog]`
+    this.storage = require('./storage')
+
+    this.setContext = () => {
+        return peer.network.currentNode.store.getMapper('blog').findAll({}, {with: ['user']})
         .then((blogs) => {
             peer.vdom.set('blog-list', {blogs: blogs})
             return blogs
@@ -35,19 +14,19 @@ module.exports = (peer) => {
     }
 
     this.pageActive = () => {
-        this.store.getMapper('blog').off('afterCreate')
-        this.store.getMapper('blog').off('afterDestroy')
-        this.store.getMapper('blog').off('afterUpdate')
-        this.store.getMapper('blog').on('afterCreate', this.updateList)
-        this.store.getMapper('blog').on('afterDestroy', this.updateList)
-        this.store.getMapper('blog').on('afterUpdate', this.updateList)
+        let blogMapper = peer.network.currentNode.store.getMapper('blog')
+        blogMapper.off('afterCreate')
+        blogMapper.off('afterDestroy')
+        blogMapper.off('afterUpdate')
+        blogMapper.on('afterCreate', this.setContext)
+        blogMapper.on('afterDestroy', this.setContext)
+        blogMapper.on('afterUpdate', this.setContext)
     }
-
 
 
     peer.router.route('/', {pushState: true}, (req, res) => {
         this.pageActive()
-        this.updateList()
+        this.setContext()
         .then((blogs) => {
             res(peer.vdom.set('blog-list', {blogs: blogs}))
         })

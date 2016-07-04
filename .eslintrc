@@ -25,7 +25,7 @@
         "required": true,
         "JSData": true,
         "DSLocalStorageAdapter": true,
-        "DSMongoDBAdapter": true,
+        "DSRethinkDBAdapter": true,
         "glob": true,
         "browserify": true,
         "MemoryStream": true,

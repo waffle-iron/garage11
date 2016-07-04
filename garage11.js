@@ -18,19 +18,17 @@ class Garage11 extends Peer {
         .then(this.getApplications.bind(this))
         .then((apps) => {
             this.apps = apps
-            // Create a local store for the peer.
+            // Create a local store for the peer, because we first needs
+            // to get the identify from the store, before we can create the
+            // initial node.
             let store = new Store(this, {isLocal: true, apps: apps, store: this.settings.store})
             return this.apps.user.getOrCreateIdentity(store.getMapper('user'))
             .then(() => {
                 this.network = new Network(this, this.id, store, this.settings.network)
                 this.network.on('nodeAdded', (node) => {
-                    node.store = new Store(this, {isLocal: false, apps: apps, node: node})
-                })
-                // Change the app store when the currentNode changes.
-                this.network.on('setCurrentNode', (node) => {
-                    Object.keys(apps).forEach((appName) => {
-                        apps[appName].setStore(node.store)
-                    })
+                    if (node.id !== this.node.id) {
+                        node.store = new Store(this, {isLocal: false, apps: apps, node: node})
+                    }
                 })
 
                 this.vdom.listeners()
@@ -68,12 +66,14 @@ class Garage11 extends Peer {
                         data = 'window.__requires =' + JSON.stringify(requireNames) + ';' + data
                         fs.readFileAsync(viewsFile, 'utf8')
                         .then((content) => {
-                            if (content !== data)
+                            if (content !== data) {
                                 fs.writeFileAsync(viewsFile, data)
                                 .then(() => {
                                     resolve(this.apps)
                                 })
-                            else resolve(this.apps)
+                            } else {
+                                resolve(this.apps)
+                            }
                         })
                     })
                     resolve(this.apps)

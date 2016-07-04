@@ -2,43 +2,18 @@
 
 
 module.exports = (peer) => {
-
     this.name = () => `${peer.name} [app-user]`
-
-    this.setStore = function(store) {
-        this.store = store
-
-        if (!store.getMapperByName('user')) {
-            store.defineMapper('user', {
-                schema: {
-                    properties: {
-                        node_id: { type: 'string' },
-                        username: {type: 'string'},
-                        privateKey: {type: 'string'},
-                        publicKey: {type: 'string'},
-                        me: {type: 'boolean'},
-                    },
-                },
-                relations: {
-                    hasMany: {
-                        blog: {
-                            localField: 'blogs',
-                            foreignKey: 'user_id',
-                        },
-                    },
-                },
-            })
-        }
-    }
+    this.storage = require('./storage')
 
 
     this.pageActive = function() {
-        this.store.getMapper('user').off('afterCreate')
-        this.store.getMapper('user').off('afterDestroy')
-        this.store.getMapper('user').off('afterUpdate')
-        this.store.getMapper('user').on('afterCreate', this.setContext)
-        this.store.getMapper('user').on('afterDestroy', this.setContext)
-        this.store.getMapper('user').on('afterUpdate', this.setContext)
+        let userMapper = peer.network.currentNode.store.getMapper('user')
+        userMapper.off('afterCreate')
+        userMapper.off('afterDestroy')
+        userMapper.off('afterUpdate')
+        userMapper.on('afterCreate', this.setContext)
+        userMapper.on('afterDestroy', this.setContext)
+        userMapper.on('afterUpdate', this.setContext)
     }
 
 
