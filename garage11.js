@@ -13,28 +13,37 @@ class Garage11 extends Peer {
     }
 
     init() {
-        this.vdom = new VDom(this)
-        return this.vdom.init()
-        .then(this.getApplications.bind(this))
+        let localStore
+        // First find all applications.
+        return this.getApplications()
         .then((apps) => {
             this.apps = apps
             // Create a local store for the peer, because we first needs
-            // to get the identify from the store, before we can create the
-            // initial node.
-            let store = new Store(this, {isLocal: true, apps: apps, store: this.settings.store})
-            return this.apps.user.getOrCreateIdentity(store.getMapper('user'))
-            .then(() => {
-                this.network = new Network(this, this.id, store, this.settings.network)
-                this.network.on('nodeAdded', (node) => {
-                    if (node.id !== this.node.id) {
-                        node.store = new Store(this, {isLocal: false, apps: apps, node: node})
-                    }
-                })
-
-                this.vdom.listeners()
-                return this
-            })
+            // to get the identify from the store, before we can establish the
+            // initial (persistent) node.
+            localStore = new Store(this, {isLocal: true, apps: apps, store: this.settings.store})
+            localStore.initialData()
+            // Then get the identity from the store.
+            return this.apps.user.getOrCreateIdentity(localStore)
         })
+        .then(() => {
+            // Network requires an initial node id. `getOrCreateIdentity`
+            // should come later, but we need a store and the id from the
+            // store first, before we can create the initial node.
+            this.network = new Network(this, this.id, localStore, this.settings.network)
+            this.network.on('nodeAdded', (node) => {
+                if (node.id !== this.node.id) {
+                    node.store = new Store(this, {isLocal: false, apps: this.apps, node: node})
+                }
+            })
+            this.vdom = new VDom(this)
+            return this.vdom.init()
+        })
+        .then(() => {
+            this.vdom.listeners()
+
+        })
+
     }
 
 

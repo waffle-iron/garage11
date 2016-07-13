@@ -6,7 +6,7 @@ module.exports = (peer) => {
     this.storage = require('./storage')
 
     this.setContext = () => {
-        return peer.network.currentNode.store.getMapper('blog').findAll({}, {with: ['user']})
+        return peer.network.currentNode.store.findAll('blog', {}, {with: ['user']})
         .then((blogs) => {
             peer.vdom.set('blog-list', {blogs: blogs})
             return blogs

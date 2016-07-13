@@ -51,11 +51,11 @@ module.exports = (peer) => {
      * First try to revive an identity from the store, or generate a fresh
      * new one. Either way, store the resulting identity to the store.
      */
-    this.getOrCreateIdentity = function(collection) {
+    this.getOrCreateIdentity = function(store) {
         let userExists;
         // The first inserted user is the peer's user object.
         peer.logger.info(`${this.name()} querying for identity`)
-        return collection.findAll({where: {me: {'===': true}}})
+        return store.findAll('user', {where: {me: {'===': true}}})
         .then((result) => {
             if (result[0]) {
                 userExists = true;
@@ -69,7 +69,7 @@ module.exports = (peer) => {
         ]))
         .then((keys) => {
             if (!userExists) {
-                collection.create({
+                store.create('user', {
                     node_id: peer.id,
                     username: 'Anonymous',
                     privateKey: keys[0],

@@ -16,12 +16,15 @@ module.exports = (peer, templates) => {
             })
         },
         data: () => {
-            return {
-                pages: [
+            let getItems = () => {
+                return [
                     {name: 'Blog', path: '/', active: true},
                     {name: 'Crowd', path: '/crowd/', active: false},
                     {name: 'Users', path: '/users/', active: false},
-                ],
+                ]
+            }
+            return {
+                pages: getItems()
             }
         },
     })

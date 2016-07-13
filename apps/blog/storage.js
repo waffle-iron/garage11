@@ -11,7 +11,7 @@ module.exports = {
                         title: {type: 'string'},
                         content: {type: 'string'},
                         created: {type: 'number'},
-                  },
+                    },
                 },
                 relations: {
                     belongsTo: {
@@ -26,15 +26,35 @@ module.exports = {
     },
     data: function(store) {
         if(store.isLocal) {
-            let permissionMapper = store.getMapper('permission')
             // Initialize basic set of permissions.
-            permissionMapper.findAll({})
+            store.findAll('permission')
             .then((permissions) => {
                 if(!permissions.length) {
-                    permissionMapper.create({record: 'blog', action: 'create'})
-                    permissionMapper.create({record: 'blog', action: 'delete_own'})
-                    permissionMapper.create({record: 'blog', action: 'update_own'})
-                    permissionMapper.create({record: 'blog', action: 'read_own'})
+                    // First create the permissions.
+                    store.createMany('permission', [
+                        {record: 'blog', action: 'create'},
+                        {record: 'blog', action: 'read'},
+                        {record: 'blog', action: 'update'},
+                        {record: 'blog', action: 'delete'},
+                        {record: 'user', action: 'create'},
+                        {record: 'user', action: 'read'},
+                        {record: 'user', action: 'update'},
+                        {record: 'user', action: 'delete'},
+                    ])
+                    .then((permissionRecords) => {
+                        // Then use user_permissions to m2m bind permissions
+                        // to the default user.
+                        store.findAll('user', {where: {node_id: h5.peers.default.id}}, {with: ['user']})
+                        .then((users) => {
+                            let user = users[0]
+                            Promise.all(permissionRecords.map((permission) => {
+                                return store.create('user_permission', {
+                                    user_id: user.id,
+                                    permission_id: permission.id,
+                                })
+                            }))
+                        })
+                    })
                 }
             })
 

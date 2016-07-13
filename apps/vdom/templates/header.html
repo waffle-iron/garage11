@@ -1,20 +1,21 @@
 <nav class="navigation">
     <section class="container" id="header">
         <a class="navigation-title" href="https://milligram.github.io/">
-            <img class="logo" src="/public/img/logo.png" height="40" alt="Milligram" title="Milligram">
-            <h1 class="title">Garage11 {{peer.id}}</h1>
+            <img class="logo" src="/public/img/logo.png" height="40">
+            <h1 class="title">Garage11</h1>
         </a>
-        <!-- <div class="logo"></div> -->
+
         <ul class="navigation-list float-right">
             <li class="navigation-item current-node">
                 <i class="icon icon-nodes icon-small"></i>
-                {{#if currentNode}}
                 <span class="navigation-link">{{ currentNode.id.sid() }}{{#if currentNode.id === peer.id}}(You){{/if}}</span>
+                {{#if hasPermission('blog', 'read')}}
+                <span class="navigation-link">FOOBAR</span>
                 {{/if}}
             </li>
             {{#each pages}}
             {{#if name === 'Users'}}
-                {{#if currentNode.id !== peer.id}}
+                {{#if currentNode.id === peer.id}}
                 <li class="navigation-item">
                     <a class="navigation-link{{#if active }} active{{/if}}" on-click="page_change" href="{{path}}">{{name}}</a>
                 </li>

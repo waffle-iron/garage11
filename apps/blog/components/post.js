@@ -15,7 +15,7 @@ module.exports = (peer, templates) => {
                     document.querySelector(`#edit-post-dialog-${e.context.id}`).showModal()
                 },
                 deleteBlogPost: function(e) {
-                    peer.network.currentNode.store.getMapper('blog').destroy(e.context.id)
+                    peer.network.currentNode.store.destroy('blog', e.context.id)
                 },
             })
         },

@@ -7,18 +7,17 @@ module.exports = (peer, templates) => {
         oninit: function() {
             this.on({
                 saveArticle: (e) => {
-                    let blogMapper = peer.network.currentNode.store.getMapper('blog')
-                    let userMapper = peer.network.currentNode.store.getMapper('user')
+                    let store = peer.network.currentNode.store
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
                     if(cleanedData) {
                         cleanedData.created = new Date().getTime()
                         if (e.context.id) {
-                            return blogMapper.update(e.context.id, cleanedData)
+                            return store.update('blog', e.context.id, cleanedData)
                         } else {
-                            userMapper.findAll()
+                            store.findAll('user')
                             .then((users) => {
                                 cleanedData.user_id = users[0].id
-                                blogMapper.create(cleanedData)
+                                store.create('blog', cleanedData)
                             })
                         }
                     }
