@@ -15,7 +15,8 @@ module.exports = (peer, templates) => {
                 })
             })
         },
-        data: () => {
+        data: function() {
+            // Query user read permission.
             let getItems = () => {
                 return [
                     {name: 'Blog', path: '/', active: true},
@@ -24,7 +25,7 @@ module.exports = (peer, templates) => {
                 ]
             }
             return {
-                pages: getItems()
+                pages: getItems(),
             }
         },
     })

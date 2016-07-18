@@ -9,13 +9,10 @@
             <li class="navigation-item current-node">
                 <i class="icon icon-nodes icon-small"></i>
                 <span class="navigation-link">{{ currentNode.id.sid() }}{{#if currentNode.id === peer.id}}(You){{/if}}</span>
-                {{#if hasPermission('blog', 'read')}}
-                <span class="navigation-link">FOOBAR</span>
-                {{/if}}
             </li>
             {{#each pages}}
             {{#if name === 'Users'}}
-                {{#if currentNode.id === peer.id}}
+                {{#if userReadPermission }}
                 <li class="navigation-item">
                     <a class="navigation-link{{#if active }} active{{/if}}" on-click="page_change" href="{{path}}">{{name}}</a>
                 </li>

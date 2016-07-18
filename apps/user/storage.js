@@ -30,7 +30,6 @@ module.exports = {
                 schema: {
                     properties: {
                         id: {type: 'string'},
-                        node_id: {type: 'string'},
                         username: {type: 'string'},
                         privateKey: {type: 'string'},
                         publicKey: {type: 'string'},
@@ -40,11 +39,11 @@ module.exports = {
                 relations: {
                     hasMany: {
                         blog: {
-                            foreignKey: 'user_id',
+                            foreignKey: 'id',
                             localField: 'blogs',
                         },
                         user_permission: {
-                            foreignKey: 'user_id',
+                            foreignKey: 'id',
                             localField: 'user_permissions',
                         },
                     },
@@ -88,7 +87,7 @@ module.exports = {
                             localField: 'permission',
                         },
                         user: {
-                            foreignKey: 'user_id',
+                            foreignKey: 'id',
                             localField: 'user',
                         },
                     },

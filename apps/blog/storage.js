@@ -44,12 +44,12 @@ module.exports = {
                     .then((permissionRecords) => {
                         // Then use user_permissions to m2m bind permissions
                         // to the default user.
-                        store.findAll('user', {where: {node_id: h5.peers.default.id}}, {with: ['user']})
-                        .then((users) => {
-                            let user = users[0]
+                        store.findAll('user', {})
+                        .then((userRecords) => {
+                            let userRecord = userRecords[0]
                             Promise.all(permissionRecords.map((permission) => {
                                 return store.create('user_permission', {
-                                    user_id: user.id,
+                                    user_id: userRecord.id,
                                     permission_id: permission.id,
                                 })
                             }))
@@ -57,7 +57,6 @@ module.exports = {
                     })
                 }
             })
-
         }
     },
 }

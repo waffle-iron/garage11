@@ -13,37 +13,45 @@ class Garage11 extends Peer {
     }
 
     init() {
-        let localStore
         // First find all applications.
-        return this.getApplications()
-        .then((apps) => {
-            this.apps = apps
-            // Create a local store for the peer, because we first needs
-            // to get the identify from the store, before we can establish the
-            // initial (persistent) node.
-            localStore = new Store(this, {isLocal: true, apps: apps, store: this.settings.store})
-            localStore.initialData()
-            // Then get the identity from the store.
-            return this.apps.user.getOrCreateIdentity(localStore)
+        return this.findApplications()
+        .then(this.setupLocalStore.bind(this))
+        .then((store) => {
+            return this.apps.user.getOrCreateIdentity(store)
         })
-        .then(() => {
-            // Network requires an initial node id. `getOrCreateIdentity`
-            // should come later, but we need a store and the id from the
-            // store first, before we can create the initial node.
-            this.network = new Network(this, this.id, localStore, this.settings.network)
+        .then(([store, userRecord]) => {
+            this.store.initialData()
+            this.user = userRecord
+            this.network = new Network(this, userRecord.user_id, this.settings.network)
+            this.network.on('setCurrentNode', node => {
+                this.apps.user.permissionsToData(node)
+            })
+            // Bind a store to each node.
             this.network.on('nodeAdded', (node) => {
-                if (node.id !== this.node.id) {
+                if (node.id === this.node.id) {
+                    node.store = store
+                } else {
                     node.store = new Store(this, {isLocal: false, apps: this.apps, node: node})
                 }
             })
+            this.network.connect()
             this.vdom = new VDom(this)
             return this.vdom.init()
         })
-        .then(() => {
-            this.vdom.listeners()
+    }
 
+
+    /**
+     * Create a local store for the peer, because we first needs
+     * to get the identify from the store, before we can establish the
+     * initial (persistent) node.
+     */
+    setupLocalStore() {
+        return new Promise((resolve) => {
+            this.store = new Store(this, {isLocal: true, apps: this.apps, store: this.settings.store})
+            // Then get the identity from the store.
+            resolve(this.store)
         })
-
     }
 
 
@@ -51,8 +59,9 @@ class Garage11 extends Peer {
      * Loads all app.js files in apps subdirectories and interpret them
      * as Garage 11 application files.
      */
-    getApplications() {
+    findApplications() {
         return new Promise((resolve) => {
+            this.apps = {};
             if(this.isHeadless) {
                 let requireNames = []
                 let projectDir = this.settings.headless.projectDir
@@ -85,7 +94,6 @@ class Garage11 extends Peer {
                             }
                         })
                     })
-                    resolve(this.apps)
                 })
             } else {
                 global.__requires.forEach((__require) => {
