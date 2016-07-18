@@ -6,7 +6,6 @@ module.exports = {
             store.defineMapper('blog', {
                 schema: {
                     properties: {
-                        id: { type: 'string' },
                         user_id: {type: 'string', indexed: true},
                         title: {type: 'string'},
                         content: {type: 'string'},

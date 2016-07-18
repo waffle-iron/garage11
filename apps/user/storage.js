@@ -39,11 +39,11 @@ module.exports = {
                 relations: {
                     hasMany: {
                         blog: {
-                            foreignKey: 'id',
+                            foreignKey: 'user_id',
                             localField: 'blogs',
                         },
                         user_permission: {
-                            foreignKey: 'id',
+                            foreignKey: 'user_id',
                             localField: 'user_permissions',
                         },
                     },
@@ -87,7 +87,7 @@ module.exports = {
                             localField: 'permission',
                         },
                         user: {
-                            foreignKey: 'id',
+                            foreignKey: 'user_id',
                             localField: 'user',
                         },
                     },

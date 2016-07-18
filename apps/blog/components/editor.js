@@ -10,34 +10,33 @@ module.exports = (peer, templates) => {
                     let store = peer.network.currentNode.store
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
                     if(cleanedData) {
-                        cleanedData.created = new Date().getTime()
-                        if (e.context.id) {
-                            return store.update('blog', e.context.id, cleanedData)
-                        } else {
-                            store.findAll('user')
-                            .then((users) => {
-                                cleanedData.user_id = users[0].id
+                        store.findAll('user')
+                        .then((users) => {
+                            cleanedData.user_id = users[0].id
+                            cleanedData.created = new Date().getTime()
+                            if (e.context.id) {
+                                return store.update('blog', e.context.id, cleanedData)
+                            } else {
                                 store.create('blog', cleanedData)
-                            })
-                        }
+                            }
+                        })
                     }
                 },
                 openEditor: (e) => {
-                    if (e.context.id)
+                    if (e.context.id) {
                         // Instances with an existing article.
                         document.querySelector(`#edit-post-dialog-${e.context.id}`).showModal()
-                    else
+                    } else {
                         document.querySelector('#edit-post-dialog').showModal()
-
-
+                    }
                 },
                 closeEditor: (e) => {
-                    if (e.context.id)
+                    if (e.context.id) {
                         // Instances with an existing article.
                         document.querySelector(`#edit-post-dialog-${e.context.id}`).close()
-                    else
+                    } else {
                         document.querySelector('#edit-post-dialog').close()
-
+                    }
                 },
             })
         },
