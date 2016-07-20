@@ -1,9 +1,16 @@
+{{#if user}}
 <section class="container post" id='{{id}}'>
     <header>
     <h5 class="title">{{ title }}</h5>
     <span class='options float-right'>
-        <span class='close btn icon icon-write icon-medium' on-click='openEditPostModal'></span>
-        <span class='close btn icon icon-closebold icon-medium' on-click='openDeletePostModal'></span>
+        {{#if isAuthor(this) }}
+            {{#if perm_blog_update_own }}
+            <span class='close btn icon icon-write icon-medium' on-click='openEditPostModal'></span>
+            {{/if}}
+            {{#if perm_blog_delete_own }}
+            <span class='close btn icon icon-closebold icon-medium' on-click='openDeletePostModal'></span>
+            {{/if}}
+        {{/if}}
     </span>
     </header>
     <div class='author'>By: {{ user.username }} - {{ user.id.sid() }}</div>
@@ -21,3 +28,4 @@
         </div>
     </dialog>
 </section>
+{{/if}}

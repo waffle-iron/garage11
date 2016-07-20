@@ -1,5 +1,6 @@
 'use strict'
 
+const Console = require('./lib/console')
 const Network = require('high5/lib/network')
 const Peer = require('high5/lib/peer')
 const Store = require('./lib/store')
@@ -37,6 +38,13 @@ class Garage11 extends Peer {
             this.network.connect()
             this.vdom = new VDom(this)
             return this.vdom.init()
+        })
+        .then(() => {
+            this.console = new Console(this)
+            // Add a shortcut to the default node console.
+            if (this._name === 'default') {
+                global._ = this.console
+            }
         })
     }
 

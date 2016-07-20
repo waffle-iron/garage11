@@ -46,29 +46,34 @@ module.exports = (peer) => {
     }
 
 
-    this.loadPermissions = function(node) {
-        return node.store.findAll('permission')
-        .then((permissionRecords) => {
-            return permissionRecords
-        })
-    }
-
-
     /**
      * Maps a user's permissions to Ractive variables.
      */
     this.permissionsToData = function(node) {
-        this.loadPermissions(node)
+        let permissionData = new Map()
+        node.store.findAll('permission')
         .then((permissionRecords) => {
-            let permission = permissionRecords.filter((rec) => (rec.record === 'user' && rec.action === 'read'))[0]
-            node.store.findAll('user_permission', {
-                where: {user_id: peer.id, permission_id: permission.id}
-            })
-            .then((permissionRecords) => {
-                peer.vdom.renderer.set('userReadPermission', permissionRecords.length)
+            console.log(permissionRecords)
+            // First set all permissions to false.
+            for (let perm of permissionRecords) {
+                let permissionName = `perm_${perm.record}_${perm.action}`;
+                permissionData.set(permissionName, false)
+            }
+            node.store.findAll('user_permission', {where: {user_id: peer.id}})
+            .then((userPermissions) => {
+                console.log(userPermissions)
+                // Set the permissions to true, for permissions that have a user_permission record.
+                for (let userPerm of userPermissions) {
+                    let permissionName = `perm_${userPerm.permission.record}_${userPerm.permission.action}`;
+                    permissionData.set(permissionName, true)
+                }
+
+                for (let perm of permissionRecords) {
+                    let permissionName = `perm_${perm.record}_${perm.action}`
+                    peer.vdom.renderer.set(permissionName, permissionData.get(permissionName))
+                }
             })
         })
-
     }
 
 

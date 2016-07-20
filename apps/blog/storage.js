@@ -33,12 +33,16 @@ module.exports = {
                     store.createMany('permission', [
                         {record: 'blog', action: 'create'},
                         {record: 'blog', action: 'read'},
-                        {record: 'blog', action: 'update'},
-                        {record: 'blog', action: 'delete'},
+                        {record: 'blog', action: 'update_own'},
+                        {record: 'blog', action: 'delete_other'},
+                        {record: 'blog', action: 'delete_own'},
+                        {record: 'blog', action: 'delete_other'},
                         {record: 'user', action: 'create'},
                         {record: 'user', action: 'read'},
-                        {record: 'user', action: 'update'},
-                        {record: 'user', action: 'delete'},
+                        {record: 'user', action: 'update_own'},
+                        {record: 'user', action: 'update_other'},
+                        {record: 'user', action: 'delete_own'},
+                        {record: 'user', action: 'delete_other'},
                     ])
                     .then((permissionRecords) => {
                         // Then use user_permissions to m2m bind permissions

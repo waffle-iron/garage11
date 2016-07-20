@@ -7,9 +7,9 @@ module.exports = (peer) => {
 
     this.setContext = () => {
         return peer.network.currentNode.store.findAll('blog', {}, {with: ['user']})
-        .then((blogs) => {
-            peer.vdom.set('blog-list', {blogs: blogs})
-            return blogs
+        .then((posts) => {
+            peer.vdom.set('blog-list', {posts: posts})
+            return posts
         })
     }
 
@@ -27,8 +27,8 @@ module.exports = (peer) => {
     peer.router.route('/', {pushState: true}, (req, res) => {
         this.pageActive()
         this.setContext()
-        .then((blogs) => {
-            res(peer.vdom.set('blog-list', {blogs: blogs}))
+        .then((posts) => {
+            res(peer.vdom.set('blog-list', {posts: posts}))
         })
     })
 

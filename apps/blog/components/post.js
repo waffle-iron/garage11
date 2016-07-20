@@ -23,6 +23,12 @@ module.exports = (peer, templates) => {
             parseMarkdown: (text) => {
                 return markdown.toHTML(text)
             },
+            isAuthor: function(post) {
+                if (post.user.id === peer.id) {
+                    return true
+                }
+                return false
+            }
         }
     })
 }

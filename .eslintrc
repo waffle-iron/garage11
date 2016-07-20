@@ -150,7 +150,7 @@
         "consistent-return": 2,
         "consistent-this": [0, "that"],
         "constructor-super": 0,
-        "curly": [2, "all"],
+        "curly": [2, "multi-line"],
         "default-case": 0,
         "dot-location": 0,
         "dot-notation": [2, { "allowKeywords": true }],

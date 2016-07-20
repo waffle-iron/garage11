@@ -12,7 +12,7 @@
             </li>
             {{#each pages}}
             {{#if name === 'Users'}}
-                {{#if userReadPermission }}
+                {{#if perm_user_read }}
                 <li class="navigation-item">
                     <a class="navigation-link{{#if active }} active{{/if}}" on-click="page_change" href="{{path}}">{{name}}</a>
                 </li>

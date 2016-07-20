@@ -10,9 +10,9 @@ require('./lib/vendor')
 
 global.DSRethinkDBAdapter = require('js-data-rethinkdb').RethinkDBAdapter
 
-var Garage11 = require('./garage11')
-let High5 = require('high5')
-let settings = require('./settings')
+const Garage11 = require('./garage11')
+const High5 = require('high5')
+const settings = require('./settings')
 
 
 // Initialize application.
