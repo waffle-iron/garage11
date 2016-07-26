@@ -4,10 +4,10 @@
     .entry {
             position: relative;
         width:100%;
-        background: $grey-light;
+        background: $color-grey-light;
 
         .title {
-            background: $grey-dark;
+            background: $color-grey-dark;
             padding: 10px 5px;
             font-weight: bold;
 
@@ -17,7 +17,7 @@
         }
 
         .content {
-            color: $grey-darkest;
+            color: $color-grey-dark;
             font-size: 1em;
             padding: 15px;
         }

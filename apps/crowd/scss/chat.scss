@@ -2,8 +2,8 @@
 
 .nodechat {
     width: 100%;
-    background: $grey-lighter !important;
-    border-top: 1px solid $grey-darker;
+    background: $color-grey-light !important;
+    border-top: 1px solid $color-grey-dark;
 
     .messages {
         &:after {
@@ -14,7 +14,7 @@
         height: 150px;
         width: 100%;
         overflow-y: scroll;
-        border: 1px solid $grey-lighter;
+        border: 1px solid $color-grey-light;
 
         .message {
             position: relative;
@@ -26,7 +26,7 @@
                 left: 0;
                 top: 0;
                 width: 10em;
-                background-color: $grey-darkest;
+                background-color: $color-grey-dark;
                 padding: 0.5em;
                 font-weight: bold;
                 overflow: hidden;
@@ -41,7 +41,7 @@
                 padding: 0.5em 0.5em 0.5em 1em;
                 box-sizing: border-box;
                 -moz-box-sizing: border-box;
-                color: $grey-darkest;
+                color: $color-grey-dark;
             }
         }
     }

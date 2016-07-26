@@ -1,80 +1,42 @@
 @import 'variables';
 
-/** Low footprint iconset using defaults utf-8 characters */
-
-.icon {
-    display: inline-block;
+@font-face {
+    font-family: 'garage11';
+    src: url('../font/garage11.woff') format('woff');
+    font-weight: normal;
     font-style: normal;
-    font-weight: bold;
-    color: $grey-darker;
+}
 
-    &.btn:hover {
-        color: $color-primary;
-        cursor: hand;
-    }
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'garage11' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
 
-    &.icon-small {
-        font-size: 1.3rem;
-    }
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
-    &.icon-medium {
-        padding: 0.4rem;
-        font-size: 2rem;
-    }
-
-    &.icon-large {
-        padding: 0.6rem;
-        font-size: 3rem;
-    }
-
-    &.icon-button {
-        border-radius: 50%;
-    	width: 50px;
-    	height: 50px;
-        background: $grey_lighter;
-
-        &:after {
-            padding-left: 12px;
-            margin-top: 3px;
-            display: inline-block;
-            font-size: 3rem;
-        }
-    }
-
-    &.icon-play:after           { content: '▸' }
-    &.icon-help:after           { content: '?' }
-    &.icon-close:after          { content: '×' }
-    &.icon-closebold:after      { content: '✖' }
-    &.icon-external:after       { content: '→';}
-    &.icon-more:after           { content: '→';}
-    &.icon-next:after           { content: '❯' }
-    &.icon-prev:after           { content: '❮' }
-    &.icon-circle:after         { content: '○' }
-    &.icon-circle-inverse:after { content: '●' }
-    &.icon-play:after           { content: '▸' }
-    &.icon-dropdown:after       { content: '▾' }
-    &.icon-dropup:after         { content: '▴' }
-    &.icon-trendstable:after    { content: '◀' }
-    &.icon-trendup:after        { content: '▼' }
-    &.icon-trenddown:after      { content: '▲' }
-    &.icon-done:after           { content: '✔' }
-    &.icon-notdone:after        { content: '✗' }
-    &.icon-notdone-bold:after   { content: '✘' }
-    &.icon-arrowstable:after    { content: '←' }
-    &.icon-arrowup:after        { content: '↖' }
-    &.icon-arrowdown:after      { content: '↙' }
-    &.icon-mail:after           { content: '◛' }
-    &.icon-scissors:after       { content: '✄' }
-    &.icon-nuclear:after        { content: '✇' }
-    &.icon-writinghand:after    { content: '✍' }
-    &.icon-cloud:after          { content: '☁' }
-    &.icon-umbrella:after       { content: '☂' }
-    &.icon-umbrella-rain:after  { content: '☔' }
-    &.icon-sun:after            { content: '☉' }
-    &.icon-opposition           { content: '☍' }
-    &.icon-phone                { content: '☏' }
-    &.icon-finger-left:after    { content: '☜' }
-    &.icon-finger-right:after   { content: '☞' }
-    &.icon-nodes:after          { content: '⚯' }
-    &.icon-write:after           { content: '✍' }
+.icon-user:before {
+    content: "\f007";
+}
+.icon-phone-square:before {
+    content: "\f098";
+}
+.icon-twitter:before {
+    content: "\f099";
+}
+.icon-group:before {
+    content: "\f0c0";
+}
+.icon-users:before {
+    content: "\f0c0";
+}
+.icon-code-fork:before {
+    content: "\f126";
 }

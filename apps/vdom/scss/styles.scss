@@ -1,20 +1,24 @@
-@import 'boilerplate';
-@import './node_modules/milligram-scss/src/milligram.scss';
-@import 'buttons';
-@import 'dialog';
-@import 'forms';
-@import 'header';
-@import 'icons';
-@import 'list';
-@import 'menu';
-@import 'table';
+@import "boilerplate";
+@import "milligram-scss/src/milligram.scss";
+@import "buttons";
+@import "dialog";
+@import "forms";
+@import "header";
+@import "icons";
+@import "list";
+@import "menu";
+@import "table";
+
+$lato-font-path: '/public/font';
+@import "lato-font/scss/lato-font";
+
 
 * {
     box-sizing: border-box;
 }
 
 a {
-    color: $grey-darker;
+    color: $color-grey-dark;
     text-decoration: none;
 
     &:hover {
@@ -27,9 +31,9 @@ a {
 }
 
 body {
+    background: $color-white;
     margin: 0;
     padding: 0;
-    font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
 
 .wrapper {
@@ -40,8 +44,8 @@ body {
 }
 
 .container {
-	padding-top: 6.5rem;
-	padding-bottom: 5.5rem;
-	margin-bottom: 0;
-	max-width: 80.0rem;
+    padding-top: 6.5rem;
+    padding-bottom: 5.5rem;
+    margin-bottom: 0;
+    max-width: 80.0rem;
 }

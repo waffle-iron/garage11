@@ -8,20 +8,20 @@ module.exports = (peer) => {
     }
 
     /**
-     * Renders the nodes page.
+     * Render the nodes page inside a modal.
      */
     peer.router.route('/crowd/', {pushState: true}, (req, res) => {
         let context = {
             me: peer.id,
             isEqual: (val1, val2) => {
-                if (val1 === val2)
-                    return true;
+                if (val1 === val2) {
+                    return true
+                }
                 return false
             },
         }
-        let html = peer.vdom.set('crowd-list', context)
-
-        if (peer.isBrowser)
+        let html = peer.vdom.set('crowd-list', context, 'vdom-dialog')
+        if (peer.isBrowser) {
             peer.vdom.renderer.on('submit', (e) => {
                 e.original.preventDefault()
                 let nodeId = e.node[0].id
@@ -31,8 +31,9 @@ module.exports = (peer) => {
                 let requestObj = Request.create({url: '/nodes/broadcast/message/', params: data})
                 peer.nodes[nodeId].request(requestObj)
             })
+                document.querySelector('.vdom-dialog').showModal()
+        }
         res(html)
-
     })
 
     return this

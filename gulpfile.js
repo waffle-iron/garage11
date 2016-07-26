@@ -1,36 +1,54 @@
 'use strict'
 
-let babel = require('gulp-babel')
-let browserify = require('browserify')
-let buffer = require('vinyl-buffer')
-let concat = require('gulp-concat')
-let fs = require('fs')
-let gulp = require('gulp')
-let ifElse = require('gulp-if-else')
-let livereload = require('gulp-livereload')
-let minifyCSS = require('gulp-minify-css')
-let minimist = require('minimist')
-let nodemon = require('gulp-nodemon')
-let notify = require('gulp-notify')
+const path = require('path')
+const extend = require('util')._extend;
 
-let rename = require('gulp-rename')
-let sass = require('gulp-sass')
-let size = require('gulp-size')
-let source = require('vinyl-source-stream')
-let sourcemaps = require('gulp-sourcemaps')
-let uglify = require('gulp-uglify')
+const argv = require('yargs').argv;
+const babel = require('gulp-babel')
+const browserify = require('browserify')
+const buffer = require('vinyl-buffer')
+const cleanCSS = require('gulp-clean-css')
+const concat = require('gulp-concat')
+const fs = require('fs')
+const gulp = require('gulp-help')(require('gulp'), {})
+const gutil = require('gulp-util')
+const ifElse = require('gulp-if-else')
+const livereload = require('gulp-livereload')
+const nodemon = require('gulp-nodemon')
+const notify = require('gulp-notify')
 
-let options = minimist(process.argv.slice(2), {
-    default: { env: process.env.NODE_ENV || 'development' },
-    string: 'env',
-})
+const rename = require('gulp-rename')
+const sass = require('gulp-sass')
+const size = require('gulp-size')
+const source = require('vinyl-source-stream')
+const sourcemaps = require('gulp-sourcemaps')
+const uglify = require('gulp-uglify')
 
-let isProduction = (options.env === 'production')
+const NODE_ENV = process.env.NODE_ENV || 'development'
+const NODE_PATH = process.env.NODE_PATH || './node_modules'
+
+const deployMode = argv.production ? argv.production : (process.env.NODE_ENV === 'production');
+if (deployMode) {
+    gutil.log('Running gulp optimized for deployment...');
+}
+
 let isWatcher = false
+// Default options for filesize stats.
+let sizeOptions = {showTotal: true, showFiles: true};
+let paths = {
+    src: {
+        fonts: [
+            path.join(NODE_PATH, 'lato-font', 'fonts', '**'),
+        ],
+    },
+    target: {
+        fonts: path.join(__dirname, 'public', 'font'),
+    },
+}
 
 
-gulp.task('app-js', () => {
-    let b = browserify({entries: './garage11.js', debug: !isProduction})
+gulp.task('app-js', 'Process all application Javascript.', () => {
+    let b = browserify({entries: './garage11.js', debug: !deployMode})
     b.ignore('ractive')
     b.ignore('lodash')
     b.ignore('underscore')
@@ -41,51 +59,73 @@ gulp.task('app-js', () => {
     return b.bundle()
     .pipe(source('garage11.js'))
     .pipe(buffer())
-    .pipe(ifElse(!isProduction, function() {
+    .pipe(ifElse(!deployMode, function() {
         return sourcemaps.init({loadMaps: true})
     }))
-    .pipe(ifElse(!isProduction, sourcemaps.write))
+    .pipe(ifElse(!deployMode, sourcemaps.write))
     // Es6 issues.
-    // .pipe(ifElse(isProduction, uglify))
+    // .pipe(ifElse(deployMode, uglify))
     .on('error', notify.onError('Error: <%= error.message %>'))
     .pipe(gulp.dest('./public/js/'))
-    .pipe(size())
+    .pipe(size(extend({title: 'app-js'}, sizeOptions)))
 })
 
 
-gulp.task('vendor-js', () => {
-    let b = browserify({entries: './lib/vendor.js', debug: !isProduction})
+gulp.task('vendor-js', (done) => {
+    let b = browserify({entries: './lib/vendor.js', debug: !deployMode})
 
     return b.bundle()
     .pipe(source('./lib/vendor.js'))
     .pipe(buffer())
-    .pipe(ifElse(!isProduction, function() {
+    .pipe(ifElse(!deployMode, function() {
         return sourcemaps.init({loadMaps: true})
     }))
-    .pipe(ifElse(!isProduction, sourcemaps.write))
+    .pipe(ifElse(!deployMode, sourcemaps.write))
     .pipe(babel({compact: true, presets: ['es2015']}))
     .pipe(uglify())
     .pipe(rename(function(filepath) {
         filepath.dirname = filepath.dirname.replace('lib', '');
     }))
     .pipe(gulp.dest('./public/js/'))
-    .pipe(size())
-})
-
-
-gulp.task('scss', () => {
-    gulp.src('./apps/**/styles.scss')
-    .pipe(sass().on('error', notify.onError('Error: <%= error.message %>')))
-    .pipe(concat('styles.css'))
-    .pipe(ifElse(isProduction, minifyCSS))
-    .pipe(gulp.dest('./public/css'))
-    .pipe(size())
+    .pipe(size(extend({title: 'vendor-js'}, sizeOptions)))
     .pipe(ifElse(isWatcher, livereload))
 })
 
 
-gulp.task('default', ['server:start'], () => {
+gulp.task('scss', 'Parse all SASS files from the apps directory, concat them and parse to one CSS file.', () => {
+    gulp.src('./apps/**/styles.scss')
+    .pipe(sass({includePaths: NODE_PATH}))
+    .on('error', notify.onError('Error: <%= error.message %>'))
+    .pipe(concat('styles.css'))
+    .pipe(ifElse(deployMode, () => cleanCSS({
+        // This is a CPU-hungry option, use with care.
+        advanced: true,
+    })))
+    .pipe(gulp.dest('./public/css'))
+    .pipe(size(extend({title: 'scss'}, sizeOptions)))
+    .pipe(ifElse(isWatcher, livereload))
+})
+
+
+gulp.task('assets', 'Process all assets.', (done) => {
+    return gulp.src(paths.src.fonts)
+    .pipe(gulp.dest(paths.target.fonts))
+    .pipe(size(extend({title: 'assets-fonts'}, sizeOptions)))
+});
+
+
+gulp.task('develop', 'Start a development server and watch for changes.', () => {
     isWatcher = true
+    nodemon({
+        script: 'index.js',
+        ext: 'js html',
+        env: {'NODE_ENV': NODE_ENV},
+        // This will leave stdin to nesh.
+        restartable: false,
+    })
+    .on('restart', () => {
+        livereload.changed('index.js')
+    })
 
     // Start livereload server on https using existing key pairs.
     fs.readFile('./public.pem', 'ascii', (err, publicKey) => {
@@ -118,18 +158,6 @@ gulp.task('default', ['server:start'], () => {
 
     gulp.watch(['./apps/**/scss/*.scss'], () => {
         gulp.start('scss')
-    })
-})
-
-
-gulp.task( 'server:start', () => {
-    nodemon({
-        script: 'server.js',
-        ext: 'js html',
-        env: {'NODE_ENV': 'development'},
-    })
-    .on('restart', () => {
-        livereload.changed('garage11.js')
     })
 })
 

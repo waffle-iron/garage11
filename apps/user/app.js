@@ -53,7 +53,6 @@ module.exports = (peer) => {
         let permissionData = new Map()
         node.store.findAll('permission')
         .then((permissionRecords) => {
-            console.log(permissionRecords)
             // First set all permissions to false.
             for (let perm of permissionRecords) {
                 let permissionName = `perm_${perm.record}_${perm.action}`;
@@ -61,7 +60,6 @@ module.exports = (peer) => {
             }
             node.store.findAll('user_permission', {where: {user_id: peer.id}})
             .then((userPermissions) => {
-                console.log(userPermissions)
                 // Set the permissions to true, for permissions that have a user_permission record.
                 for (let userPerm of userPermissions) {
                     let permissionName = `perm_${userPerm.permission.record}_${userPerm.permission.action}`;

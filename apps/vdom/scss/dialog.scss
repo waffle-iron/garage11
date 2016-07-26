@@ -3,7 +3,6 @@ dialog {
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 6px;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    top: 20%;
     position: fixed;
 
     .header-options {
@@ -31,5 +30,14 @@ dialog::backdrop {
 @media (min-width: 40.0rem) {
     dialog {
         max-width:50%;
+        top: 10%;
+    }
+}
+
+/* Smaller than mobile screen */
+@media (max-width: 40.0rem) {
+    dialog {
+        max-width:50%;
+        top: 0;
     }
 }

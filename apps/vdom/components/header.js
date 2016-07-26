@@ -20,7 +20,6 @@ module.exports = (peer, templates) => {
             let getItems = () => {
                 return [
                     {name: 'Blog', path: '/', active: true},
-                    {name: 'Crowd', path: '/crowd/', active: false},
                     {name: 'Users', path: '/users/', active: false},
                 ]
             }

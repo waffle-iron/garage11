@@ -2,13 +2,15 @@
     <section class="container" id="header">
         <a class="navigation-title" href="https://milligram.github.io/">
             <img class="logo" src="/public/img/logo.png" height="40">
-            <h1 class="title">Garage11</h1>
+
         </a>
 
         <ul class="navigation-list float-right">
             <li class="navigation-item current-node">
-                <i class="icon icon-nodes icon-small"></i>
-                <span class="navigation-link">{{ currentNode.id.sid() }}{{#if currentNode.id === peer.id}}(You){{/if}}</span>
+                <a href="/crowd/" class="navigation-link">
+                    <i class="icon icon-code-fork icon-small"></i>
+                    {{ currentNode.id.sid() }}{{#if currentNode.id === peer.id}}(You){{/if}}
+                </a>
             </li>
             {{#each pages}}
             {{#if name === 'Users'}}
