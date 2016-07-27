@@ -1,3 +1,4 @@
+#!/usr/bin/node
 'use strict'
 
 global.browserify = require('browserify')

@@ -1,5 +1,7 @@
 'use strict'
 
+global.nesh = require('nesh')
+
 const Console = require('./lib/console')
 const Network = require('high5/lib/network')
 const Peer = require('high5/lib/peer')
@@ -44,6 +46,9 @@ class Garage11 extends Peer {
             // Add a shortcut to the default node console.
             if (this._name === 'default') {
                 global._ = this.console
+                nesh.config.load()
+                // nesh.log.winston()
+                nesh.start({autoload: true, prompt: '>> '}, err => {if (err) {nesh.log.error(err)}})
             }
         })
     }
