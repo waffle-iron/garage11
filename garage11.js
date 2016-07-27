@@ -3,8 +3,8 @@
 global.nesh = require('nesh')
 
 const Console = require('./lib/console')
-const Network = require('high5/lib/network')
-const Peer = require('high5/lib/peer')
+const Network = require('garage11-lib/lib/network')
+const Peer = require('garage11-lib/lib/peer')
 const Store = require('./lib/store')
 const VDom = require('./lib/vdom')
 
