@@ -1,7 +1,7 @@
 {
   "name": "garage11",
   "description": "p2p blogging, (video)calls and social app.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "license": "MIT",
   "homepage": "https://garage11.io",
   "author": {
@@ -39,7 +39,7 @@
   "engines": {
       "node": ">=6.0.0"
   },
-  "main": "./server.js",
+  "main": "./index.js",
   "dependencies": {
     "babel-preset-es2015": "^6.9.0",
     "browserify": "^6.3.3",
