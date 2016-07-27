@@ -1,7 +1,7 @@
 {
   "name": "garage11",
   "description": "P2p blogging and social webapp.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "homepage": "https://garage11.io",
   "author": {
@@ -29,40 +29,24 @@
     "isomorphic"
   ],
   "files": [
-      "LICENSE",
-      "index.js",
-      "garage11.js",
-      "gulpfile.js",
-      "./lib/**/*.js",
-      "./apps/**/*.js"
+    "LICENSE",
+    "index.js",
+    "garage11.js",
+    "gulpfile.js",
+    "./lib/**/*.js",
+    "./apps/**/*.js"
   ],
   "engines": {
     "node": ">=6.3.0"
   },
   "main": "./server.js",
   "dependencies": {
-    "bson": "^0.4.23",
-    "glob": "^7.0.5",
-    "gulp-livereload": "git+https://github.com/vohof/gulp-livereload.git#master",
-    "js-data": "^3.0.0-rc.3",
-    "js-data-localstorage": "^3.0.0-beta.2",
-    "js-data-rethinkdb": "^3.0.0-beta.8",
-    "lato-font": "^1.1.1",
-    "markdown": "^0.5.0",
-    "memorystream": "^0.3.1",
-    "milligram-scss": "git+https://github.com/garage11/milligram-scss.git#feature/src-available-in-npm",
-    "nesh": "^1.6.0",
-    "node-notifier": "^4.2.1",
-    "node-sass": "git+https://github.com/sass/node-sass.git",
-    "object-assign": "^3.0.0",
-    "paths-js": "git+https://github.com/andreaferretti/paths-js.git#master",
-    "ractive": "git+https://github.com/ractivejs/ractive.git#edge",
-    "rethinkdbdash": "^2.3.19",
-    "roboto-fontface": "^0.5.0",
     "babel-preset-es2015": "^6.9.0",
     "browserify": "^6.3.3",
     "browserify-shim": "^3.8.9",
+    "bson": "^0.4.23",
     "eslint": "^1.6.0",
+    "glob": "^7.0.5",
     "gulp": "^3.8.10",
     "gulp-babel": "^6.1.2",
     "gulp-browserify": "^0.5.0",
@@ -80,8 +64,23 @@
     "gulp-size": "^1.2.0",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.5.4",
+    "js-data": "^3.0.0-rc.3",
+    "js-data-localstorage": "^3.0.0-beta.2",
+    "js-data-rethinkdb": "^3.0.0-beta.8",
+    "lato-font": "^1.1.1",
+    "markdown": "^0.5.0",
+    "memorystream": "^0.3.1",
+    "milligram-scss": "git+https://github.com/garage11/milligram-scss.git#feature/src-available-in-npm",
+    "nesh": "^1.6.0",
+    "node-high5": "^0.1.0",
+    "node-notifier": "^4.2.1",
     "node-sass": "git+https://github.com/sass/node-sass.git",
     "notify-send": "^0.1.2",
+    "object-assign": "^3.0.0",
+    "paths-js": "git+https://github.com/andreaferretti/paths-js.git#master",
+    "ractive": "git+https://github.com/ractivejs/ractive.git#edge",
+    "rethinkdbdash": "^2.3.19",
+    "roboto-fontface": "^0.5.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^4.8.1"
@@ -90,6 +89,6 @@
     "garage11": "./index.js"
   },
   "scripts": {
-      "postinstall": "gulp build"
+    "postinstall": "gulp build"
   }
 }

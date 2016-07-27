@@ -1,20 +1,22 @@
 About
 =====
-Garage11 is the p2p webapp as found on https://garage11.io and acts as a
-community hub for people to connect to. You can run your own garage as well.
-Just install this webapp.
+Garage11 is a p2p webapp that features p2p blogging, chat and decentralized
+(video)calls without needing a central signalling service. Each peer owns it's
+own data and all data is end-to-end encrypted. Want to know more?
+
+Just connect a browser node by visiting the [garage11 website]((https://garage11.io))
+or connect a Node.js garage11 node by following the setup instructions!
+
 
 Setup
 =====
-Setup is easy! Just make sure you have a recent Node.js version(5+) and
-Npm(3+) installed.
+Make sure you have a recent Node.js version(5+) and Npm(3+) installed.
 
 ```
-git clone https://github.com/garage11/garage11.git
-cd garage11
-npm install
-gulp build
-node server.js
+npm install -g garage11
+garage11
 ```
 
-Point a browser to `https://localhost:3000` and you're good to go!
+Point a browser to `https://localhost:3000`. You just connected a browser node
+to your own local Node.js garage11 node. You can also connect the Node.js node
+to https://garage11.io with a websocket transport.
