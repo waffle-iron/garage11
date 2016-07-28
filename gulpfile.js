@@ -92,7 +92,7 @@ gulp.task('vendor-js', (done) => {
 })
 
 
-gulp.task('scss', 'Parse all SASS files from the apps directory, concat them and parse to one CSS file.', () => {
+gulp.task('scss', 'Find all scss files from the apps directory, concat them and save as one css file.', () => {
     gulp.src('./apps/**/styles.scss')
     .pipe(sass({includePaths: NODE_PATH}))
     .on('error', notify.onError('Error: <%= error.message %>'))
@@ -137,26 +137,28 @@ gulp.task('develop', 'Start a development server and watch for changes.', () => 
     })
 
     gulp.watch([
-        './garage11.js',
-        './apps/**/*.js',
-        './lib/*.js',
-        '!./lib/vendor.js',
-        './node_modules/high5/index.js',
-        './node_modules/high5/lib/**/*.js',
-        '!./node_modules/high5/lib/thirdparty.js',
-        './node_modules/js-data-high5/index.js',
+        path.join(__dirname, 'garage11.js'),
+        path.join(__dirname, 'apps', '**', '*.js'),
+        path.join(__dirname, 'lib', '*.js'),
+        path.join('!', __dirname, 'lib', 'vendor.js'),
+        path.join(NODE_PATH, 'lib11', 'index.js'),
+        path.join(NODE_PATH, 'lib11', 'lib', '**', '.js'),
+        path.join(NODE_PATH, 'lib11', 'lib', 'thirdparty.js'),
+        path.join(NODE_PATH, 'garage11-db-adapter', 'index.js'),
     ], () => {
         gulp.start('app-js')
     })
 
     gulp.watch([
-        './lib/vendor.js',
-        './node_modules/high5/lib/thirdparty.js',
+        path.join(__dirname, 'lib', 'vendor.js'),
+        path.join(NODE_PATH, 'lib11', 'lib', 'thirdparty.js'),
     ], () => {
         gulp.start('vendor-js')
     })
 
-    gulp.watch(['./apps/**/scss/*.scss'], () => {
+    gulp.watch([
+        path.join(__dirname, 'apps', '**', 'scss', '*.scss'),
+    ], () => {
         gulp.start('scss')
     })
 })

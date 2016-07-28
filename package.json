@@ -42,34 +42,32 @@
   },
   "main": "./index.js",
   "dependencies": {
-    "bson": "^0.4.23",
     "garage11-db-adapter": "*",
     "garage11-lib": "*",
     "glob": "^7.0.3",
     "js-data": "^3.0.0-beta.8",
     "js-data-localstorage": "^3.0.0-beta.2",
     "js-data-rethinkdb": "^3.0.0-beta.6",
-    "lato-font": "^1.1.1",
+    "lib11": "^0.1.0",
     "markdown": "^0.5.0",
     "memorystream": "^0.3.1",
     "milligram-scss": "git+https://github.com/garage11/milligram-scss.git#feature/src-available-in-npm",
+    "nesh": "^1.6.0",
     "node-notifier": "^4.2.1",
-    "object-assign": "^3.0.0",
     "paths-js": "git+https://github.com/andreaferretti/paths-js.git#master",
     "ractive": "git+https://github.com/ractivejs/ractive.git#edge",
-    "rethinkdbdash": "^2.3.12"
+    "rethinkdbdash": "^2.3.12",
+    "yargs": "^4.8.1"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.9.0",
     "browserify": "^6.3.3",
-    "browserify-shim": "^3.8.9",
-    "eslint": "^1.6.0",
-    "gulp": "^3.8.10",
+    "garage11-icons": "^0.1.0",
+    "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-browserify": "^0.5.0",
     "gulp-clean-css": "^2.0.12",
     "gulp-concat": "^2.4.2",
-    "gulp-extract-sourcemap": "^0.1.5",
     "gulp-filesize": "0.0.6",
     "gulp-help": "^1.6.1",
     "gulp-if-else": "^1.0.2",
@@ -81,11 +79,9 @@
     "gulp-size": "^1.2.0",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.5.4",
-    "node-sass": "git+https://github.com/sass/node-sass.git",
     "notify-send": "^0.1.2",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "yargs": "^4.8.1"
+    "vinyl-source-stream": "^1.1.0"
   },
   "bin": {
     "garage11": "./index.js"

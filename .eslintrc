@@ -13,6 +13,7 @@
     },
     "globals": {
         "h5": true,
+        "nesh": true,
         "fs": false,
         "EventEmitter": true,
         "Ractive": true,

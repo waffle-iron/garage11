@@ -44,9 +44,15 @@ class Garage11 extends Peer {
             // Add a shortcut to the default node console.
             if (this._name === 'default') {
                 global._ = this.console
-                nesh.config.load()
-                // nesh.log.winston()
-                nesh.start({autoload: true, prompt: '>> '}, err => {if (err) {nesh.log.error(err)}})
+                if (this.isHeadless) {
+                    nesh.config.load()
+                    nesh.log.winston()
+                    nesh.start({autoload: true, prompt: '>> '}, err => {
+                        if (err) {
+                            nesh.log.error(err)
+                        }
+                    })
+                }
             }
         })
     }
