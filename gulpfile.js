@@ -39,6 +39,7 @@ let paths = {
     src: {
         fonts: [
             path.join(NODE_PATH, 'roboto-fontface', 'fonts', 'roboto', 'Roboto-Regular.woff2'),
+            path.join(NODE_PATH, 'garage11-icons', 'font', '*.woff'),
         ],
     },
     target: {
@@ -168,4 +169,5 @@ gulp.task('build', [
     'app-js',
     'vendor-js',
     'scss',
+    'assets-fonts',
 ])
