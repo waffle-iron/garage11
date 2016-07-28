@@ -1,8 +1,8 @@
 'use strict'
 
 const Console = require('./lib/console')
-const Network = require('garage11-lib/lib/network')
-const Peer = require('garage11-lib/lib/peer')
+const Network = require('lib11/lib/network')
+const Peer = require('lib11/lib/peer')
 const Store = require('./lib/store')
 const VDom = require('./lib/vdom')
 
