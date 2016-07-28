@@ -71,7 +71,7 @@
     "gulp-filesize": "0.0.6",
     "gulp-help": "^1.6.1",
     "gulp-if-else": "^1.0.2",
-    "gulp-livereload": "git+https://github.com/vohof/gulp-livereload.git#master",
+    "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.0.4",
     "gulp-notify": "^2.0.1",
     "gulp-rename": "^1.2.2",
