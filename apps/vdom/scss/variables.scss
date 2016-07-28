@@ -3,15 +3,21 @@
 $font-accent-family: "Lato Medium";
 $font-accent-weight: 400;
 
-$color-base: #2fc8e8;
-$color-accent: complement($color-base);
-$color-white: #fff;
-$color-grey-dark: #3a4a4d;
-$color-grey-light: #f9fbfb;
+$primary-color-dark:   #455a64;
+$primary-color:        #607d8b;
+$primary-color-light:  #cfd8dc;
+$primary-color-text:   #FFFFFF;
+$accent-color:         #ff4081;
+$primary-text-color:   #212121;
+$secondary-text-color: #727272;
+$divider-color:        #b6b6b6;
+
+
+$primary-color-light: #f9fbfb;
 
 // Milligram variables.
-$color-initial: $color-white;
-$color-primary: $color-base;
-$color-secondary: $color-grey-dark;
-$color-tertiary: $color-grey-light;
-$color-quaternary: $color-accent;
+$color-initial: $primary-color-text;
+$color-primary: $primary-color;
+$color-secondary: $secondary-text-color;
+$color-tertiary: $primary-color-light;
+$color-quaternary: $accent-color;

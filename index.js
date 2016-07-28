@@ -3,6 +3,8 @@
 
 global.browserify = require('browserify')
 global.glob = require('glob')
+
+global.nesh = require('nesh')
 global.notifier = require('node-notifier')
 global.MemoryStream = require('memorystream')
 global.Ractive = require('ractive')

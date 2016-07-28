@@ -1,7 +1,7 @@
 {
   "name": "garage11",
-  "description": "p2p blogging, (video)calls and social app.",
-  "version": "0.1.4",
+  "description": "p2p blogging, (video)calling and social app on steroids.",
+  "version": "0.1.5",
   "license": "MIT",
   "homepage": "https://garage11.io",
   "author": {
@@ -34,7 +34,8 @@
     "garage11.js",
     "gulpfile.js",
     "./lib/**/*.js",
-    "./apps/**/*.js"
+    "./apps/**/*.js",
+    "./public/**"
   ],
   "engines": {
     "node": ">=6.0.0"
@@ -90,6 +91,6 @@
     "garage11": "./index.js"
   },
   "scripts": {
-    "postinstall": "gulp build"
+    "prepublish": "NODE_ENV=production gulp build"
   }
 }

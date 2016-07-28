@@ -38,7 +38,7 @@ let sizeOptions = {showTotal: true, showFiles: true};
 let paths = {
     src: {
         fonts: [
-            path.join(NODE_PATH, 'lato-font', 'fonts', '**'),
+            path.join(NODE_PATH, 'roboto-fontface', 'fonts', 'roboto', 'Roboto-Regular.woff2'),
         ],
     },
     target: {
@@ -107,7 +107,7 @@ gulp.task('scss', 'Parse all SASS files from the apps directory, concat them and
 })
 
 
-gulp.task('assets', 'Process all assets.', (done) => {
+gulp.task('assets-fonts', 'Process all font assets.', (done) => {
     return gulp.src(paths.src.fonts)
     .pipe(gulp.dest(paths.target.fonts))
     .pipe(size(extend({title: 'assets-fonts'}, sizeOptions)))

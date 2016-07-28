@@ -15,7 +15,7 @@
 }
 
 a {
-    color: $color-grey-dark;
+    color: $secondary-text-color;
     text-decoration: none;
 
     &:hover {
@@ -28,7 +28,7 @@ a {
 }
 
 body {
-    background: $color-white;
+    background: $primary-color-text;
     margin: 0;
     padding: 0;
 }

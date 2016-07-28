@@ -1,7 +1,5 @@
 'use strict'
 
-global.nesh = require('nesh')
-
 const Console = require('./lib/console')
 const Network = require('garage11-lib/lib/network')
 const Peer = require('garage11-lib/lib/peer')
