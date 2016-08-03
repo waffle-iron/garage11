@@ -5,6 +5,7 @@ const Network = require('lib11/lib/network')
 const Peer = require('lib11/lib/peer')
 const Store = require('./lib/store')
 const VDom = require('./lib/vdom')
+const Notifier = require('./lib/notifier')
 
 
 class Garage11 extends Peer {
@@ -41,6 +42,7 @@ class Garage11 extends Peer {
         })
         .then(() => {
             this.console = new Console(this)
+            this.notifier = new Notifier(this)
             // Add a shortcut to the default node console.
             if (this._name === 'default') {
                 global._ = this.console

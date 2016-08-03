@@ -1,6 +1,6 @@
 @import "boilerplate";
 @import "garage11-icons/sass/garage11-icons";
-@import "milligram-scss/src/milligram.scss";
+@import "milligram-scss/src/milligram";
 @import "buttons";
 @import "dialog";
 @import "forms";
@@ -44,5 +44,5 @@ body {
     padding-top: 6.5rem;
     padding-bottom: 5.5rem;
     margin-bottom: 0;
-    max-width: 80.0rem;
+    max-width: 80rem;
 }

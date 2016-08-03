@@ -1,6 +1,8 @@
-
-
 .btn {
+    &:hover {
+        cursor: hand;
+        color: $accent-color;
+    }
 
     &.btn-primary {
         background: darken(complement($color-primary), 20%);

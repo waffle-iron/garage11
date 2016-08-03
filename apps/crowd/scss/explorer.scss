@@ -1,7 +1,13 @@
 @import 'apps/vdom/scss/variables';
 
+dialog.dialog-crowd-list {
+    opacity: 0.9;
+}
+
+
 #explorer {
     width: 100%;
+    opacity: 0.5;
     height: 400px;
     border: 1px solid $primary-color-light;
     background: rgb(240, 240, 240);
@@ -15,25 +21,22 @@
             r: 12;
         }
         &.peer {
-            r: 12;
-            fill: $primary-color-light;
-            stroke: $primary-color !important;
-            stroke-width: 2;
+            r: 14;
         }
 
         &.selected {
-            fill: $primary-color !important;
+            fill: $accent-color !important;
         }
 
 
         &.browser {
-            stroke: $secondary-text-color;
+            stroke: $primary-color-dark;
             fill: #fff;
 
         }
         &.headless {
             stroke: black;
-            fill: #666;
+            fill: $primary-color-light;
         }
     }
 

@@ -44,7 +44,7 @@
   "dependencies": {
     "garage11-db-adapter": "*",
     "glob": "^7.0.3",
-    "js-data": "^3.0.0-beta.8",
+    "js-data": "^3.0.0-rc.3",
     "js-data-localstorage": "^3.0.0-beta.2",
     "js-data-rethinkdb": "^3.0.0-beta.6",
     "lib11": "^0.1.1",

@@ -25,7 +25,7 @@ const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-uglify')
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
-const NODE_PATH = process.env.NODE_PATH || './node_modules'
+const NODE_PATH = process.env.NODE_PATH || path.join(__dirname, 'node_modules')
 
 const deployMode = argv.production ? argv.production : (process.env.NODE_ENV === 'production');
 if (deployMode) {
@@ -143,7 +143,7 @@ gulp.task('develop', 'Start a development server and watch for changes.', () => 
         path.join(__dirname, 'lib', '*.js'),
         path.join('!', __dirname, 'lib', 'vendor.js'),
         path.join(NODE_PATH, 'lib11', 'index.js'),
-        path.join(NODE_PATH, 'lib11', 'lib', '**', '.js'),
+        path.join(NODE_PATH, 'lib11', 'lib', '**', '*.js'),
         path.join(NODE_PATH, 'lib11', 'lib', 'thirdparty.js'),
         path.join(NODE_PATH, 'garage11-db-adapter', 'index.js'),
     ], () => {
@@ -159,6 +159,7 @@ gulp.task('develop', 'Start a development server and watch for changes.', () => 
 
     gulp.watch([
         path.join(__dirname, 'apps', '**', 'scss', '*.scss'),
+        path.join(NODE_PATH, 'garage11-icons', 'sass', '*.scss'),
     ], () => {
         gulp.start('scss')
     })

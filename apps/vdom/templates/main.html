@@ -1,10 +1,10 @@
 <vdom-header current='{{ current }}' />
 
-<section class="container" id="page">
+<section class="container page-{{page}}" id="page">
     {{>vdom-page}}
 </section>
 
-<dialog class="vdom-dialog">
+<dialog class="vdom-dialog dialog-{{page}}">
     {{>vdom-dialog}}
 </dialog>
 

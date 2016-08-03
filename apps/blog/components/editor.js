@@ -15,9 +15,11 @@ module.exports = (peer, templates) => {
                             cleanedData.user_id = users[0].id
                             cleanedData.created = new Date().getTime()
                             if (e.context.id) {
-                                return store.update('blog', e.context.id, cleanedData)
+                                store.update('blog', e.context.id, cleanedData)
+                                peer.notifier.notify('Blogpost updated')
                             } else {
                                 store.create('blog', cleanedData)
+                                peer.notifier.notify('Blogpost created')
                             }
                         })
                     }

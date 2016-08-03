@@ -5,11 +5,14 @@ module.exports = (peer) => {
     this.name = () => `${peer.name} [app-blog]`
     this.storage = require('./storage')
 
-    this.setContext = () => {
-        return peer.network.currentNode.store.findAll('blog', {}, {with: ['user']})
+    this.setContext = (res) => {
+        return peer.network.currentNode.store.findAll('blog', {orderBy: [['created', 'DESC']]}, {with: ['user']})
         .then((posts) => {
-            peer.vdom.set('blog-list', {posts: posts})
-            return posts
+            console.log(posts)
+            let html = peer.vdom.set('blog-list', {posts: posts})
+            if (typeof res === 'function') {
+                res(html)
+            }
         })
     }
 
@@ -26,10 +29,7 @@ module.exports = (peer) => {
 
     peer.router.route('/', {pushState: true}, (req, res) => {
         this.pageActive()
-        this.setContext()
-        .then((posts) => {
-            res(peer.vdom.set('blog-list', {posts: posts}))
-        })
+        this.setContext(res)
     })
 
     return this

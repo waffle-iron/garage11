@@ -16,6 +16,7 @@ module.exports = (peer, templates) => {
                 },
                 deleteBlogPost: function(e) {
                     peer.network.currentNode.store.destroy('blog', e.context.id)
+                    peer.notifier.notify('Blogpost deleted')
                 },
             })
         },

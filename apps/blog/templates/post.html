@@ -5,10 +5,10 @@
     <span class='options float-right'>
         {{#if isAuthor(this) }}
             {{#if perm_blog_update_own }}
-            <span class='close btn icon icon-write icon-medium' on-click='openEditPostModal'></span>
+            <span class='close btn icon icon-pencil icon-medium' on-click='openEditPostModal'></span>
             {{/if}}
             {{#if perm_blog_delete_own }}
-            <span class='close btn icon icon-closebold icon-medium' on-click='openDeletePostModal'></span>
+            <span class='close btn icon icon-trash-o icon-medium' on-click='openDeletePostModal'></span>
             {{/if}}
         {{/if}}
     </span>
