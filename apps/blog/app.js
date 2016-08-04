@@ -5,10 +5,15 @@ module.exports = (peer) => {
     this.name = () => `${peer.name} [app-blog]`
     this.storage = require('./storage')
 
+    peer.on('starting', () => {
+        peer.network.on('setCurrentNode', node => {
+            this.setContext()
+        })
+    })
+
     this.setContext = (res) => {
         return peer.network.currentNode.store.findAll('blog', {orderBy: [['created', 'DESC']]}, {with: ['user']})
         .then((posts) => {
-            console.log(posts)
             let html = peer.vdom.set('blog-list', {posts: posts})
             if (typeof res === 'function') {
                 res(html)

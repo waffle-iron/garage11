@@ -7,7 +7,7 @@ module.exports = (peer, templates) => {
         oninit: function() {
             peer.router.on('router.route_changed', (request) => {
                 this.get('pages').forEach((page, i) => {
-                    if (page.path === request.url) {
+                    if (page.path === request.pathname) {
                         this.set('pages.' + i + '.active', true)
                     } else {
                         this.set('pages.' + i + '.active', false)

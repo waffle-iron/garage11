@@ -1,5 +1,13 @@
-<div class='crowd'>
+<header>
+    <span class="title">{{#if id}}Edit{{else}}New{{/if}} post</span>
+    <div class="header-options">
+        <span class="btn icon icon-close icon-large icon-inverse" on-click="closeEditor"></span>
+    </div>
+</header>
+<section class='crowd'>
     <crowd-explorer />
     <crowd-chat />
-</div>
-<button class='js-close'>Close</button>
+</section>
+<footer>
+    <button class='js-close'>Close</button>
+</footer>

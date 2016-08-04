@@ -1,16 +1,16 @@
 @import 'apps/vdom/scss/variables';
 
 dialog.dialog-crowd-list {
-    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.5);
+
 }
 
 
 #explorer {
     width: 100%;
-    opacity: 0.5;
+
     height: 400px;
     border: 1px solid $primary-color-light;
-    background: rgb(240, 240, 240);
 
     circle {
         stroke-width: 1;

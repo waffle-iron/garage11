@@ -18,14 +18,20 @@
 
     <p>{{{ parseMarkdown(content) }}}</p>
     <dialog id="delete-dialog-{{id}}">
-        <div>
+        <header>
+            <span class="title">Delete post</span>
+            <div class="header-options">
+                <span class="btn icon icon-close icon-large icon-inverse" on-click="closeEditor"></span>
+            </div>
+        </header>
+        <section>
             Warning! You are about to delete this post.
             Are you sure?
-        </div>
-        <div class='footer-options'>
+        </section>
+        <footer class='footer-options'>
             <button class='button' on-click='deleteBlogPost'>Delete</button>
             <button class='button button-outline' on-click='closeDeletePostModal'>Cancel</button>
-        </div>
+        </footer>
     </dialog>
 </section>
 {{/if}}

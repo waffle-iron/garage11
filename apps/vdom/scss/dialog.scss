@@ -13,7 +13,6 @@ dialog {
         width: 100%;
         height: 40px;
         padding: 0.5em;
-        margin-bottom: 20px;
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
 
@@ -27,9 +26,17 @@ dialog {
         }
     }
 
-    .footer-options {
-        margin-top: 30px;
-        margin-bottom: -10px;
+    section {
+
+    }
+
+    footer {
+        background: $divider-color;
+        border-top: $primary-color;
+
+        button {
+            margin: 1rem;
+        }
     }
 
     &::backdrop {
