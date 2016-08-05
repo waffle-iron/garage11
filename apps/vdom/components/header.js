@@ -19,12 +19,18 @@ module.exports = (peer, templates) => {
             // Query user read permission.
             let getItems = () => {
                 return [
-                    {name: 'Blog', path: '/', active: true},
-                    {name: 'Users', path: '/users/', active: false},
+                    {icon: 'pencil', name: 'Blog', path: '/', active: true},
+                    {icon: 'cogs', name: 'Settings', path: '/users/', active: false},
                 ]
             }
             return {
                 pages: getItems(),
+                hashActive: (locationHash) => {
+                    if(locationHash === '#crowd') {
+                        return true
+                    }
+                    return false
+                }
             }
         },
     })

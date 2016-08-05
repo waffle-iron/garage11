@@ -8,6 +8,7 @@ module.exports = (peer, templates) => {
             this.on({
                 saveArticle: (e) => {
                     let store = peer.network.currentNode.store
+                    console.log(e)
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
                     if(cleanedData) {
                         store.findAll('user')

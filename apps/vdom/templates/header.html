@@ -5,23 +5,23 @@
         </a>
 
         <ul class="navigation-list float-right">
-            <li class="navigation-item current-node">
-                <a href="#crowd" class="navigation-link">
-                    <i class="icon icon-code-fork icon-small"></i>
-                    {{ currentNode.id.sid() }}{{#if currentNode.id === peer.id}}(You){{/if}}
-                </a>
-            </li>
+            <a href="#crowd" class="navigation-item current-node{{#if hashActive(locationHash)}} active{{/if}}">
+                <i class="icon icon-code-fork icon-small icon-inverse"></i>
+                <span>{{ currentNode.id.sid() }}{{#if currentNode.id === peer.id}}(You){{/if}}</span>
+            </a>
             {{#each pages}}
-            {{#if name === 'Users'}}
+            {{#if name === 'Settings'}}
                 {{#if perm_user_read }}
-                <li class="navigation-item">
-                    <a class="navigation-link{{#if active }} active{{/if}}" on-click="page_change" href="{{path}}">{{name}}</a>
-                </li>
+                <a href="{{path}}" class="navigation-item{{#if active }} active{{/if}}">
+                    <i class="icon icon-{{icon}} icon-small icon-inverse"></i>
+                    <span>{{name}}</span>
+                </a>
                 {{/if}}
             {{else}}
-            <li class="navigation-item">
-                <a class="navigation-link{{#if active }} active{{/if}}" on-click="page_change" href="{{path}}">{{name}}</a>
-            </li>
+            <a href="{{path}}" class="navigation-item{{#if active }} active{{/if}}">
+                <i class="icon icon-{{icon}} icon-small icon-inverse"></i>
+                <span>{{name}}</span>
+            </a>
             {{/if}}
             {{/each}}
         </ul>

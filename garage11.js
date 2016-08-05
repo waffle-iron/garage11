@@ -2,11 +2,10 @@
 
 const Console = require('./lib/console')
 const Network = require('lib11/lib/network')
+const Notifier = require('./lib/notifier')
 const Peer = require('lib11/lib/peer')
 const Store = require('./lib/store')
 const VDom = require('./lib/vdom')
-const Notifier = require('./lib/notifier')
-const Request = require('lib11/lib/request')
 
 
 class Garage11 extends Peer {
@@ -23,31 +22,32 @@ class Garage11 extends Peer {
             return this.apps.user.getOrCreateIdentity(store)
         })
         .then(([store, userRecord]) => {
+            // passiveMode means that the first selected node will be
+            // the first node the peer connects to, instead of it's own node
+            // reference. This is useful when you want to use Garage11 in
+            // "propaganda" modus.
+            this.passiveMode = false
             this.store.initialData()
             this.user = userRecord
-            this.network = new Network(this, userRecord.user_id, this.settings.network)
+            this.logger.info(`${this.name} [garage11] peer identified as ${this.user.id}`)
+            this.network = new Network(this, userRecord.id, this.settings.network)
             this.network.on('setCurrentNode', node => {
                 this.apps.user.permissionsToData(node)
             })
-            // Bind a store to each node.
-            this.network.on('nodeAdded', (node) => {
-                if (node.id === this.node.id) {
-                    node.store = store
-                } else {
-                    node.store = new Store(this, {isLocal: false, apps: this.apps, node: node})
-                }
+            this.network.on('nodeInitialAdded', (node) => {
+                this.vdom = new VDom(this)
+                this.vdom.init()
+                .then(() => {
+                    this.emit('starting')
+                })
             })
-            this.network.connect()
-            this.vdom = new VDom(this)
-            return this.vdom.init()
-        })
-        .then(() => {
+
             this.console = new Console(this)
             this.notifier = new Notifier(this)
-            this.emit('starting')
+
             // Add a shortcut to the default node console.
             if (this._name === 'default') {
-                global._ = this.console
+                global.cmd = this.console
                 if (this.isHeadless) {
                     nesh.config.load()
                     nesh.log.winston()
@@ -58,6 +58,16 @@ class Garage11 extends Peer {
                     })
                 }
             }
+            // Bind a store to each node.
+            this.network.on('nodeAdded', (node) => {
+                if (node.id === this.node.id) {
+                    node.store = store
+                } else {
+                    node.store = new Store(this, {isLocal: false, apps: this.apps, node: node})
+                }
+            })
+
+            this.network.connect()
         })
     }
 
@@ -83,7 +93,7 @@ class Garage11 extends Peer {
     findApplications() {
         return new Promise((resolve) => {
             this.apps = {};
-            if(this.isHeadless) {
+            if (this.isHeadless) {
                 let requireNames = []
                 let projectDir = this.settings.headless.projectDir
                 let b = browserify({basedir: path.join(projectDir)})
@@ -132,10 +142,8 @@ class Garage11 extends Peer {
  * variable for both environments.
  */
 if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-        h5.peers.default = new Garage11('default', __runtime_config__)
-        h5.peers.default.init()
-    })
+    h5.peers.default = new Garage11('default', __runtime_config__)
+    h5.peers.default.init()
 }
 
 module.exports = Garage11

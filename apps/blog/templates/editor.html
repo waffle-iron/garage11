@@ -12,13 +12,13 @@
             <span class="btn icon icon-close icon-large icon-inverse" on-click="closeEditor"></span>
         </div>
     </header>
-    <section class="edit-post">
-        <form>
+    <form>
+        <section class="edit-post">
             <input type="text" name="title" value="{{unbind(title)}}" placeholder="The article title..." required>
             <textarea name="content" value="{{unbind(content)}}" placeholder="Blog article content..." required></textarea>
-        </form>
-    </section>
-    <footer>
-        <button class='btn' on-click="saveArticle">Save article</button>
-    </footer>
+        </section>
+        <footer>
+            <button class='btn' on-click="saveArticle">Save article</button>
+        </footer>
+    </form>
 </dialog>

@@ -4,9 +4,19 @@ dialog {
     top: 55px;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 6px;
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.5);
     position: fixed;
     padding: 0;
+    background: rgba(255, 255, 255, 0.92);
+
+    &::backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
 
     header {
         background: $primary-color-dark;
@@ -15,6 +25,7 @@ dialog {
         padding: 0.5em;
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
+        border-bottom: 1px solid $accent-color;
 
         .title {
             font-weight: bold;
@@ -27,25 +38,24 @@ dialog {
     }
 
     section {
-
+        min-height: 100px;
+        padding: 10px;
     }
 
     footer {
-        background: $divider-color;
+        background: $primary-color-light;
         border-top: $primary-color;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
 
         button {
             margin: 1rem;
         }
     }
 
-    &::backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.4);
+    form {
+        padding: 0;
+        margin: 0;
     }
 
     // Larger than mobile screen.
