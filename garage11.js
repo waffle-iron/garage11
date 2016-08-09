@@ -26,7 +26,7 @@ class Garage11 extends Peer {
             // the first node the peer connects to, instead of it's own node
             // reference. This is useful when you want to use Garage11 in
             // "propaganda" modus.
-            this.passiveMode = false
+            this.passiveMode = true
             this.store.initialData()
             this.user = userRecord
             this.logger.info(`${this.name} [garage11] peer identified as ${this.user.id}`)

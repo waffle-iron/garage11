@@ -8,12 +8,11 @@ module.exports = (peer, templates) => {
             this.on({
                 saveArticle: (e) => {
                     let store = peer.network.currentNode.store
-                    console.log(e)
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
-                    if(cleanedData) {
+                    if (cleanedData) {
                         store.findAll('user')
                         .then((users) => {
-                            cleanedData.user_id = users[0].id
+                            cleanedData.user_id = peer.id
                             cleanedData.created = new Date().getTime()
                             if (e.context.id) {
                                 store.update('blog', e.context.id, cleanedData)
