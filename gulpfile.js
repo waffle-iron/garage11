@@ -60,7 +60,7 @@ gulp.task('app-js', 'Process all application Javascript.', () => {
     return b.bundle()
     .pipe(source('garage11.js'))
     .pipe(buffer())
-    .pipe(ifElse(!deployMode, function() {
+    .pipe(ifElse(!deployMode, () => {
         return sourcemaps.init({loadMaps: true})
     }))
     .pipe(ifElse(!deployMode, sourcemaps.write))
@@ -78,9 +78,7 @@ gulp.task('vendor-js', (done) => {
     return b.bundle()
     .pipe(source('./lib/vendor.js'))
     .pipe(buffer())
-    .pipe(ifElse(!deployMode, function() {
-        return sourcemaps.init({loadMaps: true})
-    }))
+    .pipe(ifElse(!deployMode, () => sourcemaps.init({loadMaps: true})))
     .pipe(ifElse(!deployMode, sourcemaps.write))
     .pipe(babel({compact: true, presets: ['es2015']}))
     .pipe(uglify())
