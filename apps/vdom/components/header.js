@@ -20,7 +20,7 @@ module.exports = (peer, templates) => {
             let getItems = () => {
                 return [
                     {icon: 'pencil', name: 'Blog', path: '/', active: true},
-                    {icon: 'cogs', name: 'Settings', path: '/users/', active: false},
+                    {icon: 'cogs', name: 'Settings', path: '/settings/', active: false},
                 ]
             }
             return {

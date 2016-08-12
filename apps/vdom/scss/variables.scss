@@ -8,7 +8,7 @@ $primary-color:        #607d8b;
 $primary-color-light:  #cfd8dc;
 $primary-color-text:   #FFFFFF;
 $accent-color:         #ff4081;
-$primary-text-color:   #212121;
+$primary-text-color:   #2a373d;
 $secondary-text-color: #727272;
 $divider-color:        #b6b6b6;
 
@@ -17,7 +17,7 @@ $primary-color-light: #f9fbfb;
 
 // Milligram variables.
 $color-initial: $primary-color-text;
-$color-primary: $primary-color;
+$color-primary: $divider-color;
 $color-secondary: $primary-color-dark;
 $color-tertiary: $primary-color-light;
 $color-quaternary: $primary-color-light;

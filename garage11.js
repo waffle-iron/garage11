@@ -19,20 +19,20 @@ class Garage11 extends Peer {
         return this.findApplications()
         .then(this.setupLocalStore.bind(this))
         .then((store) => {
-            return this.apps.user.getOrCreateIdentity(store)
+            return this.apps.settings.getOrCreateIdentity(store)
         })
         .then(([store, userRecord]) => {
             // passiveMode means that the first selected node will be
             // the first node the peer connects to, instead of it's own node
             // reference. This is useful when you want to use Garage11 in
             // "propaganda" modus.
-            this.passiveMode = true
+            this.passiveMode = false
             this.store.initialData()
             this.user = userRecord
             this.logger.info(`${this.name} [garage11] peer identified as ${this.user.id}`)
             this.network = new Network(this, userRecord.id, this.settings.network)
             this.network.on('setCurrentNode', node => {
-                this.apps.user.permissionsToData(node)
+                this.apps.settings.permissionsToData(node)
             })
             this.network.on('nodeInitialAdded', (node) => {
                 this.vdom = new VDom(this)
