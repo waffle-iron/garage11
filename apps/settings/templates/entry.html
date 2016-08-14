@@ -1,24 +1,35 @@
 <tr id='{{id}}'>
     <td>{{id.sid()}}</td>
+    <td>{{formatTime(created)}}</td>
     <td>{{username}}</td>
     <td>
         <span class='close btn icon icon-trash-o icon-small' on-click='openDeleteUserModal'></span>
         <span class='close btn icon icon-pencil icon-small' on-click='openEditUserModal'></span>
     </td>
     <dialog id="delete-dialog-{{id}}">
-        <p>
-            {{#if isOwnId(id)}}
-            You are about to delete your Garage11 identity and all other
-            identities that are currently stored. Is this what you intended to do?<br/><br/>
-            Garage11 will refresh after you proceed.
+        <header>
+            <span class="title">Warning!</span>
+            <div class="header-options">
+                <span class="btn icon icon-close icon-large icon-inverse js-dialog-close"></span>
+            </div>
+        </header>
+        <section>
+            {{#if id === peer.id }}
+            You are about to delete your Garage11 identity and all content
+            that was created with this identity! Your identity is a unique
+            keypair that is used by other nodes to identify you with. It cannot
+            be restored!
+            <br/><br/>
+            Garage11 will refresh and create a new identity afterwards.
             {{else}}
-            Warning! You are about to delete user <i>{{username}}</i>.<br/>
-            Are you sure?
+            You are about to delete user <i>{{username}}</i>.
             {{/if}}
-        </p>
-        <div class='footer-options'>
-            <button class='button' on-click='deleteUser'>Delete</button>
-            <button class='button button-outline' on-click='closeDeleteUserModal'>Cancel</button>
-        </div>
+            <br/><br/>
+            Is this really what you want to do?
+        </section>
+        <footer>
+            <button class='button' on-click='deleteUser'>Proceed</button>
+            <button class="button button-outline js-dialog-close">Cancel</button>
+        </footer>
     </dialog>
 </tr>

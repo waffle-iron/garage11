@@ -5,7 +5,7 @@
 </span>
 {{/if}}
 
-<dialog class="edit-post-dialog" id="edit-post-dialog{{#if id}}-{{id}}{{/if}}">
+<dialog id="edit-post-dialog{{#if id}}-{{id}}{{/if}}" class="edit-post-dialog">
     <header>
         <span class="title">{{#if id}}Edit{{else}}New{{/if}} post</span>
         <div class="header-options">
@@ -22,7 +22,8 @@
             </fieldset>
         </section>
         <footer>
-            <button class='btn' on-click="saveArticle">Save article</button>
+            <button class='btn' on-click="saveArticle">Store</button>
+            <button class="button button-outline js-dialog-close">Cancel</button>
         </footer>
     </form>
 </dialog>

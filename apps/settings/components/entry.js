@@ -15,13 +15,15 @@ module.exports = (peer, templates) => {
                     document.querySelector(`#edit-user-dialog-${e.context.id}`).showModal()
                 },
                 deleteUser: function(e) {
-                    if(e.context.id !== peer.id) {
-                        peer.node.store.getMapper('user').destroy(e.context.id)
+                    if (e.context.id !== peer.id) {
+                        let store = peer.node.store
+                        store.destroy('user', e.context.id)
+                        store.destroyAll('blog', {where: {user_id: {'==': e.context.id}}})
                     } else {
                         // User decided to nuke it's own identity. Remove
                         // All other stored identities with it and reboot
                         // the application.
-                        peer.node.store.getMapper('user').destroyAll()
+                        peer.node.store.destroyAll('user')
                         .then(() => {
                             location.reload()
                         })

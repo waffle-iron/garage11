@@ -13,7 +13,6 @@ module.exports = (peer, templates) => {
                         store.findAll('user')
                         .then((users) => {
                             cleanedData.user_id = peer.id
-                            cleanedData.created = new Date().getTime()
                             if (e.context.id) {
                                 store.update('blog', e.context.id, cleanedData)
                                 peer.notifier.notify('Blogpost updated')
@@ -30,14 +29,6 @@ module.exports = (peer, templates) => {
                         document.querySelector(`#edit-post-dialog-${e.context.id}`).showModal()
                     } else {
                         document.querySelector('#edit-post-dialog').showModal()
-                    }
-                },
-                closeEditor: (e) => {
-                    if (e.context.id) {
-                        // Instances with an existing article.
-                        document.querySelector(`#edit-post-dialog-${e.context.id}`).close()
-                    } else {
-                        document.querySelector('#edit-post-dialog').close()
                     }
                 },
             })

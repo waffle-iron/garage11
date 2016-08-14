@@ -27,7 +27,6 @@ class Garage11 extends Peer {
             // reference. This is useful when you want to use Garage11 in
             // "propaganda" modus.
             this.passiveMode = false
-            this.store.initialData()
             this.user = userRecord
             this.logger.info(`${this.name} [garage11] peer identified as ${this.user.id}`)
             this.network = new Network(this, userRecord.id, this.settings.network)

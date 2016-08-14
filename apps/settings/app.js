@@ -3,7 +3,7 @@
 
 module.exports = (peer) => {
     this.name = () => `${peer.name} [app-settings]`
-    require('./lib')(this, peer)
+    Object.assign(this, require('./lib')(peer))
     this.storage = require('./storage')
 
     this.pageActive = function() {
@@ -22,7 +22,7 @@ module.exports = (peer) => {
      * represented by users yet.
      */
     this.setContext = function() {
-        return peer.node.store.findAll('user', {})
+        return peer.node.store.findAll('user', {orderBy: [['created', 'DESC']]})
         .then((users) => {
             let nodes = []
             let _nodes = peer.network.nodes()

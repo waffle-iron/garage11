@@ -30,10 +30,13 @@ module.exports = {
                 schema: {
                     properties: {
                         id: {type: 'string'},
+                        created: {
+                            type: 'number',
+                            default: new Date().getTime(),
+                        },
                         username: {type: 'string'},
                         privateKey: {type: 'string'},
                         publicKey: {type: 'string'},
-                        me: {type: 'boolean'},
                     },
                 },
                 relations: {
@@ -72,7 +75,7 @@ module.exports = {
             })
         }
 
-        // A m2m binding between users and permissions.
+        // Binding users and permissions together.
         if (!store.getMapperByName('user_permission')) {
             store.defineMapper('user_permission', {
                 schema: {
@@ -96,10 +99,20 @@ module.exports = {
         }
     },
     data: function(store) {
-        if(store.isLocal) {
-            // Initialize basic set of permissions.
-            // store.getMapper('permission').create({record: 'blog', 'create'})
-            // store.getMapper('permission').create({record: 'blog', 'create'})
-        }
+        // Initialize basic set of permissions.
+        return store.findAll('permission')
+        .then((permissions) => {
+            if (!permissions.length) {
+                // First create the permissions.
+                return store.createMany('permission', [
+                    {record: 'user', action: 'create'},
+                    {record: 'user', action: 'read'},
+                    {record: 'user', action: 'update_own'},
+                    {record: 'user', action: 'update_other'},
+                    {record: 'user', action: 'delete_own'},
+                    {record: 'user', action: 'delete_other'},
+                ])
+            }
+        })
     },
 }

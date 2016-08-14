@@ -6,33 +6,24 @@ module.exports = (peer, templates) => {
         template: templates['settings-editor'],
         oninit: function() {
             this.on({
-              saveUser: (e) => {
-                  let cleanedData = peer.vdom.validation.isValid(e.node.form)
-                  if (cleanedData) {
-                      if (e.context.id) {
-                          peer.node.store.getMapper('user').update(e.context.id, cleanedData)
-                      } else {
-                          peer.node.store.getMapper('user').create(cleanedData)
-                      }
-                  }
-              },
-              openEditor: (e) => {
-                  if (e.context.id) {
-                      // Instances with an existing article.
-                      document.querySelector(`#edit-user-dialog-${e.context.id}`).showModal()
-                  } else {
-                      document.querySelector('#edit-user-dialog').showModal()
-                  }
-
-              },
-              closeEditor: (e) => {
-                  if (e.context.id) {
-                      // Instances with an existing article.
-                      document.querySelector(`#edit-user-dialog-${e.context.id}`).close()
-                  } else {
-                      document.querySelector('#edit-user-dialog').close()
-                  }
-              },
+                saveUser: (e) => {
+                    let cleanedData = peer.vdom.validation.isValid(e.node.form)
+                    if (cleanedData) {
+                        if (e.context.id) {
+                            peer.node.store.update('user', e.context.id, cleanedData)
+                        } else {
+                            peer.node.store.create('user', cleanedData)
+                        }
+                    }
+                },
+                openEditor: (e) => {
+                    if (e.context.id) {
+                    // Instances with an existing article.
+                        document.querySelector(`#edit-user-dialog-${e.context.id}`).showModal()
+                    } else {
+                        document.querySelector('#edit-user-dialog').showModal()
+                    }
+                },
             })
         },
         data: {},

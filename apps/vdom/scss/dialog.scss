@@ -26,10 +26,13 @@ dialog {
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
         border-bottom: 1px solid $accent-color;
+        vertical-align: middle;
 
         .title {
             font-weight: bold;
+            font-size: 1.7rem;
             color: $primary-color-light;
+            line-height: 1.6;
         }
 
         .header-options {
