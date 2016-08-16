@@ -2,9 +2,23 @@
     <td>{{id.sid()}}</td>
     <td>{{formatTime(created)}}</td>
     <td>{{username}}</td>
+    <td class="permissions">
+        {{#user_permissions}}
+        <span class="permission-icon {{permission.record}}">
+            <span class="action icon-stack icon-small">
+                <i class='icon icon-circle icon-stack-2x'></i>
+                <i class='icon icon-{{permission.action}} icon-stack-1x icon-inverse'></i>
+            </span>
+            <i class='record icon icon-{{permission.record}}'></i>
+        </span>
+        {{else}}
+        <em>No permissions</em>
+        {{/user_permissions}}
+
+    </td>
     <td>
         <span class='close btn icon icon-trash-o icon-small' on-click='openDeleteUserModal'></span>
-        <span class='close btn icon icon-pencil icon-small' on-click='openEditUserModal'></span>
+        <span class='close btn icon icon-wrench icon-small' on-click='openEditUserModal'></span>
     </td>
     <dialog id="delete-dialog-{{id}}">
         <header>

@@ -1,9 +1,9 @@
-<label for="nodeToUser">Nodes you trust</label>
+<label for="nodeToUser">Add user from node</label>
 
-<select value="{{selectedNodeId}}"{{#if !nodes.length}} disabled{{/if}}>
-    <option selected disabled>{{#if nodes.length}}Select a trusted node...{{else}}No nodes currently...{{/if}}</option>
+<select class="node2user--select" value="{{selectedNodeId}}"{{#if !nodes.length}} disabled{{/if}}>
+    <option selected disabled>{{#if nodes.length}}Select a node...{{else}}No nodes currently...{{/if}}</option>
     {{#nodes}}
     <option value='{{id}}'>{{id}}</option>
     {{/nodes}}
 </select>
-<button class='button' on-click='saveUser'{{#if !nodes.length}} disabled{{/if}}>Add node to ACL</button>
+<button class='button' on-click='saveUser'{{#if !nodes.length}} disabled{{/if}}>Store</button>

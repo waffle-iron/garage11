@@ -10,7 +10,7 @@ module.exports = (peer, templates) => {
                     let node = peer.network.node(e.context.selectedNodeId)
                     peer.node.store.create('user', {
                         id: node.id,
-                        username: 'The other',
+                        username: 'Unknown',
                         publicKey: node.id,
                     })
                 },

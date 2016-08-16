@@ -19,7 +19,7 @@ module.exports = (peer, templates) => {
             // Query user read permission.
             let getItems = () => {
                 return [
-                    {icon: 'pencil', name: 'Blog', path: '/', active: true},
+                    {icon: 'blog', name: 'Blog', path: '/', active: true},
                     {icon: 'cogs', name: 'Settings', path: '/settings/', active: false},
                 ]
             }

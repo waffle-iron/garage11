@@ -26,6 +26,5 @@ module.exports = (peer, templates) => {
                 },
             })
         },
-        data: {},
     })
 }

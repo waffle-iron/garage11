@@ -1,0 +1,32 @@
+@import "apps/vdom/scss/variables";
+
+.node2user--select {
+    width: 200px;
+}
+
+
+.permissions {
+
+    .permission-icon {
+        float: left;
+        margin-right: 0.6rem;
+
+        .action {
+            float: left;
+            font-size: 1.3rem;
+
+            i:first-child {
+                color: $accent-color;
+            }
+
+            i:last-child {
+                color: $primary-color-light;
+            }
+        }
+
+        .record {
+            margin-left: -0.6rem;
+        }
+    }
+
+}

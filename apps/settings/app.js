@@ -22,26 +22,26 @@ module.exports = (peer) => {
      * represented by users yet.
      */
     this.setContext = function() {
-        return peer.node.store.findAll('user', {orderBy: [['created', 'DESC']]})
-        .then((users) => {
-            let nodes = []
-            let _nodes = peer.network.nodes()
-            _nodes.forEach((node) => {
+        return Promise.all([
+            peer.node.store.findAll('user', {orderBy: [['created', 'ASC']]}, {with: ['user_permission']}),
+            peer.node.store.findAll('permission', {}),
+        ])
+        .then(([users, permissions]) => {
+            let nodes = peer.network.nodes().filter((node) => {
                 let match = false
                 users.forEach((user) => {
-                    if (node.id === user._id) {
-                        match = true
-                    }
+                    // Exclude nodes that have a user.
+                    if (node.id === user.id) match = true
                 })
-                if (!match) {
-                    nodes.push(node)
-                }
+                return !match
             })
             let context = {
                 users: users,
-                nodes: nodes,
+                permissions: permissions,
             }
-
+            if (nodes.length) {
+                context['nodes'] = nodes
+            }
             context.html = peer.vdom.set('settings-list', context)
             return context
         })

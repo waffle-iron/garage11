@@ -16,3 +16,14 @@ textarea {
         border: 1px solid #9f5b5b;
     }
 }
+
+select {
+    &:focus {
+        background-image: none;
+    }
+    background: none;
+
+    &[multiple] {
+        min-height: 150px;
+    }
+}

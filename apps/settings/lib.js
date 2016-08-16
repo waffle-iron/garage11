@@ -72,7 +72,7 @@ module.exports = function(peer) {
             let userRecord
             peer.logger.info(`${this.name()} querying for identity`)
             // The first inserted user is the peer's user object.
-            return store.findAll('user', {orderBy: [['created', 'DESC']]})
+            return store.findAll('user', {orderBy: [['created', 'ASC']]})
             .then((userRecords) => {
                 if (userRecords.length) userRecord = userRecords[0]
                 return userRecord
