@@ -27,21 +27,24 @@ module.exports = (peer) => {
             peer.node.store.findAll('permission', {}),
         ])
         .then(([users, permissions]) => {
-            let nodes = peer.network.nodes().filter((node) => {
-                let match = false
-                users.forEach((user) => {
-                    // Exclude nodes that have a user.
-                    if (node.id === user.id) match = true
-                })
-                return !match
-            })
+            // We need to serve a datastrure
+            let userPermissions = {}
+
+            for (let user of users) {
+                let _permissions = []
+                for (let permission of user.permissions) {
+                    _permissions.push(permission.id)
+                }
+                userPermissions[user.id] = (_permissions)
+            }
             let context = {
                 users: users,
+                userPermissions: userPermissions,
                 permissions: permissions,
             }
-            if (nodes.length) {
-                context['nodes'] = nodes
-            }
+            // Filter out nodes that have a user.
+            let nodesWithoutUsers = peer.network.nodes().filter((node) => !(users.some((user) => node.id === user.id)))
+            if (nodesWithoutUsers.length) context.nodes = nodesWithoutUsers
             context.html = peer.vdom.set('settings-list', context)
             return context
         })

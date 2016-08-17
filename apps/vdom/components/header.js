@@ -26,11 +26,11 @@ module.exports = (peer, templates) => {
             return {
                 pages: getItems(),
                 hashActive: (locationHash) => {
-                    if(locationHash === '#crowd') {
+                    if (locationHash === '#crowd') {
                         return true
                     }
                     return false
-                }
+                },
             }
         },
     })

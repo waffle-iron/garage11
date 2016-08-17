@@ -21,8 +21,7 @@ module.exports = (peer, templates) => {
 
                     } else {
                         // User decided to nuke it's own identity. Remove
-                        // All other stored identities with it and reboot
-                        // the application.
+                        // All other stored identities with it and reboot.
                         store.destroyAll('user')
                         .then(() => {
                             store.destroyAll('blog', {where: {user_id: {'==': e.context.id}}})

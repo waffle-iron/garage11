@@ -26,5 +26,17 @@ module.exports = (peer, templates) => {
                 },
             })
         },
+        data: {
+            /**
+             * Check if a user has a certain permission.
+             * @param permissionRecord: The permission record to check.
+             */
+            hasPermission: function(userId, permissionId, userPermissions) {
+                if (userPermissions[userId].includes(permissionId)) {
+                    return true
+                }
+                return false
+            }
+        },
     })
 }

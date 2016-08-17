@@ -14,9 +14,8 @@
                 <input type="hidden" name="id" value="{{unbind(id)}}">
                 <label for="username">Name</label>
                 <input type="text" name="username" value="{{unbind(username)}}" placeholder="Username" required/>
-
                 <label for="permissions">Permissions</label>
-                <select multiple name="permissions" placeholder="Select permissions">
+                <select multiple="multiple" name="permissions" value='{{userPermissions[userId]}}'>
                 {{#permissions}}
                     <option value="{{id}}">{{record}} - {{action}}</option>
                 {{/permissions}}
