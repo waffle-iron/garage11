@@ -15,8 +15,8 @@
                 <label for="username">Name</label>
                 <input type="text" name="username" value="{{unbind(username)}}" placeholder="Username" required/>
                 <label for="permissions">Permissions</label>
-                <select multiple="multiple" name="permissions" value='{{userPermissions[userId]}}'>
-                {{#permissions}}
+                <select multiple="multiple" name="permissions" value="{{permission_ids}}">
+                {{#permissions:id}}
                     <option value="{{id}}">{{record}} - {{action}}</option>
                 {{/permissions}}
                 </select>

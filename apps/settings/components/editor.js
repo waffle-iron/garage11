@@ -7,12 +7,40 @@ module.exports = (peer, templates) => {
         oninit: function() {
             this.on({
                 saveUser: (e) => {
+                    let store = peer.node.store
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
+                    // The permission id's that this user is bound to.
+                    let permissionIds = e.get('permission_ids')
+                    let userPerms = []
+                    for (let permissionId of permissionIds) {
+                        console.log('Storing with user id:', e.context.id)
+                        userPerms.push({
+                            permission_id: permissionId,
+                            user_id: e.context.id
+                        })
+                    }
+
                     if (cleanedData) {
                         if (e.context.id) {
-                            peer.node.store.update('user', e.context.id, cleanedData)
+                            // Check which permissions the user has, and
+                            // which are to be posted. This ends up in a serie
+                            // to be deleted or to be added permissions.
+                            store.createMany('user_permission', userPerms)
+                            .then((user) => {
+                                console.log("CREATE USERPERMISSIONS", userPerms)
+                                store.find('user', e.context.id)
+                                .then((user) => {
+                                    user.username = cleanedData.username
+                                    user.save()
+
+                                })
+                            })
+
+
+
                         } else {
-                            peer.node.store.create('user', cleanedData)
+                            store.create('user', cleanedData)
+                            // store.createMany('user_permission', userPerms)
                         }
                     }
                 },
