@@ -28,11 +28,9 @@ module.exports = (peer) => {
         return Promise.all([
             store.findAll('user', {orderBy: [['created', 'ASC']]}, {with: ['user_permission']}),
             store.findAll('permission', {}),
+            store.findAll('user_permission', {}),
         ])
         .then(([users, permissions]) => {
-            for (let user of users) {
-                console.log(user.permissions)
-            }
             // Map the user's permissions.
             let usersData = store.getMapper('user').toJSON(users, {withAll: true})
             for (let user of usersData) {

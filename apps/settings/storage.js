@@ -29,6 +29,7 @@ module.exports = {
                 recordClass: class UserRecord extends BaseUserRecord {},
                 schema: {
                     properties: {
+                        id: {type: 'string'},
                         created: {
                             type: 'number',
                             default: new Date().getTime(),
@@ -58,6 +59,7 @@ module.exports = {
                 recordClass: class PermissionRecord extends BasePermissionRecord {},
                 schema: {
                     properties: {
+                        id: {type: 'string'},
                         record: {type: 'string'},
                         action: {type: 'string'},
                     },

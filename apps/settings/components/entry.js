@@ -17,15 +17,18 @@ module.exports = (peer, templates) => {
                 deleteUser: function(e) {
                     let store = peer.node.store
                     if (e.context.id !== peer.id) {
-                        store.destroy('user', e.context.id)
-
+                        return Promise.all([
+                            store.destroy('user', e.context.id),
+                            store.destroyAll('user_permission', {where: {user_id: {'==': e.context.id}}})
+                        ])
                     } else {
                         // User decided to nuke it's own identity. Remove
                         // All other stored identities with it and reboot.
-                        store.destroyAll('user')
-                        .then(() => {
-                            store.destroyAll('blog', {where: {user_id: {'==': e.context.id}}})
-                        })
+                        return Promise.all([
+                            store.destroyAll('user'),
+                            store.destroyAll('blog', {where: {user_id: {'==': e.context.id}}}),
+                            store.destroyAll('user_permission', {where: {user_id: {'==': e.context.id}}})
+                        ])
                         .then(() => {
                             location.reload()
                         })
