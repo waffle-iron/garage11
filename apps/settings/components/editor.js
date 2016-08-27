@@ -50,6 +50,7 @@ module.exports = (peer, templates) => {
                                 .then((user) => {
                                     user.username = cleanedData.username
                                     user.save()
+                                    peer.notifier.notify('User updated')
                                 })
                             })
                         })

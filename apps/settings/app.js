@@ -1,30 +1,59 @@
 'use strict'
 
+const Garage11App = require('../../lib/app')
+const SettingsLib = require('./lib')
 
-module.exports = (peer) => {
-    this.name = () => `${peer.name} [app-settings]`
-    Object.assign(this, require('./lib')(peer))
-    this.storage = require('./storage')
 
-    this.pageActive = function() {
-        let userMapper = peer.network.currentNode.store.getMapper('user')
+class App extends Garage11App {
+
+
+    get name() {
+        return `${this.peer.name} [app-settings]`
+    }
+
+
+    constructor(...args) {
+        super(...args)
+        this.lib = new SettingsLib(this.peer)
+        this.storage = require('./storage')
+        this.routes()
+    }
+
+
+    init() {
+
+    }
+
+
+    events() {
+        let userMapper = this.peer.network.currentNode.store.getMapper('user')
         userMapper.off('afterCreate')
         userMapper.off('afterDestroy')
         userMapper.off('afterUpdate')
-        userMapper.on('afterCreate', this.setContext)
-        userMapper.on('afterDestroy', this.setContext)
-        userMapper.on('afterUpdate', this.setContext)
+        userMapper.on('afterCreate', this.updateContext.bind(this))
+        userMapper.on('afterDestroy', this.updateContext.bind(this))
+        userMapper.on('afterUpdate', this.updateContext.bind(this))
     }
 
-    let context = {}
+
+    routes() {
+        this.peer.router.route('/settings/', {pushState: true}, (req, res) => {
+            this.events()
+            this.updateContext()
+            .then((context) => {
+                res(context.html)
+            })
+        })
+    }
 
 
     /**
      * Returns users and nodes, where nodes aren't
      * represented by users yet.
      */
-    this.setContext = function() {
-        let store = peer.node.store
+    updateContext() {
+        const store = this.peer.node.store
+        let context = {}
         return Promise.all([
             store.findAll('user', {orderBy: [['created', 'ASC']]}, {with: ['user_permission']}),
             store.findAll('permission', {}),
@@ -32,7 +61,7 @@ module.exports = (peer) => {
         ])
         .then(([users, permissions]) => {
             // Map the user's permissions.
-            let usersData = store.getMapper('user').toJSON(users, {withAll: true})
+            const usersData = store.getMapper('user').toJSON(users, {withAll: true})
             for (let user of usersData) {
                 // These are the permission_ids which the user has; not the
                 // user_permission id's!
@@ -46,21 +75,13 @@ module.exports = (peer) => {
             }, {})
 
             // Filter out nodes that have a user.
-            let nodesWithoutUsers = peer.network.nodes().filter((node) => !(users.some((user) => node.id === user.id)))
+            const nodesWithoutUsers = this.peer.network.nodes().filter((node) => !(users.some((user) => node.id === user.id)))
             if (nodesWithoutUsers.length) context.nodes = nodesWithoutUsers
-            context.html = peer.vdom.set('settings-list', context)
+            context.html = this.peer.vdom.set('settings-list', context)
             return context
         })
     }
-
-    peer.router.route('/settings/', {pushState: true}, (req, res) => {
-        this.pageActive()
-        this.setContext()
-        .then((context) => {
-            res(context.html)
-        })
-
-    })
-
-    return this
 }
+
+
+module.exports = App

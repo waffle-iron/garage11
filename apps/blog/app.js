@@ -1,41 +1,61 @@
 'use strict'
 
+const Garage11App = require('../../lib/app')
 
-module.exports = (peer) => {
-    this.name = () => `${peer.name} [app-blog]`
-    this.storage = require('./storage')
 
-    peer.on('starting', () => {
-        peer.network.on('setCurrentNode', node => {
-            this.setContext()
+class App extends Garage11App {
+
+    get name() {
+        return `${this.peer.name} [app-blog]`
+    }
+
+    constructor(...args) {
+        super(...args)
+        this.storage = require('./storage')
+    }
+
+
+    init() {
+        this.routes()
+    }
+
+
+    events() {
+        const mapper = this.peer.network.currentNode.store.getMapper('blog')
+        mapper.off('afterCreate')
+        mapper.off('afterDestroy')
+        mapper.off('afterUpdate')
+        mapper.on('afterCreate', this.updateContext.bind(this))
+        mapper.on('afterDestroy', this.updateContext.bind(this))
+        mapper.on('afterUpdate', this.updateContext.bind(this))
+
+        this.peer.on('starting', () => {
+            this.peer.network.on('setCurrentNode', node => {
+                this.setContext()
+            })
         })
-    })
+    }
 
-    this.setContext = (res) => {
-        return peer.network.currentNode.store.findAll('blog', {orderBy: [['created', 'DESC']]}, {with: ['user']})
+
+    routes() {
+        this.peer.router.route('/', {pushState: true}, (req, res) => {
+            this.events()
+            this.updateContext(res)
+        })
+    }
+
+
+    updateContext(res) {
+        const store = this.peer.network.currentNode.store
+        return store.findAll('blog', {orderBy: [['created', 'DESC']]}, {with: ['user']})
         .then((posts) => {
-            let html = peer.vdom.set('blog-list', {posts: posts})
+            let html = this.peer.vdom.set('blog-list', {posts: posts})
             if (typeof res === 'function') {
                 res(html)
             }
         })
     }
-
-    this.pageActive = () => {
-        let blogMapper = peer.network.currentNode.store.getMapper('blog')
-        blogMapper.off('afterCreate')
-        blogMapper.off('afterDestroy')
-        blogMapper.off('afterUpdate')
-        blogMapper.on('afterCreate', this.setContext)
-        blogMapper.on('afterDestroy', this.setContext)
-        blogMapper.on('afterUpdate', this.setContext)
-    }
-
-
-    peer.router.route('/', {pushState: true}, (req, res) => {
-        this.pageActive()
-        this.setContext(res)
-    })
-
-    return this
 }
+
+
+module.exports = App

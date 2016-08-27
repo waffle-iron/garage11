@@ -16,10 +16,10 @@ class Garage11 extends Peer {
 
     init() {
         // First find all applications.
-        return this.findApplications()
+        return this.initApps()
         .then(this.setupLocalStore.bind(this))
         .then((store) => {
-            return this.apps.settings.getOrCreateIdentity(store)
+            return this.apps.get('settings').lib.getOrCreateIdentity(store)
         })
         .then(([store, userRecord]) => {
             // passiveMode means that the first selected node will be
@@ -30,15 +30,26 @@ class Garage11 extends Peer {
             this.user = userRecord
             this.logger.info(`${this.name} [garage11] peer identified as ${this.user.id}`)
             this.network = new Network(this, userRecord.id, this.settings.network)
+
             this.network.on('setCurrentNode', node => {
-                this.apps.settings.permissionsToData(node)
+                this.apps.get('settings').lib.permissionsToData(node)
             })
+
             this.network.on('nodeInitialAdded', (node) => {
                 this.vdom = new VDom(this)
                 this.vdom.init()
                 .then(() => {
                     this.emit('starting')
                 })
+            })
+
+            // Bind a store to each node.
+            this.network.on('nodeAdded', (node) => {
+                if (node.id === this.node.id) {
+                    node.store = store
+                } else {
+                    node.store = new Store(this, {isLocal: false, apps: this.apps, node: node})
+                }
             })
 
             this.console = new Console(this)
@@ -57,15 +68,9 @@ class Garage11 extends Peer {
                     })
                 }
             }
-            // Bind a store to each node.
-            this.network.on('nodeAdded', (node) => {
-                if (node.id === this.node.id) {
-                    node.store = store
-                } else {
-                    node.store = new Store(this, {isLocal: false, apps: this.apps, node: node})
-                }
-            })
-
+            for (let app of this.apps.values()) {
+                app.init()
+            }
             this.network.connect()
         })
     }
@@ -89,22 +94,29 @@ class Garage11 extends Peer {
      * Loads all app.js files in apps subdirectories and interpret them
      * as Garage 11 application files.
      */
-    findApplications() {
+    initApps() {
         return new Promise((resolve) => {
-            this.apps = {};
-            if (this.isHeadless) {
+            this.apps = new Map()
+            if (this.isBrowser) {
+                global.__requires.forEach((__require) => {
+                    const _module = require(__require[1])
+                    this.apps.set(__require[0], new _module(this))
+                })
+                resolve(this.apps)
+            } else {
                 let requireNames = []
-                let projectDir = this.settings.headless.projectDir
-                let b = browserify({basedir: path.join(projectDir)})
+                const projectDir = this.settings.headless.projectDir
+                const b = browserify({basedir: path.join(projectDir)})
                 fs.readdir(path.join(projectDir, 'apps'), (err, appNames) => {
                     appNames.forEach((appName) => {
-                        let viewRequire = './' + path.join('apps', appName, 'app')
-                        this.apps[appName] = require(viewRequire)(this)
+                        const viewRequire = './' + path.join('apps', appName, 'app')
+                        const _module = require(viewRequire)
+                        this.apps.set(appName, new _module(this))
                         requireNames.push([appName, viewRequire])
                         b.require(viewRequire)
                     })
-                    var memStream = new MemoryStream()
-                    let viewsFile = path.join('public', 'js', 'apps.js')
+                    const memStream = new MemoryStream()
+                    const viewsFile = path.join('public', 'js', 'apps.js')
                     b.bundle().pipe(memStream)
                     var data = ''
                     memStream.on('data', (chunk) => {
@@ -125,11 +137,6 @@ class Garage11 extends Peer {
                         })
                     })
                 })
-            } else {
-                global.__requires.forEach((__require) => {
-                    this.apps[__require[0]] = require(__require[1])(this)
-                })
-                resolve(this.apps)
             }
         })
     }
