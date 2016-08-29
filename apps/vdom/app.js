@@ -3,7 +3,7 @@
 const Garage11App = require('../../lib/app')
 
 
-class App extends Garage11App {
+class VdomApp extends Garage11App {
 
 
     get name() {
@@ -38,7 +38,7 @@ class App extends Garage11App {
                 // Trigger onhashchange manually when the page loads.
                 let event = new Event('hashchange')
                 window.dispatchEvent(event)
-            });
+            })
         }
 
         this.routes()
@@ -47,6 +47,18 @@ class App extends Garage11App {
 
     init() {
 
+    }
+
+
+    permissions() {
+        return {
+            
+        }
+
+        // _this.localStore.findAll('user_permission', {where: {user_id: srcNode.id}})
+        // .then((userPermissions) => {
+        //     console.log(userPermissions)
+        // })
     }
 
 
@@ -66,4 +78,4 @@ class App extends Garage11App {
 }
 
 
-module.exports = App
+module.exports = VdomApp

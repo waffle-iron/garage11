@@ -19,7 +19,7 @@ module.exports = (peer, templates) => {
                     if (e.context.id !== peer.id) {
                         return Promise.all([
                             store.destroy('user', e.context.id),
-                            store.destroyAll('user_permission', {where: {user_id: {'==': e.context.id}}})
+                            store.destroyAll('user_permission', {where: {user_id: {'==': e.context.id}}}),
                         ])
                     } else {
                         // User decided to nuke it's own identity. Remove
@@ -27,7 +27,7 @@ module.exports = (peer, templates) => {
                         return Promise.all([
                             store.destroyAll('user'),
                             store.destroyAll('blog', {where: {user_id: {'==': e.context.id}}}),
-                            store.destroyAll('user_permission', {where: {user_id: {'==': e.context.id}}})
+                            store.destroyAll('user_permission', {where: {user_id: {'==': e.context.id}}}),
                         ])
                         .then(() => {
                             location.reload()

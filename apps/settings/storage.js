@@ -113,6 +113,7 @@ module.exports = {
                     {record: 'user', action: 'delete_other'},
                 ])
             }
+            return permissions
         })
     },
 }

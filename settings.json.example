@@ -12,7 +12,7 @@
         },
         "nodes": [
             {
-                "endpoint": "high5.io",
+                "endpoint": "garage11.io",
                 "transport": "WebsocketTransport"
             }
         ]

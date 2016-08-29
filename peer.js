@@ -22,11 +22,11 @@ class Garage11 extends Peer {
             return this.apps.get('settings').lib.getOrCreateIdentity(store)
         })
         .then(([store, userRecord]) => {
-            // passiveMode means that the first selected node will be
-            // the first node the peer connects to, instead of it's own node
-            // reference. This is useful when you want to use Garage11 in
-            // "propaganda" modus.
-            this.passiveMode = false
+            // With `passiveMode`, the active node will be the first node
+            // the peer connects to, instead of the peer's own node reference.
+            // This can be overriden by the user, by settings a default
+            // node.
+            this.passiveMode = true
             this.user = userRecord
             this.logger.info(`${this.name} [garage11] peer identified as ${this.user.id}`)
             this.network = new Network(this, userRecord.id, this.settings.network)
@@ -83,7 +83,7 @@ class Garage11 extends Peer {
      */
     setupLocalStore() {
         return new Promise((resolve) => {
-            this.store = new Store(this, {isLocal: true, apps: this.apps, store: this.settings.store})
+            this.store = new Store(this, {isLocal: true, apps: this.apps, dbName: this.settings.dbName})
             // Then get the identity from the store.
             resolve(this.store)
         })
@@ -148,8 +148,8 @@ class Garage11 extends Peer {
  * variable for both environments.
  */
 if (typeof window !== 'undefined') {
-    h5.peers.default = new Garage11('default', __runtime_config__)
-    h5.peers.default.init()
+    lib11.peers.default = new Garage11('default', __runtime_config__)
+    lib11.peers.default.init()
 }
 
 module.exports = Garage11

@@ -1,7 +1,7 @@
 {
   "name": "garage11",
-  "description": "p2p blogging, (video)calling and social app on steroids.",
-  "version": "0.1.8",
+  "description": "p2p blogging, (video)calling and social app.",
+  "version": "0.1.9",
   "license": "MIT",
   "homepage": "https://garage11.io",
   "author": {
@@ -30,7 +30,7 @@
   ],
   "files": [
     "LICENSE",
-    "index.js",
+    "main.js",
     "garage11.js",
     "gulpfile.js",
     "./lib/**/*.js",
@@ -40,7 +40,7 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "main": "./index.js",
+  "main": "./main.js",
   "dependencies": {
     "babel-preset-es2015": "^6.13.2",
     "garage11-db-adapter": "*",

@@ -4,7 +4,7 @@ const Garage11App = require('../../lib/app')
 const SettingsLib = require('./lib')
 
 
-class App extends Garage11App {
+class SettingsApp extends Garage11App {
 
 
     get name() {
@@ -16,6 +16,7 @@ class App extends Garage11App {
         super(...args)
         this.lib = new SettingsLib(this.peer)
         this.storage = require('./storage')
+        this.permissions = require('./permissions')
         this.routes()
     }
 
@@ -84,4 +85,4 @@ class App extends Garage11App {
 }
 
 
-module.exports = App
+module.exports = SettingsApp

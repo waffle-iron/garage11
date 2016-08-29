@@ -3,9 +3,14 @@
 
 class SettingsLib {
 
+
+    get name() {
+        return `${this.peer.name} [app-settings]`
+    }
+
+
     constructor(peer) {
         this.peer = peer
-        this.name = () => `${peer.name} [app-settings]`
     }
 
 
@@ -16,11 +21,9 @@ class SettingsLib {
     allPermissions(store, nodeId) {
         return store.findAll('permission', {})
         .then((permissionRecords) => {
-            console.log(permissionRecords)
             return this.addUser(store, nodeId)
             .then((userRecord) => {
-                console.log(userRecord)
-                let userPerms = permissionRecords.map((permission) => {
+                const userPerms = permissionRecords.map((permission) => {
                     return {
                         user_id: userRecord.id,
                         permission_id: permission.id,
@@ -49,13 +52,10 @@ class SettingsLib {
      * @param nodeId (Node) - A currently connected node identified by it's id.
      */
     addUser(store, nodeId) {
-        console.log('FIND', nodeId)
         return store.find('user', nodeId)
         .then((user) => {
-            console.log('USERRRR:', user)
             if (!user) {
                 let node = this.peer.network.node(nodeId)
-                console.log('peer:', this.peer.name)
                 if (!node) throw 'Must be a valid node'
                 this.peer.logger.info('New user created.')
                 return store.create('user', {
@@ -78,7 +78,7 @@ class SettingsLib {
      */
     getOrCreateIdentity(store) {
         let userRecord
-        this.peer.logger.info(`${this.name()} querying for identity`)
+        this.peer.logger.info(`${this.name} querying for identity`)
         // The first inserted user is the peer's user object.
         return store.findAll('user', {orderBy: [['created', 'ASC']]})
         .then((userRecords) => {

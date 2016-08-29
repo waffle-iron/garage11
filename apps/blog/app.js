@@ -3,15 +3,17 @@
 const Garage11App = require('../../lib/app')
 
 
-class App extends Garage11App {
-
-    get name() {
-        return `${this.peer.name} [app-blog]`
-    }
+class BlogApp extends Garage11App {
 
     constructor(...args) {
         super(...args)
         this.storage = require('./storage')
+        this.permissions = require('./permissions')
+    }
+
+
+    get name() {
+        return `${this.peer.name} [app-blog]`
     }
 
 
@@ -58,4 +60,4 @@ class App extends Garage11App {
 }
 
 
-module.exports = App
+module.exports = BlogApp

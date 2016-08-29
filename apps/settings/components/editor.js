@@ -7,7 +7,7 @@ module.exports = (peer, templates) => {
         oninit: function() {
             this.on({
                 saveUser: (e) => {
-                    let store = peer.node.store
+                    const store = peer.node.store
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
                     // The permission id's that this user is bound to.
                     let selectedIds = e.get('permission_ids')
@@ -31,14 +31,14 @@ module.exports = (peer, templates) => {
                             if (delIds.length) {
                                 actions.push(
                                     store.destroyAll('user_permission', {
-                                        where: {permission_id: {'in': delIds}}
+                                        where: {permission_id: {'in': delIds}},
                                     })
                                 )
                             }
                             if (newIds.length) {
                                 actions.push(
                                     store.createMany('user_permission', newIds.map((i) => ({
-                                        permission_id: i, user_id: e.context.id
+                                        permission_id: i, user_id: e.context.id,
                                     })))
                                 )
                             }
@@ -46,7 +46,7 @@ module.exports = (peer, templates) => {
                             Promise.all(actions)
                             .then((actions) => {
                                 // First store user.
-                                store.find('user', e.context.id)
+                                return store.find('user', e.context.id)
                                 .then((user) => {
                                     user.username = cleanedData.username
                                     user.save()

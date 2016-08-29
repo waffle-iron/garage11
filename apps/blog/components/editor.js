@@ -13,6 +13,7 @@ module.exports = (peer, templates) => {
                         store.findAll('user')
                         .then((users) => {
                             cleanedData.user_id = peer.id
+                            cleanedData.modified = new Date().getTime()
                             if (e.context.id) {
                                 store.update('blog', e.context.id, cleanedData)
                                 peer.notifier.notify('Blogpost updated')

@@ -49,7 +49,7 @@ let paths = {
 
 
 gulp.task('app-js', 'Process all application Javascript.', () => {
-    let b = browserify({entries: './garage11.js', debug: !deployMode})
+    let b = browserify({entries: './peer.js', debug: !deployMode})
     b.ignore('ractive')
     b.ignore('lodash')
     b.ignore('underscore')
@@ -58,7 +58,7 @@ gulp.task('app-js', 'Process all application Javascript.', () => {
     b.ignore('buffer')
 
     return b.bundle()
-    .pipe(source('garage11.js'))
+    .pipe(source('peer.js'))
     .pipe(buffer())
     .pipe(ifElse(!deployMode, () => {
         return sourcemaps.init({loadMaps: true})
@@ -116,14 +116,14 @@ gulp.task('assets-fonts', 'Process all font assets.', (done) => {
 gulp.task('develop', 'Start a development server and watch for changes.', () => {
     isWatcher = true
     nodemon({
-        script: 'index.js',
+        script: 'main.js',
         ext: 'js html',
         env: {'NODE_ENV': NODE_ENV},
         // This will leave stdin to nesh.
         restartable: false,
     })
     .on('restart', () => {
-        livereload.changed('index.js')
+        livereload.changed('main.js')
     })
 
     // Start livereload server on https using existing key pairs.
@@ -136,7 +136,7 @@ gulp.task('develop', 'Start a development server and watch for changes.', () => 
     })
 
     gulp.watch([
-        path.join(__dirname, 'garage11.js'),
+        path.join(__dirname, 'peer.js'),
         path.join(__dirname, 'apps', '**', '*.js'),
         path.join(__dirname, 'lib', '*.js'),
         path.join('!', __dirname, 'lib', 'vendor.js'),

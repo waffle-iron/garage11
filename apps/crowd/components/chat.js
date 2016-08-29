@@ -8,7 +8,7 @@ module.exports = (peer, templates) => {
     let Hooks = function() {
         peer.router.route('/messages/', {pushState: false}, (req) => {
             messages.push(req.params.message)
-            if(peer.isHeadless) {
+            if (peer.isHeadless) {
                 let messageBody = '<b>' + req.params.message.nodeId.substring(0, 6) + '...</b>' + req.params.message.body
                 notifier.notify({
                     title: 'High5 nodechat',
@@ -24,7 +24,7 @@ module.exports = (peer, templates) => {
         template: templates['crowd-chat'],
         oninit: () => {
             this.messages = []
-            if(!hooks) {
+            if (!hooks) {
                 hooks = new Hooks(this)
             }
         },
@@ -32,7 +32,7 @@ module.exports = (peer, templates) => {
             let messagesSelector = document.querySelector('.nodechat .messages')
             this.on('messageHandler', (e) => {
                 // Enter pressed.
-                if(e.original.keyCode === 13 && e.node.value) {
+                if (e.original.keyCode === 13 && e.node.value) {
                     let message = {nodeId: peer.network.currentNode.id, body: e.node.value}
                     messages.push(message)
                     // Scroll down on new message.

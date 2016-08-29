@@ -106,7 +106,7 @@ class TensionGraph {
      */
     step() {
         this.peer.vdom.renderer.set('graph', this.graph.tick())
-        if(this.moving) {
+        if (this.moving) {
             this.frame = requestAnimationFrame(this.step.bind(this))
         } else {
             cancelAnimationFrame(this.frame)
@@ -116,7 +116,7 @@ class TensionGraph {
 
     redraw() {
         this.graph = graph({data: this.data(), width: 800, height: 300, attraction: 15, repulsion: 20})
-        if(this.peer.isBrowser) {
+        if (this.peer.isBrowser) {
             cancelAnimationFrame(this.frame)
         }
         this.start()
@@ -140,7 +140,7 @@ module.exports = (peer, templates) => {
             tensionGraph.start()
         },
         onteardown: function() {
-            if(tensionGraph) {
+            if (tensionGraph) {
                 tensionGraph.teardown(this)
             }
         },
@@ -148,20 +148,20 @@ module.exports = (peer, templates) => {
             return {
                 edgeType: (v, w) => {
                     let transport = peer.network.graph.edge(v, w)
-                    if(typeof transport === 'string') {
+                    if (typeof transport === 'string') {
                         return transport + ' indirect'
-                    } else if(typeof transport === 'object') {
+                    } else if (typeof transport === 'object') {
                         return transport.constructor.name
                     }
                 },
                 nodeType: (nodeId) => {
                     let cssClass
-                    if(nodeId === peer.id) {
+                    if (nodeId === peer.id) {
                         cssClass = 'peer'
                     } else {
                         cssClass = 'remote'
                     }
-                    if(peer.network.node(nodeId).env.isBrowser) {
+                    if (peer.network.node(nodeId).env.isBrowser) {
                         cssClass += ' browser'
                     } else {
                         cssClass += ' headless'

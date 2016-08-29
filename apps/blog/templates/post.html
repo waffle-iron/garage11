@@ -1,20 +1,20 @@
 {{#if user}}
 <section class="container post" id='{{id}}'>
     <header>
-    <h5 class="title">{{ title }}</h5>
+    <div class="title">{{ title }}</div>
     <span class='options float-right'>
         {{#if isAuthor(this) }}
-            {{#if perm_blog_update_own }}
+            {{#if perm_blog_update }}
             <span class='close btn icon icon-wrench icon-medium' on-click='openEditPostModal'></span>
             {{/if}}
-            {{#if perm_blog_delete_own }}
+            {{#if perm_blog_delete }}
             <span class='close btn icon icon-trash-o icon-medium' on-click='openDeletePostModal'></span>
             {{/if}}
         {{/if}}
     </span>
     </header>
     <div class='author'>By: {{ user.username }} - {{ user.id.sid() }}</div>
-    <span class='created'>{{formatTime(created)}}</span>
+    <span class='modified'>{{formatTime(modified)}}</span>
 
     <p>{{{ parseMarkdown(content) }}}</p>
     <dialog id="delete-dialog-{{id}}">

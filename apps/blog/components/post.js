@@ -29,7 +29,7 @@ module.exports = (peer, templates) => {
                     return true
                 }
                 return false
-            }
-        }
+            },
+        },
     })
 }

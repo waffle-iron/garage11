@@ -1,16 +1,16 @@
-<div class='nodechat'>
-    <div class='messages'>
+<div class="nodechat">
+    <div class="messages">
         {{# messages:num }}
-            <div class='message' intro='slide'>
-                <div class='from'>To: {{nodeId}}{{#if nodeId === h5Id}} (you){{/if}}</div>
-                <div class='body'>{{body}}</div>
+            <div class="message" intro="slide">
+                <div class="from">To: {{nodeId}}{{#if nodeId === h5Id}} (you){{/if}}</div>
+                <div class="body">{{body}}</div>
             </div>
         {{/ messages }}
     </div>
     {{#if currentNode}}
-    <input type=text on-keydown="messageHandler" placeholder='Say something to {{currentNode.id}} {{#if currentNode.id === h5Id}} (you silly!){{/if}}' />
+    <input type=text on-keydown="messageHandler" placeholder="Say something to {{currentNode.id}} {{#if currentNode.id === h5Id}} (you silly!){{/if}}" />
     {{else}}
     {{currentNode}}
-    <input disabled type=text on-keydown="messageHandler" placeholder='Select a node first' />
+    <input disabled type=text on-keydown="messageHandler" placeholder="Select a node first" />
     {{/if}}
 </div>

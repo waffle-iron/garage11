@@ -12,9 +12,10 @@
         "es6": true
     },
     "globals": {
-        "h5": true,
+        "lib11": true,
         "nesh": true,
         "fs": false,
+        "markdown": true, 
         "EventEmitter": true,
         "Ractive": true,
         "graphlib": true,

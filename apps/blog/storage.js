@@ -9,7 +9,7 @@ module.exports = {
                         user_id: {type: 'string', indexed: true},
                         title: {type: 'string'},
                         content: {type: 'string'},
-                        created: {
+                        modified: {
                             type: 'number',
                             default: new Date().getTime(),
                         },
@@ -35,16 +35,15 @@ module.exports = {
                 return store.createMany('permission', [
                     {record: 'blog', action: 'create'},
                     {record: 'blog', action: 'read'},
-                    {record: 'blog', action: 'update_own'},
-                    {record: 'blog', action: 'delete_other'},
-                    {record: 'blog', action: 'delete_own'},
-                    {record: 'blog', action: 'delete_other'},
+                    {record: 'blog', action: 'update'},
+                    {record: 'blog', action: 'delete'},
                 ])
             }
+            return permissions
         })
     },
     // The data and mappers of the settings app are loaded first.
     dependsOn: [
         'settings',
-    ]
+    ],
 }
