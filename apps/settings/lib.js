@@ -77,35 +77,47 @@ class SettingsLib {
      * return the UserRecord that matches for this peer.
      */
     getOrCreateIdentity(store) {
-        let userRecord
+        let user
+        let serialKeypair
         this.peer.logger.info(`${this.name} querying for identity`)
         // The first inserted user is the peer's user object.
-        return store.findAll('user', {orderBy: [['created', 'ASC']]})
-        .then((userRecords) => {
-            if (userRecords.length) userRecord = userRecords[0]
-            return userRecord
+        return Promise.all([
+            store.findAll('user', {orderBy: [['created', 'ASC']]}),
+            store.findAll('settings', {orderBy: [['created', 'ASC']]})
+        ])
+        .then(([users, settings]) => {
+            if (settings.length) {
+                user = users[0]
+                serialKeypair = {
+                    publicKey: user.publicKey,
+                    privateKey: settings[0].privateKey,
+                }
+            }
+            // Either import from an existing keypair or generate a new one.
+            return serialKeypair
         })
         .then(this.peer.crypto.getOrCreateIdentity.bind(this.peer.crypto))
         .then(() => Promise.all([
             this.peer.crypto.exportPrivateKey(this.peer.crypto.keypair.privateKey),
             this.peer.crypto.exportPublicKey(this.peer.crypto.keypair.publicKey),
         ]))
-        .then((keys) => {
-            if (!userRecord) {
-                return store.create('user', {
-                    id: this.peer.id,
-                    username: 'John/Jane Doe',
-                    privateKey: keys[0],
-                    publicKey: keys[1],
-                })
-                .then((_userRecord) => {
-                    return this.allPermissions(store, _userRecord.id)
+        .then(([privateKey, publicKey]) => {
+            if (!serialKeypair) {
+                // Create the initial settings object and first user. The first
+                // created user's publicKey binds with the settings privateKey.
+                Promise.all([
+                    store.create('user', {id: this.peer.id, username: 'John/Jane Doe', publicKey: publicKey}),
+                    store.create('settings', {privateKey: privateKey}),
+                ])
+                .then(([user, settings]) => {
+                    return this.allPermissions(store, user.id)
                     .then(() => {
-                        return [store, _userRecord]
+                        return [store, user]
                     })
                 })
+            } else {
+                return [store, user]
             }
-            return [store, userRecord]
         })
     }
 

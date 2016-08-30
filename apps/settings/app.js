@@ -53,7 +53,7 @@ class SettingsApp extends Garage11App {
      * represented by users yet.
      */
     updateContext() {
-        const store = this.peer.node.store
+        const store = this.peer.network.currentNode.store
         let context = {}
         return Promise.all([
             store.findAll('user', {orderBy: [['created', 'ASC']]}, {with: ['user_permission']}),
@@ -76,7 +76,7 @@ class SettingsApp extends Garage11App {
             }, {})
 
             // Filter out nodes that have a user.
-            const nodesWithoutUsers = this.peer.network.nodes().filter((node) => !(users.some((user) => node.id === user.id)))
+            const nodesWithoutUsers = this.peer.network.nodes({ownNode: true}).filter((node) => !(users.some((user) => node.id === user.id)))
             if (nodesWithoutUsers.length) context.nodes = nodesWithoutUsers
             context.html = this.peer.vdom.set('settings-list', context)
             return context

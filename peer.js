@@ -22,6 +22,7 @@ class Garage11 extends Peer {
             return this.apps.get('settings').lib.getOrCreateIdentity(store)
         })
         .then(([store, userRecord]) => {
+            console.log("WTF")
             // With `passiveMode`, the active node will be the first node
             // the peer connects to, instead of the peer's own node reference.
             // This can be overriden by the user, by settings a default
@@ -83,7 +84,7 @@ class Garage11 extends Peer {
      */
     setupLocalStore() {
         return new Promise((resolve) => {
-            this.store = new Store(this, {isLocal: true, apps: this.apps, dbName: this.settings.dbName})
+            this.store = new Store(this, {isLocal: true, apps: this.apps, dbname: this.settings.dbname})
             // Then get the identity from the store.
             resolve(this.store)
         })

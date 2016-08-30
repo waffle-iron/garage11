@@ -10,6 +10,10 @@ module.exports = {
                 resolve(data)
             })
         },
+        /**
+         * Only nodes with a user that have a blog create permission
+         * may create a new blog.
+         */
         create: (store, data, node) => {
             return new Promise((resolve, reject) => {
                 store.findAll('permission', {where: {record: 'blog', action: 'create'}})
@@ -25,7 +29,8 @@ module.exports = {
             })
         },
         /**
-         * Only authors of a blog may update a blog.
+         * Only nodes with a user that have a blog update permission
+         * may update a blog article.
          */
         update: (store, data, node) => {
             return new Promise((resolve, reject) => {
@@ -41,9 +46,13 @@ module.exports = {
                 })
             })
         },
+        /**
+         * Only nodes with a user that have a blog delete permission
+         * may update a blog article.
+         */
         destroy: (store, data, node) => {
             return new Promise((resolve, reject) => {
-                store.findAll('permission', {where: {record: 'blog', action: 'create'}})
+                store.findAll('permission', {where: {record: 'blog', action: 'delete'}})
                 .then((permission) => {
                     store.findAll('user_permission', {
                         where: {user_id: {'==': node.id}, permission_id: {'==' : permission[0].id}}

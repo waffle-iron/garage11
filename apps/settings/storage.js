@@ -97,6 +97,17 @@ module.exports = {
                 },
             })
         }
+
+        if (!store.getMapperByName('settings')) {
+            store.defineMapper('settings', {
+                schema: {
+                    properties: {
+                        privateKey: {type: 'string'},
+                        defaultNode: {type: 'string'},
+                    },
+                },
+            })
+        }
     },
     data: function(store) {
         // Initialize basic set of permissions.
@@ -107,10 +118,12 @@ module.exports = {
                 return store.createMany('permission', [
                     {record: 'user', action: 'create'},
                     {record: 'user', action: 'read'},
-                    {record: 'user', action: 'update_own'},
-                    {record: 'user', action: 'update_other'},
-                    {record: 'user', action: 'delete_own'},
-                    {record: 'user', action: 'delete_other'},
+                    {record: 'user', action: 'update'},
+                    {record: 'user', action: 'delete'},
+                    {record: 'settings', action: 'create'},
+                    {record: 'settings', action: 'read'},
+                    {record: 'settings', action: 'update'},
+                    {record: 'settings', action: 'delete'},
                 ])
             }
             return permissions
