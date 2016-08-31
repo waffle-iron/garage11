@@ -108,7 +108,11 @@ class SettingsLib {
                 // Create the initial settings object and first user. The first
                 // created user's publicKey binds with the settings privateKey.
                 return Promise.all([
-                    store.create('user', {id: this.peer.id, username: 'John/Jane Doe', publicKey: publicKey}),
+                    store.create('user', {
+                        id: this.peer.id,
+                        username: 'John/Jane Doe',
+                        publicKey: publicKey,
+                    }),
                     store.create('settings', {privateKey: privateKey}),
                 ])
                 .then(([_user, settings]) => {

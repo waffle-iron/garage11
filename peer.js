@@ -21,20 +21,21 @@ class Garage11 extends Peer {
         .then((store) => {
             return this.apps.get('settings').lib.getOrCreateIdentity(store)
         })
-        .then((results) => {
+        .then(([store, user]) => {
+            this.user = user
+
             // With `passiveMode`, the active node will be the first node
             // the peer connects to, instead of the peer's own node reference.
             // This can be overriden by the user, by settings a default
             // node.
             this.passiveMode = true
-            this.user = results[1]
+
             this.logger.info(`${this.name} [garage11] peer identified as ${this.user.id}`)
             this.network = new Network(this, this.user.id, this.settings.network)
 
             this.network.on('setCurrentNode', node => {
                 this.apps.get('settings').lib.permissionsToData(node)
             })
-
             this.network.on('nodeInitialAdded', (node) => {
                 this.vdom = new VDom(this)
                 this.vdom.init()
@@ -46,7 +47,7 @@ class Garage11 extends Peer {
             // Bind a store to each node.
             this.network.on('nodeAdded', (node) => {
                 if (node.id === this.node.id) {
-                    node.store = results[0]
+                    node.store = store
                 } else {
                     node.store = new Store(this, {isLocal: false, apps: this.apps, node: node})
                 }
