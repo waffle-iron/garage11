@@ -78,7 +78,7 @@ class SettingsLib {
      */
     getOrCreateIdentity(store) {
         let user
-        let serialKeypair
+        let serialKeypair = {}
         this.peer.logger.info(`${this.name} querying for identity`)
         // The first inserted user is the peer's user object.
         return Promise.all([
@@ -97,23 +97,23 @@ class SettingsLib {
             return serialKeypair
         })
         .then(this.peer.crypto.getOrCreateIdentity.bind(this.peer.crypto))
-        .then(() => Promise.all([
-            this.peer.crypto.exportPrivateKey(this.peer.crypto.keypair.privateKey),
-            this.peer.crypto.exportPublicKey(this.peer.crypto.keypair.publicKey),
-        ]))
+        .then(() => {
+            return Promise.all([
+                this.peer.crypto.exportPrivateKey(this.peer.crypto.keypair.privateKey),
+                this.peer.crypto.exportPublicKey(this.peer.crypto.keypair.publicKey),
+            ])
+        })
         .then(([privateKey, publicKey]) => {
-            if (!serialKeypair) {
+            if (!serialKeypair.publicKey && !serialKeypair.privateKey) {
                 // Create the initial settings object and first user. The first
                 // created user's publicKey binds with the settings privateKey.
-                Promise.all([
+                return Promise.all([
                     store.create('user', {id: this.peer.id, username: 'John/Jane Doe', publicKey: publicKey}),
                     store.create('settings', {privateKey: privateKey}),
                 ])
-                .then(([user, settings]) => {
-                    return this.allPermissions(store, user.id)
-                    .then(() => {
-                        return [store, user]
-                    })
+                .then(([_user, settings]) => {
+                    return this.allPermissions(store, _user.id)
+                    .then(() => [store, _user])
                 })
             } else {
                 return [store, user]
