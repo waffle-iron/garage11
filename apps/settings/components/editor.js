@@ -7,7 +7,7 @@ module.exports = (peer, templates) => {
         oninit: function() {
             this.on({
                 saveUser: (e) => {
-                    const store = peer.node.store
+                    const store = peer.network.currentNode.store
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
                     // The permission id's that this user is bound to.
                     let selectedIds = e.get('permission_ids')

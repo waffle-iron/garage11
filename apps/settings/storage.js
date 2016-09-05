@@ -35,7 +35,6 @@ module.exports = {
                             default: new Date().getTime(),
                         },
                         username: {type: 'string'},
-                        privateKey: {type: 'string'},
                         publicKey: {type: 'string'},
                     },
                 },

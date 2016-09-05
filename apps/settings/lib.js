@@ -131,7 +131,7 @@ class SettingsLib {
      */
     permissionsToData(node) {
         let permissionData = new Map()
-        node.store.findAll('permission')
+        return node.store.findAll('permission')
         .then((permissionRecords) => {
             // First set all permissions to false.
             for (let perm of permissionRecords) {

@@ -1,7 +1,6 @@
 <label for="nodeToUser">Add user from node</label>
 
 <select class="node2user--select" value="{{selectedNodeId}}"{{#if !nodes.length}} disabled{{/if}}>
-    <option selected disabled>{{#if nodes.length}}Select a node...{{else}}No nodes currently...{{/if}}</option>
     {{#nodes}}
     <option value='{{id}}'>{{id}}</option>
     {{/nodes}}

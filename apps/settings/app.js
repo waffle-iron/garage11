@@ -75,8 +75,8 @@ class SettingsApp extends Garage11App {
                 return result
             }, {})
 
-            // Filter out nodes that have a user.
-            const nodesWithoutUsers = this.peer.network.nodes({ownNode: true}).filter((node) => !(users.some((user) => node.id === user.id)))
+            // // Filter out nodes that have a user.
+            const nodesWithoutUsers = this.peer.network.nodes({ownNode: true, serialized: true}).filter((node) => !(users.some((user) => node.id === user.id)))
             if (nodesWithoutUsers.length) context.nodes = nodesWithoutUsers
             context.html = this.peer.vdom.set('settings-list', context)
             return context

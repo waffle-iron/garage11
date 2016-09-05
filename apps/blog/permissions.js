@@ -5,6 +5,11 @@ module.exports = {
         /**
          * All nodes may read all blog posts.
          */
+        find: (store, data, node) => {
+            return new Promise((resolve, reject) => {
+                resolve(data)
+            })
+        },
         findAll: (store, data, node) => {
             return new Promise((resolve) => {
                 resolve(data)

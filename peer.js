@@ -23,7 +23,6 @@ class Garage11 extends Peer {
         })
         .then(([store, user]) => {
             this.user = user
-
             // With `passiveMode`, the active node will be the first node
             // the peer connects to, instead of the peer's own node reference.
             // This can be overriden by the user, by settings a default

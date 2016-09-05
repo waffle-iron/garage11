@@ -19,6 +19,9 @@ class BlogApp extends Garage11App {
 
     init() {
         this.routes()
+        this.peer.network.on('setCurrentNode', node => {
+            this.updateContext()
+        })
     }
 
 
@@ -30,17 +33,16 @@ class BlogApp extends Garage11App {
         mapper.on('afterCreate', this.updateContext.bind(this))
         mapper.on('afterDestroy', this.updateContext.bind(this))
         mapper.on('afterUpdate', this.updateContext.bind(this))
-
-        this.peer.on('starting', () => {
-            this.peer.network.on('setCurrentNode', node => {
-                this.setContext()
-            })
-        })
     }
 
 
     routes() {
         this.peer.router.route('/', {pushState: true}, (req, res) => {
+            this.events()
+            this.updateContext(res)
+        })
+
+        this.peer.router.route('/posts/:postId/', {pushState: true}, (req, res) => {
             this.events()
             this.updateContext(res)
         })
@@ -52,9 +54,7 @@ class BlogApp extends Garage11App {
         return store.findAll('blog', {orderBy: [['created', 'DESC']]}, {with: ['user']})
         .then((posts) => {
             let html = this.peer.vdom.set('blog-list', {posts: posts})
-            if (typeof res === 'function') {
-                res(html)
-            }
+            if (typeof res === 'function') res(html)
         })
     }
 }

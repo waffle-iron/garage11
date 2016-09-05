@@ -1,7 +1,7 @@
 <blog-editor button=true />
 <div class="list posts">
     {{#posts}}
-    <blog-post />
+    <blog-post user={{user}} />
     <blog-editor />
     {{else}}
     <div class='no-posts'>

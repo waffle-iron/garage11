@@ -2,6 +2,11 @@
 
 module.exports = {
     user: {
+        find: (store, data, node) => {
+            return new Promise((resolve, reject) => {
+                resolve(data)
+            })
+        },
         findAll: (store, data, node) => {
             return new Promise((resolve, reject) => {
                 resolve(data)
@@ -51,6 +56,11 @@ module.exports = {
         },
     },
     permission: {
+        find: (store, data, node) => {
+            return new Promise((resolve, reject) => {
+                resolve(data)
+            })
+        },
         findAll: (store, data, node) => {
             return new Promise((resolve, reject) => {
                 resolve(data)
@@ -100,6 +110,11 @@ module.exports = {
         },
     },
     user_permission: {
+        find: (store, data, node) => {
+            return new Promise((resolve, reject) => {
+                resolve(data)
+            })
+        },
         findAll: (store, data, node) => {
             return new Promise((resolve, reject) => {
                 resolve(data)
@@ -145,6 +160,20 @@ module.exports = {
         },
     },
     settings: {
+        find: (store, data, node) => {
+            return new Promise((resolve, reject) => {
+                store.findAll('permission', {where: {record: 'settings', action: 'read'}})
+                .then((permission) => {
+                    store.find('user_permission', {
+                        where: {user_id: {'==': node.id}, permission_id: {'==' : permission[0].id}}
+                    })
+                    .then((userPermissions) => {
+                        if (userPermissions.length) resolve(data)
+                        else reject(data)
+                    })
+                })
+            })
+        },
         findAll: (store, data, node) => {
             return new Promise((resolve, reject) => {
                 store.findAll('permission', {where: {record: 'settings', action: 'read'}})
