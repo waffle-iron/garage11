@@ -1,10 +1,3 @@
-{{#if button && perm_blog_create }}
-<span class="icon-stack icon-large">
-    <i class="icon icon-circle icon-stack-2x" on-click="openEditor"></i>
-    <i class="editor-button btn icon icon-pencil icon-stack-1x icon-inverse" on-click="openEditor"></i>
-</span>
-{{/if}}
-
 <dialog id="edit-post-dialog{{#if id}}-{{id}}{{/if}}" class="edit-post-dialog">
     <header>
         <span class="title">{{#if id}}Edit{{else}}New{{/if}} post</span>

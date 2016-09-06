@@ -1,21 +1,14 @@
 <section class="container post" id='{{id}}'>
     <header>
-    <div class="title">{{ title }}</div>
+    <h2 class="title">{{ title }}</h2>
     <span class='options float-right'>
-        {{#if isAuthor(this) }}
-            {{#if perm_blog_update }}
-            <span class='close btn icon icon-wrench icon-medium' on-click='openEditPostModal'></span>
-            {{/if}}
-            {{#if perm_blog_delete }}
-            <span class='close btn icon icon-trash-o icon-medium' on-click='openDeletePostModal'></span>
-            {{/if}}
-        {{/if}}
+        <span class='close btn icon icon-wrench icon-medium{{#unless perm_blog_update }} disabled{{/unless}}' on-click='openEditPostModal'></span>
+        <span class='close btn icon icon-trash-o icon-medium{{#unless perm_blog_delete }} disabled{{/unless}}' on-click='openDeletePostModal'></span>
     </span>
     </header>
     <div class='author'>By: {{ user.username }} - {{ user.id.sid() }}</div>
-    <span class='modified'>{{formatTime(modified)}}</span>
-
-    <p>{{{ parseMarkdown(content) }}}</p>
+    <span class='modified'>Modified: {{formatTime(modified)}}</span>
+    <div class="content">{{{ parseMarkdown(content) }}}</div>
     <dialog id="delete-dialog-{{id}}">
         <header>
             <span class="title">Delete post</span>

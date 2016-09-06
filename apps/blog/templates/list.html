@@ -1,4 +1,8 @@
-<blog-editor button=true />
+<span class="icon-stack icon-large{{#unless perm_blog_create }} disabled{{/unless}}">
+    <i class="icon icon-circle icon-stack-2x" on-click="openEditor"></i>
+    <i class="editor-button btn icon icon-pencil icon-stack-1x icon-inverse" on-click="openEditor"></i>
+</span>
+<blog-editor />
 <div class="list posts">
     {{#posts}}
     <blog-post user={{user}} />

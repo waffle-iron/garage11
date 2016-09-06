@@ -1,26 +1,39 @@
 @import 'apps/vdom/scss/variables';
 
 .container.post {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 2rem 0 2rem 0;
 }
 
 .post {
     header {
-        h5 {
-            display: inline;
+
+        > .title {
+            display: inline-block;
             font-family: $font-accent-family;
             font-weight: $font-accent-weight;
+            font-weight: bold;
+            line-height: 45px;
+            font-size: 2.5rem;
+            margin: 0;
         }
 
         .options {
-            margin-top: 5px;
             font-size: 20px;
+            line-height: 45px;
         }
     }
 
     .author {
-        font-style: italic;
+        font-style: bold;
+    }
+
+    .modified {
+        font-weight: bold;
+        font-size: 1.3rem;
+    }
+
+    .content {
+        padding-top: 1rem;
     }
 }
 

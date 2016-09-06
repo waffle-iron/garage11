@@ -35,6 +35,21 @@
         line-height: 5.6rem;
         vertical-align: middle;
 
+        &.active {
+            i {
+                transition: color 0.3s ease;
+                color: $accent-color;
+            }
+        }
+
+        // A disabled menu item.
+        &.disabled {
+            cursor: default;
+            i, span {
+                color: lighten($primary-color-dark, 10%);
+            }
+        }
+
         i {
             font-size: 2.5rem;
             pointer-events: none;
@@ -49,12 +64,7 @@
             pointer-events: none;
         }
 
-        &.active {
-            i {
-                transition: color 0.3s ease;
-                color: $accent-color;
-            }
-        }
+
 
     }
 

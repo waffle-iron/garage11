@@ -14,12 +14,13 @@ module.exports = (peer, templates) => {
                     }
                 })
             })
+
+
         },
         data: function() {
-            // Query user read permission.
             let getItems = () => {
                 return [
-                    {icon: 'blog', name: 'Blog', path: '/', active: true},
+                    {icon: 'blog', name: 'Blog', path: '/', active: false},
                     {icon: 'cogs', name: 'Settings', path: '/settings/', active: false},
                 ]
             }
@@ -31,6 +32,14 @@ module.exports = (peer, templates) => {
                     }
                     return false
                 },
+                activePage: (page) => {
+                    if (peer.location.pathname === page.path) {
+                        page.active = true
+                        return true
+                    }
+                    page.active = false
+                    return false
+                }
             }
         },
     })

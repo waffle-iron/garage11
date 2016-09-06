@@ -121,6 +121,8 @@ gulp.task('develop', 'Start a development server and watch for changes.', () => 
         env: {'NODE_ENV': NODE_ENV},
         // This will leave stdin to nesh.
         restartable: false,
+        args: ['--inspect'],
+        exec: 'node --inspect'
     })
     .on('restart', () => {
         livereload.changed('main.js')

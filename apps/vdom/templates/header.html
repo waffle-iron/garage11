@@ -11,14 +11,14 @@
             </a>
             {{#each pages}}
             {{#if name === 'Settings'}}
-                {{#if perm_user_read }}
-                <a href="{{path}}" class="navigation-item{{#if active }} active{{/if}}">
+
+                <a href="{{path}}" class="navigation-item{{#if activePage(this) }} active{{/if}}{{#unless perm_user_read }} disabled{{/unless}}">
                     <i class="icon icon-{{icon}} icon-small icon-inverse"></i>
                     <span>{{name}}</span>
                 </a>
-                {{/if}}
+
             {{else}}
-            <a href="{{path}}" class="navigation-item{{#if active }} active{{/if}}">
+            <a href="{{path}}" class="navigation-item{{#if activePage(this) }} active{{/if}}">
                 <i class="icon icon-{{icon}} icon-small icon-inverse"></i>
                 <span>{{name}}</span>
             </a>
