@@ -14,7 +14,9 @@ module.exports = (peer, templates) => {
                     }
                 })
             })
-
+            peer.network.on('setCurrentNode', node => {
+                peer.vdom.renderer.set('currentNode', node)
+            })
 
         },
         data: function() {

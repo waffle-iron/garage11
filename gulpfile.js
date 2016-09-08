@@ -50,12 +50,9 @@ let paths = {
 
 gulp.task('app-js', 'Process all application Javascript.', () => {
     let b = browserify({entries: './peer.js', debug: !deployMode})
-    b.ignore('ractive')
-    b.ignore('lodash')
-    b.ignore('underscore')
-    b.ignore('winston')
     b.ignore('crypto')
     b.ignore('buffer')
+    b.ignore('process')
 
     return b.bundle()
     .pipe(source('peer.js'))
@@ -64,8 +61,11 @@ gulp.task('app-js', 'Process all application Javascript.', () => {
         return sourcemaps.init({loadMaps: true})
     }))
     .pipe(ifElse(!deployMode, sourcemaps.write))
-    // Es6 issues.
-    // .pipe(ifElse(deployMode, uglify))
+    .pipe(ifElse(deployMode, () => {
+        // Needs to convert back to es5, in order to be able to minify.
+        return babel({compact: true, presets: ['es2015']})
+    }))
+    .pipe(ifElse(deployMode, uglify))
     .on('error', notify.onError('Error: <%= error.message %>'))
     .pipe(gulp.dest('./public/js/'))
     .pipe(size(extend({title: 'app-js'}, sizeOptions)))

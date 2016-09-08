@@ -14,12 +14,12 @@ require('./lib/vendor')
 
 const Peer = require('./peer')
 const Lib11 = require('lib11')
-const settings = require('./settings') 
+const settings = require('./settings')
 
- 
+
 // Initialize application.
 settings.headless.projectDir = __dirname
-// Start a nodejs High5 instance.
+// Start a Lib11 instance.
 new Lib11(Peer, settings)
 .then(() => {
 

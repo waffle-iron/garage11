@@ -45,6 +45,7 @@
         // A disabled menu item.
         &.disabled {
             cursor: default;
+
             i, span {
                 color: lighten($primary-color-dark, 10%);
             }

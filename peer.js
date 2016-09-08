@@ -29,18 +29,17 @@ class Garage11 extends Peer {
             // node.
             this.passiveMode = true
 
+            this.vdom = new VDom(this)
+            this.vdom.init()
+            .then(() => {
+                this.emit('starting')
+            })
+
             this.logger.info(`${this.name} [garage11] peer identified as ${this.user.id}`)
             this.network = new Network(this, this.user.id, this.settings.network)
 
             this.network.on('setCurrentNode', node => {
                 this.apps.get('settings').lib.permissionsToData(node)
-            })
-            this.network.on('nodeInitialAdded', (node) => {
-                this.vdom = new VDom(this)
-                this.vdom.init()
-                .then(() => {
-                    this.emit('starting')
-                })
             })
 
             // Bind a store to each node.
