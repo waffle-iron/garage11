@@ -20,14 +20,11 @@ module.exports = (peer, templates) => {
 
         },
         data: function() {
-            let getItems = () => {
-                return [
+            return {
+                pages: [
                     {icon: 'blog', name: 'Blog', path: '/', active: false},
                     {icon: 'cogs', name: 'Settings', path: '/settings/', active: false},
-                ]
-            }
-            return {
-                pages: getItems(),
+                ],
                 hashActive: (locationHash) => {
                     if (locationHash === '#crowd') {
                         return true

@@ -30,10 +30,20 @@
     .navigation-item {
         float: left;
         margin-bottom: 0;
-        margin-left: 4rem;
+
         position: relative;
         line-height: 5.6rem;
         vertical-align: middle;
+        text-align: right;
+        width: 150px;
+
+
+        &.current-item {
+            span {
+                width: 100%;
+                display:inline-block;
+            }
+        }
 
         &.active {
             i {

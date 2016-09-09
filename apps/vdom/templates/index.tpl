@@ -5,14 +5,14 @@
         <link href="/public/css/styles.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        {{{html}}}
+        <main>{{{html}}}</main>
+        <script>
+            window.__runtime_config__ = {{{settings}}}
+        </script>
+        <script type="application/javascript" src="/public/js/vendor.js"></script>
+        <script type="application/javascript" src="/public/js/templates.js"></script>
+        <script type="application/javascript" src="/public/js/components.js"></script>
+        <script type="application/javascript" src="/public/js/apps.js"></script>
+        <script type="application/javascript" defer src="/public/js/peer.js"></script>
     </body>
-    <script>
-        window.__runtime_config__ = {{{settings}}}
-    </script>
-    <script type="application/javascript" src="/public/js/vendor.js"></script>
-    <script type="application/javascript" src="/public/js/templates.js"></script>
-    <script type="application/javascript" src="/public/js/components.js"></script>
-    <script type="application/javascript" src="/public/js/apps.js"></script>
-    <script type="application/javascript" defer src="/public/js/peer.js"></script>
 </html>

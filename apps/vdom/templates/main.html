@@ -1,12 +1,3 @@
-<vdom-header current='{{ current }}' />
-<section class="container">
-    {{>vdom-page}}
-</section>
-
-<dialog class="vdom-dialog dialog-{{page}}">
-    {{>vdom-dialog}}
-</dialog>
-
-<div id="footer">
-    <div class="copyright"></div>
-</div>
+<vdom-header/>
+<section class="container">{{>vdom-page}}</section>
+<dialog class="vdom-dialog">{{>vdom-dialog}}</dialog>
