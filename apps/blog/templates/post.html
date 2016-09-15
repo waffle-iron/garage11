@@ -1,6 +1,12 @@
 <section class="container post" id='{{id}}'>
     <header>
-    <h2 class="title">{{ title }}</h2>
+    <h2 class="title">
+        {{#if detail}}
+        <a href='/blog/'>{{ title }}</a>
+        {{else}}
+        <a href='/blog/{{slug}}/'>{{ title }}</a>
+        {{/if}}
+    </h2>
     <span class='options float-right'>
         <span class='close btn icon icon-wrench icon-medium{{#unless perm_blog_update }} disabled{{/unless}}' on-click='openEditPostModal'></span>
         <span class='close btn icon icon-trash-o icon-medium{{#unless perm_blog_delete }} disabled{{/unless}}' on-click='openDeletePostModal'></span>
@@ -8,7 +14,13 @@
     </header>
     <div class='author'>Author: {{ user.username }} - {{ user.id.sid() }}</div>
     <span class='modified'>Modified: {{formatTime(modified)}}</span>
-    <div class="content">{{{ parseMarkdown(content) }}}</div>
+    <div class="content{{#if !detail}} read-more{{/if}}">
+        {{{ parseMarkdown(content) }}}
+        <div class="read-more-block"></div>
+    </div>
+    {{#if !detail}}
+    <a class="read-more-link" href="/blog/{{slug}}/">Read More...</a>
+    {{/if}}
     <dialog id="delete-dialog-{{id}}">
         <header>
             <span class="title">Delete post</span>

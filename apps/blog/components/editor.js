@@ -10,6 +10,7 @@ module.exports = (peer, templates) => {
                     let store = peer.network.currentNode.store
                     let cleanedData = peer.vdom.validation.isValid(e.node.form)
                     if (cleanedData) {
+                        cleanedData.slug = peer.vdom.helpers.sluggify(cleanedData.title)
                         store.findAll('user')
                         .then((users) => {
                             cleanedData.user_id = peer.id

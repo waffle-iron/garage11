@@ -16,9 +16,9 @@
         <section class="edit-post">
             <fieldset>
                 <label for="title">Title</label>
-                <input type="text" name="title" value="{{title + ''}}" placeholder="The article title..." required>
+                <input type="text" name="title" value="{{unbind(title)}}" placeholder="The article title..." required>
                 <label for="title">Content</label>
-                <textarea name="content" value="{{content + ''}}" placeholder="Blog article content..." required></textarea>
+                <textarea name="content" value="{{unbind(content)}}" placeholder="Blog article content..." required></textarea>
             </fieldset>
         </section>
         <footer>

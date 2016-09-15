@@ -2,9 +2,11 @@
 
 .container.post {
     padding: 2rem 0 2rem 0;
+    margin-bottom: 30px;
 }
 
 .post {
+
     > header {
 
         > .title {
@@ -34,6 +36,38 @@
 
     .content {
         padding-top: 1rem;
+
+        .read-more-block {
+            display: none;
+        }
+
+        &.read-more {
+            max-height: 130px;
+            overflow: hidden;
+
+            .read-more-block {
+                display: block;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                margin: 0;
+                padding: 50px 0;
+                background-image: linear-gradient(to bottom, transparent, white);
+                z-index: 100;
+            }
+        }
+    }
+
+    .read-more-link {
+        margin-top: 15px;
+        float: left;
+        display: block;
+        color: $primary-color-dark;
+        z-index: 10000;
+
+        display: block;
     }
 }
 

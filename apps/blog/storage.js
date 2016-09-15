@@ -7,6 +7,7 @@ module.exports = {
                 schema: {
                     properties: {
                         user_id: {type: 'string', indexed: true},
+                        slug: {type: 'string'},
                         title: {type: 'string'},
                         content: {type: 'string'},
                         modified: {

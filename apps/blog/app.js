@@ -19,9 +19,6 @@ class BlogApp extends Garage11App {
 
     init() {
         this.routes()
-        this.peer.network.on('setCurrentNode', node => {
-            this.updateContext()
-        })
     }
 
 
@@ -30,33 +27,66 @@ class BlogApp extends Garage11App {
         mapper.off('afterCreate')
         mapper.off('afterDestroy')
         mapper.off('afterUpdate')
-        mapper.on('afterCreate', this.updateContext.bind(this))
-        mapper.on('afterDestroy', this.updateContext.bind(this))
-        mapper.on('afterUpdate', this.updateContext.bind(this))
+        mapper.on('afterCreate', this.updatefindAll.bind(this))
+        mapper.on('afterDestroy', this.updatefindAll.bind(this))
+        mapper.on('afterUpdate', this.updatefindAll.bind(this))
     }
 
 
     routes() {
-        this.peer.router.route('/', {pushState: true}, (req, res) => {
+        this.peer.router.route('/blog/', {pushState: true, default: true}, (req, res) => {
             this.events()
-            this.updateContext(res)
+            this.updatefindAll(res)
+            this.peer.network.on('setCurrentNode', node => {
+                this.updatefindAll()
+            })
         })
 
-        this.peer.router.route('/posts/:postId/', {pushState: true}, (req, res) => {
+        this.peer.router.route('/blog/:slug', {pushState: true}, (req, res) => {
             this.events()
-            this.updateContext(res)
+            this.updatefind(req.params.slug, res)
+
+            this.peer.network.on('setCurrentNode', node => {
+                this.updatefind(req.params.postid, res)
+            })
         })
     }
 
 
-    updateContext(res) {
+    updatefind(slug, res) {
         const store = this.peer.network.currentNode.store
-        return store.findAll('blog', {orderBy: [['created', 'DESC']]}, {with: ['user']})
+        return store.findAll('blog', {where: {'slug': {'==': slug}}}, {}, {with: ['user']})
         .then((posts) => {
-            let html = this.peer.vdom.set('blog-list', {posts: posts})
+            let html = this.peer.vdom.set('blog-list', {posts: posts, detail: true})
             if (typeof res === 'function') res(html)
         })
     }
+
+
+    updatefindAll(res) {
+        let currentPage = 1
+        const PAGE_SIZE = 3
+        const store = this.peer.network.currentNode.store
+        return store.findAll('blog', {
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (currentPage - 1),
+            orderBy: [['created', 'DESC']],
+        }, {with: ['user']})
+        .then((posts) => {
+            let html = this.peer.vdom.set('blog-list', {posts: posts, detail: false})
+            if (typeof res === 'function') res(html)
+        })
+    }
+
+    // PAGING
+    // var PAGE_SIZE = 20;
+    // var currentPage = 1;
+    //
+    // // Grab the first "page" of posts
+    // Post.filter({
+    //   offset: PAGE_SIZE * (currentPage - 1),
+    //   limit: PAGE_SIZE
+    // });
 }
 
 

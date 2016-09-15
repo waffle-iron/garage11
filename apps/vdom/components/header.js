@@ -14,6 +14,12 @@ module.exports = (peer, templates) => {
                     }
                 })
             })
+            if (peer.isBrowser) {
+                window.addEventListener('popstate', function(e) {
+                    console.log("poPS")
+                }, false)
+            }
+
             peer.network.on('setCurrentNode', node => {
                 peer.vdom.renderer.set('currentNode', node)
             })
@@ -22,7 +28,7 @@ module.exports = (peer, templates) => {
         data: function() {
             return {
                 pages: [
-                    {icon: 'blog', name: 'Blog', path: '/', active: false},
+                    {icon: 'blog', name: 'Blog', path: '/blog/', active: false},
                     {icon: 'cogs', name: 'Settings', path: '/settings/', active: false},
                 ],
                 hashActive: (locationHash) => {

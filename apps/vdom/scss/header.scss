@@ -16,6 +16,7 @@
     font-family: $font-accent-family;
     font-weight: $font-accent-weight;
     overflow: auto;
+    z-index: 10000;
 
     .navigation-title {
         height: 40px;
