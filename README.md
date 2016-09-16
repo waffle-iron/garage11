@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/garage11/garage11.png?label=ready&title=Ready)](https://waffle.io/garage11/garage11)
 About
 =====
 Garage11 is a p2p webapp that features p2p blogging, chat and decentralized
